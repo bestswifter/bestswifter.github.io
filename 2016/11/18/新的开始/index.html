@@ -9,6 +9,9 @@
     
     <meta name="author" content="Fullstack">
     
+    <meta name="description" content="在学习了两年 iOS 以后，我决定开始横向拓展，也就是所谓的全栈工程师（不是全干工程师！），或者说，叫 T 型人才听上去更高端。作出这样的改变主要是由内在原因和外在原因共同导致的。
+内因首先，经过了两年的学习，不管是基础的 UI 控件，还是 UITableView 的各种调优，基本上都达到了掌握的程">
+    
     
     
     
@@ -73,7 +76,7 @@
     </p>
   <p class="article-time">
     <time datetime="2016-11-18T10:53:53.000Z" itemprop="datePublished">2016-11-18</time>
-    Updated:<time datetime="2016-11-18T10:53:53.000Z" itemprop="dateModified">2016-11-18</time>
+    Updated:<time datetime="2016-12-08T12:55:39.000Z" itemprop="dateModified">2016-12-08</time>
     
   </p>
 </header>
@@ -82,10 +85,30 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#内因"><span class="toc-number">1.</span> <span class="toc-text">内因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#外因"><span class="toc-number">2.</span> <span class="toc-text">外因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#企业"><span class="toc-number">3.</span> <span class="toc-text">企业</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新的开始"><span class="toc-number">4.</span> <span class="toc-text">新的开始</span></a></li></ol>
 		</div>
 		
-		  
+		<p>在学习了两年 iOS 以后，我决定开始横向拓展，也就是所谓的全栈工程师（不是全干工程师！），或者说，叫 T 型人才听上去更高端。作出这样的改变主要是由内在原因和外在原因共同导致的。</p>
+<h1 id="内因"><a href="#内因" class="headerlink" title="内因"></a>内因</h1><p>首先，经过了两年的学习，不管是基础的 UI 控件，还是 <code>UITableView</code> 的各种调优，基本上都达到了掌握的程度。在准备面试和后来与同行交流的过程中，也对 ARC、Block、Rumtime、Runloop、GCD、Thread 等底层概念和源码有了一定的理解。</p>
+<p>因此，我逐渐发现对于个人来说，如果再从事 UI 和 功能点的开发，个人的技术水平将很难有质的飞跃。当然，这也是因人而异，如果是对编译器、C/C++ 等底层知识感兴趣，完全可以深入挖掘，还有非常多值得学习的内容。</p>
+<p>不过我本来就是对底层知识不感兴趣的人，我尤其反对面试时过度拿毫无用处的“底层知识”来为难面试者。我所理解的有用的底层知识，应该是指那些经常用到，但一般人说不清楚，而且一旦说不清楚就会影响编程的那些知识。</p>
+<p>比如常见的 GCD 何时发生死锁，ARC 下的内存管理，Block 的实现原理、Runloop 与定时器等。这些底层知识如果不详细掌握，将会在实际开发中写出无法维护的代码，引入匪夷所思的 bug。</p>
+<p>然而，计算机的发展趋势向来就是不断封装底层的实现细节。从早期的手写机器码，到后来的链接器处理重定位问题，再到 C 语言和现代的编程语言，无一不是屏蔽底层信息，从而提高开发者的效率。因此，过度的追求技术细节在我看来是一种浪费时间的行为，只有站在前人的肩膀上才能走的更远。</p>
+<h1 id="外因"><a href="#外因" class="headerlink" title="外因"></a>外因</h1><p>自从三月份参加工作后，我陆陆续续接触了很多非 iOS 方面的知识。从调研 React Native、JSPatch 的实现原理，到学习 Python、Ruby、Shell 脚本语言，以及目前在做的 HTTP 代理、Android 开发，我见识到了很多新的技术和思想。我开始意识到，很多思想在不同平台都有，只不过是换了个名字和上下文。一个有能力、有经验、常思考的开发者可以非常容易的从一个平台转到一个类似的平台，靠的就是他对语言、业务的理解。</p>
+<p>当然，快速入门别的语言和业务并不是我的目标，我也时刻提醒自己不要沦为全干工程师。了解多个语言、掌握多种技术的目的，并不是为了自己能同时干好几个工种，而是能够吸取各个平台的长处。</p>
+<p>一方面，自己对技术的理解可以因此得到增强。比如说同样是哈希，客户端（Java 和 Objective-C）看重的是对象一致性，而不关心重哈希的性能。Java 作为一种服务端语言，提供了自动转红黑树的机制，提高了极端情况下的性能。而 Redis 中没有对象等同性的概念，所以它提供了统一的哈希函数，并实现了增量重哈希。而在分布式网站架构中，我们又使用一致性哈希的技术来处理哈希冲突。</p>
+<p>可见，不同的场景下对于同一问题通常会作出取舍，但是多方面了解解决问题的思路有助于优化改善我们今后自己在处理其他问题时的设计方案，从而可以更加接近问题的本质并作出更好的决策。</p>
+<p>另一方面，多种技术一旦合并起来，就能形成强大的战斗力。今年非常火的 JSPatch、RN、Weex 足以证明。</p>
+<h1 id="企业"><a href="#企业" class="headerlink" title="企业"></a>企业</h1><p>说了这么多废话，归根结底还是希望自己的未来能够更光明（说得再简单暴力点就是工资高）。我相信绝大多数人工作的目的都是为了工资，那么就从企业的角度聊聊。</p>
+<p>首先，企业雇人的终极目的也是唯一目的就是赚钱。只有为企业赚到更多的钱，才有可能拿到更高的工资。因此支付我们工资的，不是技术而是企业利润，我们仅仅是通过自己的技术为企业获得利润。从这一点上看，我们只要会写 UI 和功能，就可以拿工资了。</p>
+<p>实际上，了解一定程度的底层知识可以避免 bug、提高开发效率。因为一旦发生 bug，或者开发效率低下，企业的收益必然受到严重影响。因此，适当的掌握底层技术可以获得更高的工资。</p>
+<p>然而，如果一味地追求底层技术，就意味着相当多的知识难以在实际生产中用上，可选择的就业面也就越来越窄，其中相当一部分技术如果用来炫技还行，但对于利润的贡献其实并不大。</p>
+<p>其次，企业其实非常需要优秀的技术管理者。一个既精通前端、又精通客户端的技术经理，在开发 Hybrid 应用时具有相当大的优势。同样的，既精通客户端，又精通服务端的技术经理可以在网络通信的过程中发挥自己的长<br>处。</p>
+<p>更可怕的是， 如果不能站在对方的立场上思考问题，或者不了解对方的开发模式，就会浪费相当多的时间在沟通、交流上，一旦设计错误还会造成难以挽回的损失。</p>
+<p>因此，无论技术如何变迁，掌握多项技能，能站在一定高度上综合的思考问题，拥有良好沟通、设计能力的技术管理者，一直会是公司最宝贵的人才。</p>
+<h1 id="新的开始"><a href="#新的开始" class="headerlink" title="新的开始"></a>新的开始</h1><p>在这个博客里，我会写非常杂的内容，包括但不局限于 Python、Android、Java、HTTP、JavaScript ……。文章会分为两种类型，一种是对某个问题的简单总结，更新频率较高。另一种则是对某个话题深入全面的思考，更新频率<br>较低。</p>
+<p>同时，作为一名 iOS 开发者，iOS 开发是我安身立命的本钱，因此<a href="https://bestswifter.com" target="_blank" rel="external">旧的博客</a> 将会持续维护下去，主要讨论 iOS、Objectie-C 和 Swift 技术。</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 
@@ -120,7 +143,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#内因"><span class="toc-number">1.</span> <span class="toc-text">内因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#外因"><span class="toc-number">2.</span> <span class="toc-text">外因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#企业"><span class="toc-number">3.</span> <span class="toc-text">企业</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新的开始"><span class="toc-number">4.</span> <span class="toc-text">新的开始</span></a></li></ol>
   </div>
 
 <div id="asidepart">
