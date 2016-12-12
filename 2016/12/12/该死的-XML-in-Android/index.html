@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Drawable 复用 | 全栈养成计划</title>
+    <title>该死的 XML in Android | 全栈养成计划</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Fullstack">
     
-    <meta name="description" content="复用 DrawableDrawable 表示了一类通用的，可被绘制的资源。与View 的主要区别就在于，Drawable 并不会响应事件。
-Drawable 的复用机制Drawable 的使用非常方便，系统框架内部有 700 多种默认的 Drawable。当我们新建一个 button 时，实际上它的">
+    <meta name="description" content="虽然大三曾经短暂的接触 Android，但都只是囫囵吞枣，仅仅停留在调用 API 和开源库完成效果的程度上。既然真的要开始搞 Android，还是有必要刨根问底一下的。
+作为入门，最近开始看 Google 的 Android Training。最简单的肯定是创建一个 Hello World 工程，不">
     
     
     
@@ -81,15 +81,15 @@ Drawable 的复用机制Drawable 的使用非常方便，系统框架内部有 7
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/12/08/Drawable-复用/" title="Drawable 复用" itemprop="url">Drawable 复用</a>
+      <a href="/2016/12/12/该死的-XML-in-Android/" title="该死的 XML in Android" itemprop="url">该死的 XML in Android</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://fullstack.blog" title="Fullstack">Fullstack</a>
     </p>
   <p class="article-time">
-    <time datetime="2016-12-08T10:16:35.000Z" itemprop="datePublished">2016-12-08</time>
-    Updated:<time datetime="2016-12-08T10:57:17.000Z" itemprop="dateModified">2016-12-08</time>
+    <time datetime="2016-12-12T10:19:15.000Z" itemprop="datePublished">2016-12-12</time>
+    Updated:<time datetime="2016-12-12T13:01:37.000Z" itemprop="dateModified">2016-12-12</time>
     
   </p>
 </header>
@@ -98,27 +98,17 @@ Drawable 的复用机制Drawable 的使用非常方便，系统框架内部有 7
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#复用-Drawable"><span class="toc-number">1.</span> <span class="toc-text">复用 Drawable</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Drawable-的复用机制"><span class="toc-number">1.1.</span> <span class="toc-text">Drawable 的复用机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重用-state"><span class="toc-number">1.2.</span> <span class="toc-text">重用 state</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重用-bitmap"><span class="toc-number">1.3.</span> <span class="toc-text">重用 bitmap</span></a></li></ol></li></ol>
+		
 		</div>
 		
-		<h1 id="复用-Drawable"><a href="#复用-Drawable" class="headerlink" title="复用 Drawable"></a>复用 Drawable</h1><p><strong>Drawable</strong> 表示了一类通用的，可被绘制的资源。与View 的主要区别就在于，Drawable 并不会响应事件。</p>
-<h2 id="Drawable-的复用机制"><a href="#Drawable-的复用机制" class="headerlink" title="Drawable 的复用机制"></a>Drawable 的复用机制</h2><p>Drawable 的使用非常方便，系统框架内部有 700 多种默认的 Drawable。当我们新建一个 button 时，实际上它的背景就是一个默认的 Drawable。</p>
-<p>每个 Drawable 都有一个 <code>constant state</code>，这个 state 中保存了Drawable 所有的关键信息。比如对于 Button 来说，其中就保存了用于展示的 Bitmap。</p>
-<p>由于 Drawable 非常常用，为了优化性能（其实主要就是节省内存），所有的 Drawable 都共享同一个 <code>constant state</code>。</p>
-<h2 id="重用-state"><a href="#重用-state" class="headerlink" title="重用 state"></a>重用 state</h2><p>这种优化有时候也会导致一些问题，比如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Drawable star = context.getResources().getDrawable(R.drawable.star);</div><div class="line"><span class="keyword">if</span> (book.isFavorite()) &#123;</div><div class="line">  star.setAlpha(<span class="number">255</span>); <span class="comment">// opaque</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  star.setAlpha(<span class="number">70</span>); <span class="comment">// translucent</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>假设有多个 book 对象构成一个 <code>listview</code>，我们希望的效果是喜欢的图书，星星是亮的，否则是灭的。但如果使用上述代码就会发现，所有星星的颜色都是一样的。</p>
-<p>这是因为 alpha 信息保存在 constant state 中，所有的星星都共享这个 state，对任何一个的修改都会影响其他所有的。</p>
-<p>解决方案是使用 <code>mutate</code> 方法。这个方法会返回同一个 Drawable 对象，但是其中的 state 被复制了，这样对 state 的修改就互不干扰：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Drawable star = context.getResources().getDrawable(R.drawable.star);</div><div class="line"><span class="keyword">if</span> (book.isFavorite()) &#123;</div><div class="line">  star.mutate().setAlpha(<span class="number">255</span>); <span class="comment">// opaque</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  star.mutate().setAlpha(<span class="number">70</span>); <span class="comment">// translucent</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="重用-bitmap"><a href="#重用-bitmap" class="headerlink" title="重用 bitmap"></a>重用 bitmap</h2><p>不过有时候仅仅复制 state 还不够，因为所有的 state 还会共享同一个 Bitmap，也就是说调用 <code>mutate()</code> 方法并不会复制 Bitmap。</p>
-<p>假设我们有两个 TextView 需要设置圆角，我们可以首先创建一个 <code>GradientDrawable</code> 对象并设置圆角：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">GradientDrawable gd = <span class="keyword">new</span> GradientDrawable();</div><div class="line">gd.setColor(Color.parseColor(<span class="string">"#000000"</span>));</div><div class="line">gd.setCornerRadius(context.getResources().getDimension(R.dimen.ds4));</div><div class="line">gd.setStroke(<span class="number">1</span>, Color.parseColor(<span class="string">"#000000"</span>));</div></pre></td></tr></table></figure>
-<p>接下来，任何需要设置圆角背景的 TextView 都可以调用：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">textview.setBackgroundDrawable(gd);</div></pre></td></tr></table></figure>
-<p>然而由于 Drawable 对象的 Bitmap 会被复用，所以即使我们调用了 <code>mutate()</code> 方法，所有的 TextView 的圆角背景区域依然都会以最后一个 TextView 的大小为准。</p>
-<p>在这种情况下，我们可以通过 <code>constant state</code> 创建一个新的 Drawable 对象，此时这两个完全不同的对象会使用不用的 Bitmap，也就避免了上述问题：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">textview.setBackgroundDrawable(gd.getConstantState().newDrawable());</div></pre></td></tr></table></figure>
+		<p>虽然大三曾经短暂的接触 Android，但都只是囫囵吞枣，仅仅停留在调用 API 和开源库完成效果的程度上。既然真的要开始搞 Android，还是有必要刨根问底一下的。</p>
+<p>作为入门，最近开始看 Google 的 <a href="https://developer.android.com/training/index.html" target="_blank" rel="external">Android Training</a>。最简单的肯定是创建一个 Hello World 工程，不过在写 LinearLayout 的时候，我发现一个比较奇怪的问题：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>XML 文件中的前两行代码似乎很啰嗦，定义了两个 <code>xmlns</code> 和一长串没有意义的 URL。</p>
+<p>实际上这里的 <code>xmlns</code> 指的是 XML 中的命名空间（namespace）概念。比如这里的 <code>android:layout_width</code> 属性，它就是 <code>android</code> 命名空间下的属性。如果没有命名空间的约束，整个 XML 中就不能出现重复的属性，事情就会很麻烦。</p>
+<p>除了安卓默认提供的命名空间和控制 UI 样式的属性外，有时候，我们还可以自定义命名空间和属性，比如对于某个颜色来说，我希望它在普通模式和夜间模式下具有不同的样式，但对使用者完全透明（即对外只有一个颜色名）。</p>
+<p>此时，就可以自定义一个 <code>app:bg_color</code>。要做到这一点，我们需要实现 <code>LayoutInflater.Factory</code> 接口并实现 <code>onCreateView</code> 方法。</p>
+<p>除此以外，我们也可以简单的添加几个常用的属性，<a href="http://stackoverflow.com/questions/2695646/declaring-a-custom-android-ui-element-using-xml" target="_blank" rel="external">这篇文章</a> 详细讲述了实现过程。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -133,7 +123,7 @@ Drawable 的复用机制Drawable 的使用非常方便，系统框架内部有 7
 
 <div class="article-share" id="share">
 
-  <div data-url="http://fullstack.blog/2016/12/08/Drawable-复用/" data-title="Drawable 复用 | 全栈养成计划" data-tsina="null" class="share clearfix">
+  <div data-url="http://fullstack.blog/2016/12/12/该死的-XML-in-Android/" data-title="该死的 XML in Android | 全栈养成计划" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -142,19 +132,11 @@ Drawable 的复用机制Drawable 的使用非常方便，系统框架内部有 7
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/12/12/该死的-XML-in-Android/" title="该死的 XML in Android">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  该死的 XML in Android</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/11/18/新的开始/"  title="新的开始">
+<a href="/2016/12/08/Drawable-复用/"  title="Drawable 复用">
  <strong>NEXT:</strong><br/> 
- <span>新的开始
+ <span>Drawable 复用
 </span>
 </a>
 </div>
@@ -167,7 +149,7 @@ Drawable 的复用机制Drawable 的使用非常方便，系统框架内部有 7
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#复用-Drawable"><span class="toc-number">1.</span> <span class="toc-text">复用 Drawable</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Drawable-的复用机制"><span class="toc-number">1.1.</span> <span class="toc-text">Drawable 的复用机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重用-state"><span class="toc-number">1.2.</span> <span class="toc-text">重用 state</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重用-bitmap"><span class="toc-number">1.3.</span> <span class="toc-text">重用 bitmap</span></a></li></ol></li></ol>
+  
   </div>
 
 <div id="asidepart">

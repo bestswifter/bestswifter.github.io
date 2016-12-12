@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2016-12-08T10:57:17.000Z</updated>
+  <updated>2016-12-12T13:01:37.000Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>该死的 XML in Android</title>
+    <link href="http://fullstack.blog/2016/12/12/%E8%AF%A5%E6%AD%BB%E7%9A%84-XML-in-Android/"/>
+    <id>http://fullstack.blog/2016/12/12/该死的-XML-in-Android/</id>
+    <published>2016-12-12T10:19:15.000Z</published>
+    <updated>2016-12-12T13:01:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>虽然大三曾经短暂的接触 Android，但都只是囫囵吞枣，仅仅停留在调用 API 和开源库完成效果的程度上。既然真的要开始搞 Android，还是有必要刨根问底一下的。</p>
+<p>作为入门，最近开始看 Google 的 <a href="https://developer.android.com/training/index.html" target="_blank" rel="external">Android Training</a>。最简单的肯定是创建一个 Hello World 工程，不过在写 LinearLayout 的时候，我发现一个比较奇怪的问题：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>XML 文件中的前两行代码似乎很啰嗦，定义了两个 <code>xmlns</code> 和一长串没有意义的 URL。</p>
+<p>实际上这里的 <code>xmlns</code> 指的是 XML 中的命名空间（namespace）概念。比如这里的 <code>android:layout_width</code> 属性，它就是 <code>android</code> 命名空间下的属性。如果没有命名空间的约束，整个 XML 中就不能出现重复的属性，事情就会很麻烦。</p>
+<p>除了安卓默认提供的命名空间和控制 UI 样式的属性外，有时候，我们还可以自定义命名空间和属性，比如对于某个颜色来说，我希望它在普通模式和夜间模式下具有不同的样式，但对使用者完全透明（即对外只有一个颜色名）。</p>
+<p>此时，就可以自定义一个 <code>app:bg_color</code>。要做到这一点，我们需要实现 <code>LayoutInflater.Factory</code> 接口并实现 <code>onCreateView</code> 方法。</p>
+<p>除此以外，我们也可以简单的添加几个常用的属性，<a href="http://stackoverflow.com/questions/2695646/declaring-a-custom-android-ui-element-using-xml" target="_blank" rel="external">这篇文章</a> 详细讲述了实现过程。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;虽然大三曾经短暂的接触 Android，但都只是囫囵吞枣，仅仅停留在调用 API 和开源库完成效果的程度上。既然真的要开始搞 Android，还是有必要刨根问底一下的。&lt;/p&gt;
+&lt;p&gt;作为入门，最近开始看 Google 的 &lt;a href=&quot;https://develope
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://fullstack.blog/tags/Android/"/>
+    
+  </entry>
   
   <entry>
     <title>Drawable 复用</title>
