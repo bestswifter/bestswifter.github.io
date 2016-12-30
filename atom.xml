@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2016-12-12T13:03:44.000Z</updated>
+  <updated>2016-12-30T11:10:47.000Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -14,6 +14,150 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>HTTP 代理服务器技术选型之旅</title>
+    <link href="http://fullstack.blog/2016/12/30/HTTP-%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E4%B9%8B%E6%97%85/"/>
+    <id>http://fullstack.blog/2016/12/30/HTTP-代理服务器技术选型之旅/</id>
+    <published>2016-12-30T11:10:14.000Z</published>
+    <updated>2016-12-30T11:10:47.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>好久不写博客了，在元旦到来前水一篇文章，聊聊我在实现代理服务器的过程中遇到的一些坑，同时祝各位读者新年快乐。</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>长期以来，贴吧开发人员多，业务耦合大，需求变化频繁，因此容易产生 bug。而我所负责的广告相关业务，和 UI 密切相关，一旦因为某种原因(甚至是被别人改了代码)产生了 bug，必然大幅度影响广告收入。</p>
+<p>解决问题的一种方法在于频繁的测试，既然避免不了代码层面的耦合，那总是可以通过定时的检查来避免问题。所以我们维护了一组核心 case，密切关注最核心的功能。选择核心 case 实际上是在覆盖面和测试成本之间的权衡，然而多个 case 有不同的测试步骤，测试效率始终难以提高。</p>
+<p>因此，我们的目标是建立一个代理服务器，<strong>能够在运行时把任何包(包括线上包)的数据改成我希望的样子</strong>。换句话说，这个代理服务器也可以理解为一个私服，它能够获得客户端的请求数据并作出修改，也可以获得服务端的响应数据并做修改。</p>
+<h1 id="代理服务器工作模型"><a href="#代理服务器工作模型" class="headerlink" title="代理服务器工作模型"></a>代理服务器工作模型</h1><p>在早期版本中，我们选择了简单的 HTTP 协议。这种选择对技术的要求最低，我们自己实现了一个代理服务器，开启 socket，监听端口，然后将客户端的请求发送给服务器，再把服务器的返回数据传回客户端。这种模式也被称为:“中间人模式”(MITM: Man In The Middle)。</p>
+<p>虽然道理很简单，但实现起来还是有些地方要注意。首先，当 socket 接受数据后，应该新开一个进程/线程 进行处理。既然涉及到新的进程/线程，就一定要注意它的释放时机，否则会导致内存无限制增加。</p>
+<p>其次，对于 <code>socket</code> 来说，它并没有等待函数，也就是说我无从得知何时有数据可读，因此这个艰巨的任务就交给了 <code>select</code>。我们把需要监听的 socket 对象作为参数传入其中，函数会一直阻塞，直到有可读、可写的对象，或者达到超时时间。</p>
+<p><code>Keep-Alive</code> 字段可以复用 TCP 连接，是一种常见的 HTTP 协议的优化方式，在 HTTP 1.1 中已经是默认选项。填写这个字段后，Server 返回的数据可能是分批次的，这样能够改善用户体验，但也会增加代理服务器的实现难度。所以代理服务器在作为客户端，向真正服务器请求数据时，应该删除这个字段。</p>
+<p>由于整套流程都是自己实现，因此可以比较容易的 HOOK 住上下行数据并做修改。只有注意在接收到全部数据后再做修改即，整个流程可以用下图简单表示:</p>
+<p><img src="https://o8ouygf5v.qnssl.com/1483087878.png" alt="代理服务器的工作模式"></p>
+<p>当时做完这一套东西以后，我在团队内部做了一次分享， 感兴趣的读者可以去 <a href="http://images.bestswifter.com/Proxy%202.key" target="_blank" rel="external">http://images.bestswifter.com/Proxy%202.key</a> 下载 PPT。</p>
+<h1 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h1><h2 id="短连接"><a href="#短连接" class="headerlink" title="短连接"></a>短连接</h2><p>由于长连接基于 TCP，不用每次新建连接，也省略了不必要的 HTTP 报文头部，效率明显优于 HTTP。所以各大公司基本上选择了长连接作为实际生产环境下的连接方式。然而由于不熟悉 WebSocket 协议，并且我们依然支持短连接，所以代理服务器最终选择了 HTTP 协议。</p>
+<p>要想实现这一点， 就得在应用启动时，模拟后台向客户端发送一段控制信息，强制客户端选择 HTTP 请求。这样一来，即使是线上包也可以走代理服务器。</p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>由于苹果强制要求使用 HTTPS，虽然已经延期，但也是明年的趋势。考虑到后续的使用，我们决定对之前实现的代理服务器进行升级。由于 HTTPS 涉及到请求协议的解析，以及加密解密和证书管理，上述自研方案很难 hold 住。经过一番调研，最后选择了一个比较知名的开源库 <a href="https://github.com/mitmproxy/mitmproxy" target="_blank" rel="external">mitmproxy</a>。</p>
+<h1 id="Mitmproxy"><a href="#Mitmproxy" class="headerlink" title="Mitmproxy"></a>Mitmproxy</h1><p>选择这个库最主要的理由是它直接支持 HTTPS，不过没有中文文档，国内的使用相对来说比较少，所以在接入的时候可能会略花一点时间。</p>
+<p>这是一个 python 库， 首先要安装 <code>virtualenv</code>，如果本地没装的话输入: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pip install virtualenv</div></pre></td></tr></table></figure>
+<p>安装好了以后，进入 <code>mitmproxy/venv3.5/bin</code> 文件夹输入:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> ./active</div></pre></td></tr></table></figure>
+<p>这样就可以启用 virtualenv 环境了。</p>
+<h2 id="Hook-脚本"><a href="#Hook-脚本" class="headerlink" title="Hook 脚本"></a>Hook 脚本</h2><p>这个库可以理解为命令行中可交互版本的 Charles，不过我并不打算用它的这个功能。因为我的需求主要是利用脚本来 Hook 请求， 所以我选择了 mitmdump 这个工具。使用它的时候可以指定脚本:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mitmdump <span class="_">-s</span> <span class="string">"xxx.py"</span></div></pre></td></tr></table></figure>
+<p>脚本也很简单，我们可以重写 <code>requeest</code> 或者 <code>receive</code> 函数:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">request</span><span class="params">(flow)</span>:</span></div><div class="line">        flow.response.content = <span class="string">"&lt;p&gt;hello world&lt;/p&gt;"</span></div></pre></td></tr></table></figure>
+<p>运行脚本以后，把手机的代理设为本机 ip 地址，端口号改为 8080，然后用手机浏览器打开 <a href="http://mitm.it/" target="_blank" rel="external">http://mitm.it/</a>，如果一切配置顺利，你会看到证书的安装界面。</p>
+<p>安装好证书后，用手机访问任何一个网站(包括 HTTPS)，你应该都会看到一个小小的 <code>hello world</code>，至此所有的配置就完成了。</p>
+<h2 id="bug-修改"><a href="#bug-修改" class="headerlink" title="bug 修改"></a>bug 修改</h2><p>这个开源库有一个很严重的 bug，在解析 multipart 类型的数据时可能会发生。它使用了 <code>splitline</code> 方法来分割换行符，然而如果数据中有 <code>\n</code> 的话，就会因此丢失。很不幸的是，很多 protobuf 编码后的数据都有 <code>\n</code>，一旦丢失就会导致解析失败。</p>
+<p>如果你不幸遇到了和我一样的坑，可以把相关代码改成我的版本:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> content.split(<span class="string">b"--"</span> + boundary):</div><div class="line">    parts = i.split(<span class="string">b'\r\n\r\n'</span>, <span class="number">2</span>)</div><div class="line">    <span class="keyword">if</span> len(parts) &gt; <span class="number">1</span> <span class="keyword">and</span> parts[<span class="number">0</span>][<span class="number">0</span>:<span class="number">2</span>] != <span class="string">b"--"</span>:</div><div class="line">        match = rx.search(parts[<span class="number">0</span>])</div><div class="line">        <span class="keyword">if</span> match:</div><div class="line">            key = match.group(<span class="number">1</span>)</div><div class="line">            value = parts[<span class="number">1</span>][<span class="number">0</span>:len(parts[<span class="number">1</span>])<span class="number">-2</span>] <span class="comment"># Remove last \r\n</span></div><div class="line">            r.append((key, value))</div></pre></td></tr></table></figure>
+<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><p>到了这一步，基本上已经成功实现支持 HTTPS 的代理服务器了。后续要处理的可能就是解析 protobuf，完善业务代码等等琐碎的事情，只要小心谨慎，基本上不会有问题。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;好久不写博客了，在元旦到来前水一篇文章，聊聊我在实现代理服务器的过程中遇到的一些坑，同时祝各位读者新年快乐。&lt;/p&gt;
+&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;长期以来，贴吧开
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://fullstack.blog/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的 2016 年总结</title>
+    <link href="http://fullstack.blog/2016/12/15/%E6%88%91%E7%9A%84-2016-%E5%B9%B4%E6%80%BB%E7%BB%93/"/>
+    <id>http://fullstack.blog/2016/12/15/我的-2016-年总结/</id>
+    <published>2016-12-15T15:47:39.000Z</published>
+    <updated>2016-12-21T11:46:17.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>时光飞逝，一转眼已经是一年过去了， 去年的今天我写下了第一篇年度总结：<a href="http://www.jianshu.com/p/fe529a7e83a0" target="_blank" rel="external">一个普通iOS开发者的2015大总结</a>。在写作那篇文章之前，我觉得一年前的自己完全是一个傻逼；今天重读一遍以后，我感觉一年前的自己也非常傻逼。在写下这一年总结的同时，我也希望明年的自己在回顾这篇文章的时候，可以发出不屑的鄙视。</p>
+<p>实际上我认为:</p>
+<blockquote>
+<p>刚开始学习的前五年是发展最快的五年，每一年都应该感觉到自己在过去的一年中发生了天翻地覆的变化。</p>
+</blockquote>
+<p>本文既然是总结， 自然是充满了大量的主观看法。如果读者不认可其中的某些观点，大可呵呵一笑，抛之脑后，切勿较真，做无意义的争论。</p>
+<h1 id="Swift"><a href="#Swift" class="headerlink" title="Swift"></a>Swift</h1><p>我从元旦后就开始着手准备春招。首先翻译完了 <a href="http://www.jianshu.com/p/18744b078508" target="_blank" rel="external">Advanced Swift</a>(盗版可耻)，这是自己第一次完整的阅读完一本英语书籍，学到了非常多的知识，有英语方面的，也有 Swift 方面的，随后自己尝试着用 Swift 开发了一个小 app。虽然后续由于工作原因没有能继续接触 Swift，不过它的优雅、简洁还是深深的吸引了我。希望 Swift 4.0 发布后能够解决 ABI 稳定问题。</p>
+<p>如果 Xcode 对 Swift 的支持能更友好，业内再提出成熟的动态化方案，我相信 Swift 会有更光明的未来和使用场景。</p>
+<h2 id="Swift-与后端开发"><a href="#Swift-与后端开发" class="headerlink" title="Swift 与后端开发"></a>Swift 与后端开发</h2><p>随着 Swift 的愈发成熟，业内出现了很多比较成熟的后端开发框架， 比如 <a href="http://perfect.org/" target="_blank" rel="external">perfect</a>、<a href="https://vapor.codes/" target="_blank" rel="external">vapor</a> 等。然而我本人并不看好这一领域，主要是从编程语言和程序员两个角度出发。</p>
+<p>理论上来说，任何可以调用 socket 接口处理网络请求的语言都可以用来做后端开发，然而对于 Swift 来说，除了处理网络请求以外，一个优秀的 API 也至关重要。不管是 HTTP 协议的解析，还是字符串、栈、时间等常用数据结构的操作，都不方便由做业务的程序员去手动解析。</p>
+<p>框架的使用者应该关注业务开发，而不是通用业务的处理。比较遗憾的是，Swift 目前在这一方面做的还不够好，很多重要的操作缺乏语言层面的支持，导致开发者造轮子的成本过高。不过 Swift 已经成立了官方小组，致力于解决这一问题。</p>
+<p>考虑到 Swift 还不是个非常成熟的语言，目前还在快速迭代。相比于语言本身，我认为人的问题才是阻碍 Swift 在服务端发力的最大原因。不管是现有哪种用来进行后端开发的语言，都有它本身的卖点。比如 Java 的高效(运行时效率)、稳定、全面，或者 PHP、Ruby 的语法简洁，易上手，还是 GO 的高并发，亦或是 Node.js 的全栈，都能在某个特定场景下派上用场。</p>
+<p>目前的 Swift 似乎还没有找到属于自己的舞台，由于绝大多数开发者都是 iOS 开发者，他们并不适合转向服务端开发，这就意味着 Swift 能写 iOS 毫无吸引力(参考一下 JS 能做哪些事)。而对于具有服务的开发经验的开发者来说，Swift 又没有吸引他们切换过去的理由。</p>
+<h1 id="准备春招"><a href="#准备春招" class="headerlink" title="准备春招"></a>准备春招</h1><p>一不小心就扯远了， 话题回到总结上来。完成了 Swift 学习的收尾工作后，我的精力主要放在春招上。由于大二下学期积累了三个月的实习经验，这一阶段的目的主要是夯实基础。因此重点读了两本书，《图解 TCP/IP》(<a href="http://www.jianshu.com/notebooks/3276500/latest" target="_blank" rel="external">总结</a>)、《剑指 Offer》。</p>
+<h2 id="图解-TCP-IP"><a href="#图解-TCP-IP" class="headerlink" title="图解 TCP/IP"></a>图解 TCP/IP</h2><p>这本书主要是讲解了 TCP/IP 四层协议栈(或者分得更细点就是七层)，通过一些插图和实际例子来解释枯燥的概念。我认为这是一本不可多得的好书，尤其适合新手入门。不过，如果想精通网络层，还是建议买 《TCP/IP 详解》和 《HTTP 权威指南》或者直接查阅 RFC 协议。</p>
+<p>不过在准备面试，或者新手入门时，我觉得非常有必要通过一本简短的书籍来形成大致的知识框架和，这样后续才能有针对性的学习总结，对自己的知识框架进行各种修修补补。</p>
+<h2 id="剑指-Offer"><a href="#剑指-Offer" class="headerlink" title="剑指 Offer"></a>剑指 Offer</h2><p>这本书相当应试，不过也必须承认它概括了绝大多数常见的算法面试题。如果我们把面试看做是企业对应聘者的能力筛选和鉴定而不是刁难，那么从一定角度来说，也可以证明这本书涵盖了绝大多数常见的场景和算法。</p>
+<p>如果不想只是纸上谈兵，还可以去 <a href="https://leetcode.com/problemset/algorithms/" target="_blank" rel="external">Leetcode</a> 上找找书中问题对应的题目，参考全世界大牛的精妙解法也会受益匪浅。</p>
+<h2 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h2><p>作为一名 iOS 开发者，iOS 开发是我的本业，除了准备计算机基础知识外，我也学习了很多 iOS 开发的知识。以上的详细内容都总结在 《<a href="http://www.jianshu.com/p/ee15c1cf9c16" target="_blank" rel="external">让 BAT 的 Offer 不再难拿</a>》，就不赘述了。</p>
+<h1 id="入职"><a href="#入职" class="headerlink" title="入职"></a>入职</h1><p>春招顺利的拿到了百度贴吧的 offer，入职以后受益匪浅。在善品、权叔等老司机的带领下，我有一种乡下人进城的兴奋感，感觉自己的成长速度非常快。</p>
+<h2 id="MVC-与-UITableview"><a href="#MVC-与-UITableview" class="headerlink" title="MVC 与 UITableview"></a>MVC 与 UITableview</h2><p><code>UITableview</code> 是 iOS 开发中最常见的 UI 控件之一，但是想写好一个 <code>UITableview</code>，做到封装、解耦，并与网络请求良好的结合起来并不容易。我花了一定时间学习了贴吧以前的框架，对其做了一些简化和整理，总结在这里: <a href="http://www.jianshu.com/p/504c61a9dc82" target="_blank" rel="external">如何写好一个UITableView</a>。框架没有最优与全能，适合团队业务的就是最好的，所以这套框架主要是为了贴吧业务打造，但也有自己的不足，读者切不可照搬全抄。</p>
+<h2 id="高效使用-Mac"><a href="#高效使用-Mac" class="headerlink" title="高效使用 Mac"></a>高效使用 Mac</h2><p>我比较看重开发效率，因为我认为开发者应该把宝贵的时间花费在工作本身，而不是与之无关的杂事上。并不耗时的高频操作和比较耗时的中频操作都应该使用快捷键或自动化工具对其进行简化，不过也切忌矫枉过正。对非常低频的操作进行自动化或者仅仅是为了装逼，往往会浪费大量不必要的时间，反而适得其反。</p>
+<p>我总结了<a href="http://www.jianshu.com/p/2b072b206c90" target="_blank" rel="external">一篇文章</a> 并做了<a href="http://m.quzhiboapp.com/#!/intro/193" target="_blank" rel="external">一次直播</a>，主要涉及全局快捷键、Xcode、Vim、Chrome、Vimium、Git、Zsh、Alfred、Zsh、Emacs 等. 强烈建议对此还不了解的读者收看直播回放。</p>
+<h1 id="iOS-深入"><a href="#iOS-深入" class="headerlink" title="iOS 深入"></a>iOS 深入</h1><p>在工作之余，我对 iOS 领域的一些常用知识做了深入学习。</p>
+<h2 id="GCD-与多线程"><a href="#GCD-与多线程" class="headerlink" title="GCD 与多线程"></a>GCD 与多线程</h2><p>虽然去年就复习过类似的话题，但仅仅是停留在总结整理的层面，说白了就是把所有 API 熟悉了一遍。这次学习时，我阅读了 GCD 的源码，从而从更深层次理解了 GCD 的实现原理，总结了一篇文章: <a href="http://www.jianshu.com/p/06a18323d9d2" target="_blank" rel="external">深入理解 GCD</a>。</p>
+<h2 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h2><p>最初接触 runloop 是听了孙源大神的分享，随着学习的深入，发现还是有必要对 Runloop 进行深入的理解。不过 Runloop 虽然重要，但实际使用中接触得并不太多，除了常见的 NSTimer 触发问题外，也就是性能检测时会与之打交道。所以它源码阅读的必要性并不是太高，我觉得只要对 Runloop 的基本概念和工作原理有所涉猎即可。遇到实际问题时可以查阅 ibireme 的 <a href="http://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a>。</p>
+<p>我写了一篇: <a href="http://www.jianshu.com/p/10121d699c32" target="_blank" rel="external">深入研究 Runloop 与线程保活</a> 作为自己的学习总结。</p>
+<h2 id="线程调用栈"><a href="#线程调用栈" class="headerlink" title="线程调用栈"></a>线程调用栈</h2><p>上一节谈到了利用 runloop 检测主线程的卡顿。为了找到性能瓶颈，也就是优化点，我们需要在卡顿发生时得到实时的线程调用栈。这就意味着一切依赖于线程层面的操作都会破坏原来线程的调用栈。在尝试使用信号无果后，最终我选择了参考第三方开源框架，直接利用 C 语言解析函数调用栈。具体总结参考: <a href="http://www.jianshu.com/p/7e4c7b94ca36" target="_blank" rel="external">获取任意线程调用栈的那些事</a>。</p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p>iOS 中有很多锁，从最底层的互斥锁、信号量到顶层的 <code>@synchronized</code>，应有尽有。虽然我实际使用经验并不多，但还是研究了一下他们的实现原理和性能优劣: <a href="http://www.jianshu.com/p/8781ff49e05b" target="_blank" rel="external">深入理解 iOS 开发中的锁</a>。随着对多线程在理论和实践上的进一步接触，我相信还会有更具深度的总结面世。</p>
+<h2 id="Xcode-项目配置"><a href="#Xcode-项目配置" class="headerlink" title="Xcode 项目配置"></a>Xcode 项目配置</h2><p>出于对 Cocoapods 工作原理的兴趣，我前段时间手动模拟了它的工作过程(自动化是通过 ruby 脚本完成的，相对而言重要性低很多)。在这一过程中，更重要的是对编译、链接、Xcode 工程配置的理解。由于时间原因，目前还没有形成总结性文档。</p>
+<h1 id="全栈"><a href="#全栈" class="headerlink" title="全栈"></a>全栈</h1><p>相比于 iOS 方面的钻研，2016 年最让我感到激动和收益满满的是横向的拓展。关于为什么会选择横向发展路线，在我的 <a href="http://fullstack.blog/2016/11/18/%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B/">新的开始</a> 一文中已经有了详细的阐述。</p>
+<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><p>哈希表是常见的数据结构，但是很多人对他的掌握都非常浅显。曾经问过很多人一个很简单的问题:“为什么很多哈希表的实现中，数组的长度都是 2 的整数次幂？”。根据我的观察，能答出这个问题的人寥寥无几，有很多看上去很正确的废话，其实恰恰说明了大多数人多哈希表的理解还不够深入。</p>
+<p>除此以外，不同的语言和框架(OC、Java、Redis、一致性哈希) 对哈希表的实现都各不相同，他们的取舍恰恰说明不同场景下我们关注的指标并不一致，必须舍弃一些无关紧要的功能点，来换取主要功能的性能的大幅度提高。具体对比请参考: <a href="http://www.jianshu.com/p/138ccbc75803" target="_blank" rel="external">深入理解哈希表</a>。</p>
+<h2 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h2><p>市面上有很多介绍 Node.js  的优秀文章和书籍，作为一个不懂 Node.js 的小白，其实我只关系以下几个问题:</p>
+<ol>
+<li>为什么要从现有的后端开发框架切换到 Node.js？</li>
+<li>Node.js 是银弹么，还是有特别适合自己的使用场景？</li>
+<li>Node.js 的事件循环是如何工作的？有什么好处？</li>
+<li>Node.js 是异步单线程的， 那么如何最大程度的利用多核 CPU 的所有性能？</li>
+</ol>
+<p>作为上述问题的回答，我总结了 <a href="http://www.jianshu.com/p/59e59acde382" target="_blank" rel="external">为什么要用 Node.js</a>。</p>
+<h2 id="前后端分离与前端开发流程"><a href="#前后端分离与前端开发流程" class="headerlink" title="前后端分离与前端开发流程"></a>前后端分离与前端开发流程</h2><p>在学习 Node.js 的过程中，我接触到了一个新名词:前后端分离。对于客户端开发者来说，前后端分离是一件天经地义的事情。前端界面是由编译后的代码生成的，相对来说比较固定。前后端的主要交流方式是 JSON/protobuf 等数据交换格式。</p>
+<p>然而对于前端开发者来说，事情远远不止这么简单。由于前端的 UI 样式完全由 Server 下发，所以很容易就产生了前后端业务和代码的耦合。所以前后端分离说的就是前端开发和后端开发如何进行解耦和数据交互，详见 <a href="http://www.jianshu.com/p/36a3c79cd18f" target="_blank" rel="external">移动端开发者眼中的前端开发流程变迁与前后端分离</a>。</p>
+<h2 id="利用-JS-等脚本语言实现客户端热更新"><a href="#利用-JS-等脚本语言实现客户端热更新" class="headerlink" title="利用 JS 等脚本语言实现客户端热更新"></a>利用 JS 等脚本语言实现客户端热更新</h2><p>不管是 JSPatch 还是 React Native，它们都能做到客户端的热更新，甚至无需通过 AppStore 即可发一个新版本。它们之所以能够做到客户端热更新，主要是依赖了客户端对 JavaScript 的支持以及 iOS 自身基于 runtime 的元编程技术。首先，利用 JSON 传递信息的区别在于它仅有描述信息，却无法携带逻辑信息。</p>
+<p>通过官方认可的 JavaScriptCore 框架，我们可以运行一段 JavaScript 代码并获取运行结果。通过对运行结果的解析，我们可以利用 runtime 动态的调用本地预定义好的方法，从而实现了动态化。</p>
+<p>React Native 的本质是一个 Hybrid 桥。它与 React 具有相同的 API，为了实现相同的效果，客户端会调用本地的方法(比如 <code>addSubview</code> 等)。详细请参考: <a href="http://www.jianshu.com/p/978c4bd3a759" target="_blank" rel="external">React Native 从入门到原理</a>。</p>
+<h2 id="脚本语言"><a href="#脚本语言" class="headerlink" title="脚本语言"></a>脚本语言</h2><p>一般来说我们认为脚本语言就是没有编译器的、由解释器动态解释的语言。它通常具有弱类型、格式简单、开发效率高等优点，但是作为代价，用脚本语言来开发大型项目会遇到诸多问题。比如性能、调试等等，毕竟它们原本只是用来快速完成某个小的需求。</p>
+<p>我最先接触的是 python，我使用 python 编写了 alfred 的一个 workflow，后来在 leader 的带领下实现了一个可以 hook 请求和返回结果的 http 代理服务器。有了实战的机会，也就成功脱离了 hello world 的水平了。</p>
+<p>同时我也简单接触了 Ruby。光从脚本语言的角度来看，它和 Python 的作用相仿。不过很多领域特定语言(DSL) 都选择了 Ruby 来实现， 比如我们常用的 cocoapods 中的 Podfile，如果不说，可能只有少数人能意识到这其实是一段标准的 Ruby 代码。</p>
+<p>之所以选择用 Ruby 来实现，是因为它的语法可读性更好，看上去就像一段普通的描述性文字。详细的分析可以参考: <a href="http://www.jianshu.com/p/2434e62158d1" target="_blank" rel="external">白话 Ruby 与 DSL 以及在 iOS 开发中的运用</a>。</p>
+<p>严格意义上来说，Shell 脚本才是脚本语言的鼻祖，它提供了非常多常用的工具，比如 <code>awk</code> 和 <code>sed</code> 两大文本处理利器。如果需要对文字、文件目录做简单的逻辑操作，应该优先使用 Shell 而不是其他脚本语言。</p>
+<p>不同的脚本语言往往是为了解决不同领域的问题而诞生的(虽然它们也可以解决其他问题)，遇到问题的时候应该选择最合适、优雅的解决方案，而不是总想着复用当前技术栈。俗话说:“如果你只有锤头，那看什么都是钉子”。</p>
+<h2 id="面向接口编程"><a href="#面向接口编程" class="headerlink" title="面向接口编程"></a>面向接口编程</h2><p>Swift 诞生后就一直宣传自己面向接口编程的特性，然而在我看来它不过是一种多继承的实现方案。且不谈继承的缺点以及在它和组合之间如何选择，光是多继承，就有很多种实现。比如 C++、Python、Java、Ruby 都有各自的实现。其中有优雅的，也有相对来说比较暴力直接的。</p>
+<p>我个人更喜欢 Java 对多继承的实现，与之相比，Swift 的面向接口编程还有一些可以提高的地方。详细可以参考: <a href="http://www.jianshu.com/p/fc105512bf40" target="_blank" rel="external">从 Swift 的面向协议编程说开去</a></p>
+<h2 id="安卓"><a href="#安卓" class="headerlink" title="安卓"></a>安卓</h2><p>从 12 月份开始，由于安卓同事返校上课，我有机会开始接触安卓开发。目前还停留在小白阶段，只能根据前人的代码抄抄改改。安卓的学习主要还是 API 的积累和 Java 语言的学习，希望能在明年总结出更多关于安卓的优秀文章。</p>
+<h1 id="我的-2016"><a href="#我的-2016" class="headerlink" title="我的 2016"></a>我的 2016</h1><p>对于把好好的年终总结写成了博客摘要我是很不满意的，如果用一个词来总结我的 2016 年，我想那毫无疑问就是:“<strong>拓宽</strong>”。虽然 iOS  还没有达到炉火纯青的地步，但我还是义无反顾的开始了横向拓宽。我相信一个人才的最大价值，不是做好某一个具体的小需求(这是前提)，而是站在更高的角度做更大的事。</p>
+<p>16 年技术栈拓展中，最大的三个收获应该是前端、Python 和安卓。然而考虑到与工作相结合，我想前端技术暂时可以放一放，重点学习 Python 和安卓也许会对 KPI 更加有利。</p>
+<p>当然，好的书还是要读的。博客可以解释清楚某一个问题，而好书可以解释清楚某一个领域。在 Server 方面，李智慧的 《大型网站技术架构》 可以算作一本非常优秀的入门版书籍，介绍了诸多常见的属于和概念。而《计算机程序的构造和解释》(SICP) 作为 MIT 几十年来的教科书，是一本非常经典的介绍函数式编程的书籍。以上两本书推荐给感兴趣的读者。</p>
+<p>过去的这一年成长了很多，从简书、微博几十个粉丝的小菜鸟，到几千粉丝的小 V，一路走来收获满满。不过我逐渐意识到越是大型的平台，普通用户的质量就越接近于行业平均水平。因此粉丝数、喜欢数并不值得参考，而且很多交流其实是浪费时间。因此在新的一年中我会减少社交平台上的互动，把有限的精力投入到线下的生活、工作、学习中去。</p>
+<h1 id="2017-年的计划"><a href="#2017-年的计划" class="headerlink" title="2017 年的计划"></a>2017 年的计划</h1><p>在去年的年终总结里，我列出了五点计划:</p>
+<ol>
+<li>继续翻译优秀的英文文章。这一点做的不太好，虽然有幸加入了 SwiftGG 并翻译了一些 Swift 文章，但是总的来说数量还不够。不过考虑到还有非常多要做的事，翻译文章的性价比似乎就不太高了，所以暂时搁浅。</li>
+<li>阅读优秀的博文。objc.cn 的文章在带着读，由于掌握了 Google 搜索， 所以再也不会像去年一样看 CSDN 了，从这一点来说，第二个目标算是圆满完成。</li>
+<li>技术与基础。今年学习了 GCD、Runloop、Runtime、锁、Cocoapods、React Native 等技术，算是加深了技术深度，</li>
+<li>读书。读完了 《图解 TCP/IP 》、《剑指 Offer》、《大型网站技术架构》、《计算机程序的构造与解释》，双十一还买(挖)了不少书(坑)。</li>
+<li>实习。在贴吧和凤巢的日子里，小组里的各位同事一直在帮助我成长，我的每一丝进步都要感谢他们的帮助。</li>
+</ol>
+<p>总的来说 16 年的计划圆满完成了，在新的一年里我为自己制定了几个小目标:</p>
+<ol>
+<li>业务: 也许业务没有技术重要，但是没有业务的积累，再厉害的技术也只会浪费时间，甚至带来负面作用。踏入工作岗位后，我希望在 2017 年更加深入的理解团队业务，更好的融入团队的交流协作中。</li>
+<li>读书: 双十一买了十几本书，目前看来优先级最高的是《七周七并发模型》和 《改善  Python 程序的 91 个建议》，如果有空的话 《Java 编程思想》和 《Effective Java》、《Android 开发艺术探索》也在计划中。</li>
+<li>技术: 所谓的全栈工程师，或者 T 型人才并不是全干工程师，每一门技术必须掌握到一定深度。因此在跨界时切忌自我麻痹，不能总以“我是新手”为理由来安慰自己。我希望在新的一年里在 Python 和 Android 方面达到一定深度，以工作为标准来要求自己。</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;时光飞逝，一转眼已经是一年过去了， 去年的今天我写下了第一篇年度总结：&lt;a href=&quot;http://www.jianshu.com/p/fe529a7e83a0&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一个普通iOS开发者的2015大总结&lt;/a&gt;。
+    
+    </summary>
+    
+    
+      <category term="总结分享" scheme="http://fullstack.blog/tags/%E6%80%BB%E7%BB%93%E5%88%86%E4%BA%AB/"/>
+    
+  </entry>
   
   <entry>
     <title>该死的 XML in Android</title>
