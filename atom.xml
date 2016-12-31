@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2016-12-30T11:10:47.000Z</updated>
+  <updated>2016-12-31T12:38:51.000Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -16,62 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>HTTP 代理服务器技术选型之旅</title>
-    <link href="http://fullstack.blog/2016/12/30/HTTP-%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E4%B9%8B%E6%97%85/"/>
-    <id>http://fullstack.blog/2016/12/30/HTTP-代理服务器技术选型之旅/</id>
-    <published>2016-12-30T11:10:14.000Z</published>
-    <updated>2016-12-30T11:10:47.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>好久不写博客了，在元旦到来前水一篇文章，聊聊我在实现代理服务器的过程中遇到的一些坑，同时祝各位读者新年快乐。</p>
-<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>长期以来，贴吧开发人员多，业务耦合大，需求变化频繁，因此容易产生 bug。而我所负责的广告相关业务，和 UI 密切相关，一旦因为某种原因(甚至是被别人改了代码)产生了 bug，必然大幅度影响广告收入。</p>
-<p>解决问题的一种方法在于频繁的测试，既然避免不了代码层面的耦合，那总是可以通过定时的检查来避免问题。所以我们维护了一组核心 case，密切关注最核心的功能。选择核心 case 实际上是在覆盖面和测试成本之间的权衡，然而多个 case 有不同的测试步骤，测试效率始终难以提高。</p>
-<p>因此，我们的目标是建立一个代理服务器，<strong>能够在运行时把任何包(包括线上包)的数据改成我希望的样子</strong>。换句话说，这个代理服务器也可以理解为一个私服，它能够获得客户端的请求数据并作出修改，也可以获得服务端的响应数据并做修改。</p>
-<h1 id="代理服务器工作模型"><a href="#代理服务器工作模型" class="headerlink" title="代理服务器工作模型"></a>代理服务器工作模型</h1><p>在早期版本中，我们选择了简单的 HTTP 协议。这种选择对技术的要求最低，我们自己实现了一个代理服务器，开启 socket，监听端口，然后将客户端的请求发送给服务器，再把服务器的返回数据传回客户端。这种模式也被称为:“中间人模式”(MITM: Man In The Middle)。</p>
-<p>虽然道理很简单，但实现起来还是有些地方要注意。首先，当 socket 接受数据后，应该新开一个进程/线程 进行处理。既然涉及到新的进程/线程，就一定要注意它的释放时机，否则会导致内存无限制增加。</p>
-<p>其次，对于 <code>socket</code> 来说，它并没有等待函数，也就是说我无从得知何时有数据可读，因此这个艰巨的任务就交给了 <code>select</code>。我们把需要监听的 socket 对象作为参数传入其中，函数会一直阻塞，直到有可读、可写的对象，或者达到超时时间。</p>
-<p><code>Keep-Alive</code> 字段可以复用 TCP 连接，是一种常见的 HTTP 协议的优化方式，在 HTTP 1.1 中已经是默认选项。填写这个字段后，Server 返回的数据可能是分批次的，这样能够改善用户体验，但也会增加代理服务器的实现难度。所以代理服务器在作为客户端，向真正服务器请求数据时，应该删除这个字段。</p>
-<p>由于整套流程都是自己实现，因此可以比较容易的 HOOK 住上下行数据并做修改。只有注意在接收到全部数据后再做修改即，整个流程可以用下图简单表示:</p>
-<p><img src="https://o8ouygf5v.qnssl.com/1483087878.png" alt="代理服务器的工作模式"></p>
-<p>当时做完这一套东西以后，我在团队内部做了一次分享， 感兴趣的读者可以去 <a href="http://images.bestswifter.com/Proxy%202.key" target="_blank" rel="external">http://images.bestswifter.com/Proxy%202.key</a> 下载 PPT。</p>
-<h1 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h1><h2 id="短连接"><a href="#短连接" class="headerlink" title="短连接"></a>短连接</h2><p>由于长连接基于 TCP，不用每次新建连接，也省略了不必要的 HTTP 报文头部，效率明显优于 HTTP。所以各大公司基本上选择了长连接作为实际生产环境下的连接方式。然而由于不熟悉 WebSocket 协议，并且我们依然支持短连接，所以代理服务器最终选择了 HTTP 协议。</p>
-<p>要想实现这一点， 就得在应用启动时，模拟后台向客户端发送一段控制信息，强制客户端选择 HTTP 请求。这样一来，即使是线上包也可以走代理服务器。</p>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>由于苹果强制要求使用 HTTPS，虽然已经延期，但也是明年的趋势。考虑到后续的使用，我们决定对之前实现的代理服务器进行升级。由于 HTTPS 涉及到请求协议的解析，以及加密解密和证书管理，上述自研方案很难 hold 住。经过一番调研，最后选择了一个比较知名的开源库 <a href="https://github.com/mitmproxy/mitmproxy" target="_blank" rel="external">mitmproxy</a>。</p>
-<h1 id="Mitmproxy"><a href="#Mitmproxy" class="headerlink" title="Mitmproxy"></a>Mitmproxy</h1><p>选择这个库最主要的理由是它直接支持 HTTPS，不过没有中文文档，国内的使用相对来说比较少，所以在接入的时候可能会略花一点时间。</p>
-<p>这是一个 python 库， 首先要安装 <code>virtualenv</code>，如果本地没装的话输入: </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pip install virtualenv</div></pre></td></tr></table></figure>
-<p>安装好了以后，进入 <code>mitmproxy/venv3.5/bin</code> 文件夹输入:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> ./active</div></pre></td></tr></table></figure>
-<p>这样就可以启用 virtualenv 环境了。</p>
-<h2 id="Hook-脚本"><a href="#Hook-脚本" class="headerlink" title="Hook 脚本"></a>Hook 脚本</h2><p>这个库可以理解为命令行中可交互版本的 Charles，不过我并不打算用它的这个功能。因为我的需求主要是利用脚本来 Hook 请求， 所以我选择了 mitmdump 这个工具。使用它的时候可以指定脚本:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mitmdump <span class="_">-s</span> <span class="string">"xxx.py"</span></div></pre></td></tr></table></figure>
-<p>脚本也很简单，我们可以重写 <code>requeest</code> 或者 <code>receive</code> 函数:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">request</span><span class="params">(flow)</span>:</span></div><div class="line">        flow.response.content = <span class="string">"&lt;p&gt;hello world&lt;/p&gt;"</span></div></pre></td></tr></table></figure>
-<p>运行脚本以后，把手机的代理设为本机 ip 地址，端口号改为 8080，然后用手机浏览器打开 <a href="http://mitm.it/" target="_blank" rel="external">http://mitm.it/</a>，如果一切配置顺利，你会看到证书的安装界面。</p>
-<p>安装好证书后，用手机访问任何一个网站(包括 HTTPS)，你应该都会看到一个小小的 <code>hello world</code>，至此所有的配置就完成了。</p>
-<h2 id="bug-修改"><a href="#bug-修改" class="headerlink" title="bug 修改"></a>bug 修改</h2><p>这个开源库有一个很严重的 bug，在解析 multipart 类型的数据时可能会发生。它使用了 <code>splitline</code> 方法来分割换行符，然而如果数据中有 <code>\n</code> 的话，就会因此丢失。很不幸的是，很多 protobuf 编码后的数据都有 <code>\n</code>，一旦丢失就会导致解析失败。</p>
-<p>如果你不幸遇到了和我一样的坑，可以把相关代码改成我的版本:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> content.split(<span class="string">b"--"</span> + boundary):</div><div class="line">    parts = i.split(<span class="string">b'\r\n\r\n'</span>, <span class="number">2</span>)</div><div class="line">    <span class="keyword">if</span> len(parts) &gt; <span class="number">1</span> <span class="keyword">and</span> parts[<span class="number">0</span>][<span class="number">0</span>:<span class="number">2</span>] != <span class="string">b"--"</span>:</div><div class="line">        match = rx.search(parts[<span class="number">0</span>])</div><div class="line">        <span class="keyword">if</span> match:</div><div class="line">            key = match.group(<span class="number">1</span>)</div><div class="line">            value = parts[<span class="number">1</span>][<span class="number">0</span>:len(parts[<span class="number">1</span>])<span class="number">-2</span>] <span class="comment"># Remove last \r\n</span></div><div class="line">            r.append((key, value))</div></pre></td></tr></table></figure>
-<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><p>到了这一步，基本上已经成功实现支持 HTTPS 的代理服务器了。后续要处理的可能就是解析 protobuf，完善业务代码等等琐碎的事情，只要小心谨慎，基本上不会有问题。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;好久不写博客了，在元旦到来前水一篇文章，聊聊我在实现代理服务器的过程中遇到的一些坑，同时祝各位读者新年快乐。&lt;/p&gt;
-&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;长期以来，贴吧开
-    
-    </summary>
-    
-    
-      <category term="python" scheme="http://fullstack.blog/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>我的 2016 年总结</title>
-    <link href="http://fullstack.blog/2016/12/15/%E6%88%91%E7%9A%84-2016-%E5%B9%B4%E6%80%BB%E7%BB%93/"/>
-    <id>http://fullstack.blog/2016/12/15/我的-2016-年总结/</id>
-    <published>2016-12-15T15:47:39.000Z</published>
-    <updated>2016-12-21T11:46:17.000Z</updated>
+    <link href="http://fullstack.blog/2016/12/31/%E6%88%91%E7%9A%84-2016-%E5%B9%B4%E6%80%BB%E7%BB%93/"/>
+    <id>http://fullstack.blog/2016/12/31/我的-2016-年总结/</id>
+    <published>2016-12-31T15:47:39.000Z</published>
+    <updated>2016-12-31T12:38:51.000Z</updated>
     
     <content type="html"><![CDATA[<p>时光飞逝，一转眼已经是一年过去了， 去年的今天我写下了第一篇年度总结：<a href="http://www.jianshu.com/p/fe529a7e83a0" target="_blank" rel="external">一个普通iOS开发者的2015大总结</a>。在写作那篇文章之前，我觉得一年前的自己完全是一个傻逼；今天重读一遍以后，我感觉一年前的自己也非常傻逼。在写下这一年总结的同时，我也希望明年的自己在回顾这篇文章的时候，可以发出不屑的鄙视。</p>
 <p>实际上我认为:</p>
@@ -156,6 +105,57 @@
     
     
       <category term="总结分享" scheme="http://fullstack.blog/tags/%E6%80%BB%E7%BB%93%E5%88%86%E4%BA%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HTTP 代理服务器技术选型之旅</title>
+    <link href="http://fullstack.blog/2016/12/30/HTTP-%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E4%B9%8B%E6%97%85/"/>
+    <id>http://fullstack.blog/2016/12/30/HTTP-代理服务器技术选型之旅/</id>
+    <published>2016-12-30T11:10:14.000Z</published>
+    <updated>2016-12-30T11:10:47.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>好久不写博客了，在元旦到来前水一篇文章，聊聊我在实现代理服务器的过程中遇到的一些坑，同时祝各位读者新年快乐。</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>长期以来，贴吧开发人员多，业务耦合大，需求变化频繁，因此容易产生 bug。而我所负责的广告相关业务，和 UI 密切相关，一旦因为某种原因(甚至是被别人改了代码)产生了 bug，必然大幅度影响广告收入。</p>
+<p>解决问题的一种方法在于频繁的测试，既然避免不了代码层面的耦合，那总是可以通过定时的检查来避免问题。所以我们维护了一组核心 case，密切关注最核心的功能。选择核心 case 实际上是在覆盖面和测试成本之间的权衡，然而多个 case 有不同的测试步骤，测试效率始终难以提高。</p>
+<p>因此，我们的目标是建立一个代理服务器，<strong>能够在运行时把任何包(包括线上包)的数据改成我希望的样子</strong>。换句话说，这个代理服务器也可以理解为一个私服，它能够获得客户端的请求数据并作出修改，也可以获得服务端的响应数据并做修改。</p>
+<h1 id="代理服务器工作模型"><a href="#代理服务器工作模型" class="headerlink" title="代理服务器工作模型"></a>代理服务器工作模型</h1><p>在早期版本中，我们选择了简单的 HTTP 协议。这种选择对技术的要求最低，我们自己实现了一个代理服务器，开启 socket，监听端口，然后将客户端的请求发送给服务器，再把服务器的返回数据传回客户端。这种模式也被称为:“中间人模式”(MITM: Man In The Middle)。</p>
+<p>虽然道理很简单，但实现起来还是有些地方要注意。首先，当 socket 接受数据后，应该新开一个进程/线程 进行处理。既然涉及到新的进程/线程，就一定要注意它的释放时机，否则会导致内存无限制增加。</p>
+<p>其次，对于 <code>socket</code> 来说，它并没有等待函数，也就是说我无从得知何时有数据可读，因此这个艰巨的任务就交给了 <code>select</code>。我们把需要监听的 socket 对象作为参数传入其中，函数会一直阻塞，直到有可读、可写的对象，或者达到超时时间。</p>
+<p><code>Keep-Alive</code> 字段可以复用 TCP 连接，是一种常见的 HTTP 协议的优化方式，在 HTTP 1.1 中已经是默认选项。填写这个字段后，Server 返回的数据可能是分批次的，这样能够改善用户体验，但也会增加代理服务器的实现难度。所以代理服务器在作为客户端，向真正服务器请求数据时，应该删除这个字段。</p>
+<p>由于整套流程都是自己实现，因此可以比较容易的 HOOK 住上下行数据并做修改。只有注意在接收到全部数据后再做修改即，整个流程可以用下图简单表示:</p>
+<p><img src="https://o8ouygf5v.qnssl.com/1483087878.png" alt="代理服务器的工作模式"></p>
+<p>当时做完这一套东西以后，我在团队内部做了一次分享， 感兴趣的读者可以去 <a href="http://images.bestswifter.com/Proxy%202.key" target="_blank" rel="external">http://images.bestswifter.com/Proxy%202.key</a> 下载 PPT。</p>
+<h1 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h1><h2 id="短连接"><a href="#短连接" class="headerlink" title="短连接"></a>短连接</h2><p>由于长连接基于 TCP，不用每次新建连接，也省略了不必要的 HTTP 报文头部，效率明显优于 HTTP。所以各大公司基本上选择了长连接作为实际生产环境下的连接方式。然而由于不熟悉 WebSocket 协议，并且我们依然支持短连接，所以代理服务器最终选择了 HTTP 协议。</p>
+<p>要想实现这一点， 就得在应用启动时，模拟后台向客户端发送一段控制信息，强制客户端选择 HTTP 请求。这样一来，即使是线上包也可以走代理服务器。</p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>由于苹果强制要求使用 HTTPS，虽然已经延期，但也是明年的趋势。考虑到后续的使用，我们决定对之前实现的代理服务器进行升级。由于 HTTPS 涉及到请求协议的解析，以及加密解密和证书管理，上述自研方案很难 hold 住。经过一番调研，最后选择了一个比较知名的开源库 <a href="https://github.com/mitmproxy/mitmproxy" target="_blank" rel="external">mitmproxy</a>。</p>
+<h1 id="Mitmproxy"><a href="#Mitmproxy" class="headerlink" title="Mitmproxy"></a>Mitmproxy</h1><p>选择这个库最主要的理由是它直接支持 HTTPS，不过没有中文文档，国内的使用相对来说比较少，所以在接入的时候可能会略花一点时间。</p>
+<p>这是一个 python 库， 首先要安装 <code>virtualenv</code>，如果本地没装的话输入: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pip install virtualenv</div></pre></td></tr></table></figure>
+<p>安装好了以后，进入 <code>mitmproxy/venv3.5/bin</code> 文件夹输入:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> ./active</div></pre></td></tr></table></figure>
+<p>这样就可以启用 virtualenv 环境了。</p>
+<h2 id="Hook-脚本"><a href="#Hook-脚本" class="headerlink" title="Hook 脚本"></a>Hook 脚本</h2><p>这个库可以理解为命令行中可交互版本的 Charles，不过我并不打算用它的这个功能。因为我的需求主要是利用脚本来 Hook 请求， 所以我选择了 mitmdump 这个工具。使用它的时候可以指定脚本:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mitmdump <span class="_">-s</span> <span class="string">"xxx.py"</span></div></pre></td></tr></table></figure>
+<p>脚本也很简单，我们可以重写 <code>requeest</code> 或者 <code>receive</code> 函数:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">request</span><span class="params">(flow)</span>:</span></div><div class="line">        flow.response.content = <span class="string">"&lt;p&gt;hello world&lt;/p&gt;"</span></div></pre></td></tr></table></figure>
+<p>运行脚本以后，把手机的代理设为本机 ip 地址，端口号改为 8080，然后用手机浏览器打开 <a href="http://mitm.it/" target="_blank" rel="external">http://mitm.it/</a>，如果一切配置顺利，你会看到证书的安装界面。</p>
+<p>安装好证书后，用手机访问任何一个网站(包括 HTTPS)，你应该都会看到一个小小的 <code>hello world</code>，至此所有的配置就完成了。</p>
+<h2 id="bug-修改"><a href="#bug-修改" class="headerlink" title="bug 修改"></a>bug 修改</h2><p>这个开源库有一个很严重的 bug，在解析 multipart 类型的数据时可能会发生。它使用了 <code>splitline</code> 方法来分割换行符，然而如果数据中有 <code>\n</code> 的话，就会因此丢失。很不幸的是，很多 protobuf 编码后的数据都有 <code>\n</code>，一旦丢失就会导致解析失败。</p>
+<p>如果你不幸遇到了和我一样的坑，可以把相关代码改成我的版本:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> content.split(<span class="string">b"--"</span> + boundary):</div><div class="line">    parts = i.split(<span class="string">b'\r\n\r\n'</span>, <span class="number">2</span>)</div><div class="line">    <span class="keyword">if</span> len(parts) &gt; <span class="number">1</span> <span class="keyword">and</span> parts[<span class="number">0</span>][<span class="number">0</span>:<span class="number">2</span>] != <span class="string">b"--"</span>:</div><div class="line">        match = rx.search(parts[<span class="number">0</span>])</div><div class="line">        <span class="keyword">if</span> match:</div><div class="line">            key = match.group(<span class="number">1</span>)</div><div class="line">            value = parts[<span class="number">1</span>][<span class="number">0</span>:len(parts[<span class="number">1</span>])<span class="number">-2</span>] <span class="comment"># Remove last \r\n</span></div><div class="line">            r.append((key, value))</div></pre></td></tr></table></figure>
+<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><p>到了这一步，基本上已经成功实现支持 HTTPS 的代理服务器了。后续要处理的可能就是解析 protobuf，完善业务代码等等琐碎的事情，只要小心谨慎，基本上不会有问题。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;好久不写博客了，在元旦到来前水一篇文章，聊聊我在实现代理服务器的过程中遇到的一些坑，同时祝各位读者新年快乐。&lt;/p&gt;
+&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;长期以来，贴吧开
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://fullstack.blog/tags/python/"/>
     
   </entry>
   
