@@ -1,0 +1,397 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <script>
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('http://images.bestswifter.com/sw.js')
+  }
+  </script>
+  
+    <title>复盘微博短链接盗窃门 | 全栈养成计划</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Fullstack">
+    
+    <meta name="description" content="这不是意外，不是 bug，是蓄谋已久的阴谋! 不知道阅读完以后，你会不会和我一样心里发寒
+事件背景前两天传出了新浪微博利用短链接恶意盗取用户收益的事件，可能很多吃瓜群众还不是特别明白是咋回事。这里我简单复盘一下，顺便聊聊个人的见解。
+事情最初由 @im61 的这张图片引起:
+
+利益分析首先要知道苹果">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="全栈养成计划" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+(function() {
+ var hm = document.createElement("script");
+ hm.src = "https://hm.baidu.com/hm.js?8b8cc550e083bb800d2b0d350318e611";
+ var s = document.getElementsByTagName("script")[0]; 
+ s.parentNode.insertBefore(hm, s);
+
+ })();
+</script>
+
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="全栈养成计划" title="全栈养成计划"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
+				<h2 class="blog-motto">每天学点新知识~</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:fullstack.blog">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/17/复盘微博短链接盗窃门/" title="复盘微博短链接盗窃门" itemprop="url">复盘微博短链接盗窃门</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://fullstack.blog" title="Fullstack">Fullstack</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2017-02-17T14:06:10.000Z" itemprop="datePublished">2017-02-17</time>
+    Updated:<time datetime="2017-02-17T14:07:55.000Z" itemprop="dateModified">2017-02-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#事件背景"><span class="toc-number">1.</span> <span class="toc-text">事件背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利益分析"><span class="toc-number">2.</span> <span class="toc-text">利益分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#短链接"><span class="toc-number">3.</span> <span class="toc-text">短链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新浪微博是如何作恶的"><span class="toc-number">4.</span> <span class="toc-text">新浪微博是如何作恶的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何防范"><span class="toc-number">5.</span> <span class="toc-text">如何防范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#自建服务器"><span class="toc-number">5.1.</span> <span class="toc-text">自建服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#微博做了哪些恶"><span class="toc-number">6.</span> <span class="toc-text">微博做了哪些恶</span></a></li></ol>
+		</div>
+		
+		<p><strong>这不是意外，不是 bug，是蓄谋已久的阴谋! 不知道阅读完以后，你会不会和我一样心里发寒</strong></p>
+<h1 id="事件背景"><a href="#事件背景" class="headerlink" title="事件背景"></a>事件背景</h1><p>前两天传出了新浪微博利用短链接恶意盗取用户收益的事件，可能很多吃瓜群众还不是特别明白是咋回事。这里我简单复盘一下，顺便聊聊个人的见解。</p>
+<p>事情最初由 @im61 的这张图片引起:</p>
+<p><img src="http://images.bestswifter.com/1487336629.png" alt=""></p>
+<h1 id="利益分析"><a href="#利益分析" class="headerlink" title="利益分析"></a>利益分析</h1><p>首先要知道苹果的 iTunes 联盟，这个可以算是苹果官方的推广平台，具体介绍<a href="https://itunes.phgconsole.performancehorizon.com/login/itunes/zh_cn" target="_blank" rel="external">看这里</a>，我没有用过，不过概括来说这个联盟就是一个平台，推广者帮忙推广 App，一旦有用户产生下载行为，推广者就可以获得收益。</p>
+<p>这个联盟显然是一个三方平台，对推广者和应用开发者来说是双赢的局面，前者收获推广费用，后者获得下载流量，从而获得盈利。</p>
+<p>为了标记某一次下载背后的推广者是谁(这样才好分成)，苹果为每一个推广者提供了推广 ID(其实还有活动码，不过不是重点，所以略过)，比如说某个应用的下载地址可能是:</p>
+<blockquote>
+<p><a href="https://itunes.apple.com/bestswifter" target="_blank" rel="external">https://itunes.apple.com/bestswifter</a></p>
+</blockquote>
+<p>那么带有推广码的下载地址就是:</p>
+<blockquote>
+<p><a href="https://itunes.apple.com/bestswifter?at=1001|sTF" target="_blank" rel="external">https://itunes.apple.com/bestswifter?at=1001|sTF</a></p>
+</blockquote>
+<p>可以看到 HTTP 请求多了一个参数，参数的值 <code>1001|sTF</code> 就是 @im61 同学的推广码， 一旦用户点击了带推广码的地址，@im61 同学就会产生收益。</p>
+<h1 id="短链接"><a href="#短链接" class="headerlink" title="短链接"></a>短链接</h1><p>由于 App 的下载地址本来就很长，再加上推广码和活动 ID，非常不利于阅读，因此微博提供了短链接生成器，比如通过微博的短链接生成器，我的长连接 <strong><a href="https://itunes.apple.com/bestswifter?at=1001|sTF" target="_blank" rel="external">https://itunes.apple.com/bestswifter?at=1001|sTF</a></strong> 会被转换成 <strong><a href="http://t.cn/RJ8HDRC" target="_blank" rel="external">http://t.cn/RJ8HDRC</a></strong>:</p>
+<p><img src="http://images.bestswifter.com/1487337349.png" alt=""></p>
+<p>当你打开短链接的时候，实际上会经过一次 302 跳转，跳到原地址(也就是长连接的地址)。这个技术相当容易实现，因为理论上来说只要用一个字典来存储， 值是长连接，键是短链接(比如最简单的生成方法就是哈希一下)。</p>
+<p>这样当你访问 <code>http://t.cn/RJ8HDRC</code> 这个网址时，服务器会拿到 <code>RJ8HDRC</code> 这个键，然后找到对应的值，也就是原始的 iTunes 长连接，再动态拼凑出一个 302 请求即可。302 请求表示页面临时被移动，根据 HTTP 规范，浏览器会重新请求新的临时地址。</p>
+<p>我们可以验证一下:</p>
+<p><img src="http://images.bestswifter.com/1487337696.png" alt=""></p>
+<h1 id="新浪微博是如何作恶的"><a href="#新浪微博是如何作恶的" class="headerlink" title="新浪微博是如何作恶的"></a>新浪微博是如何作恶的</h1><p>首先我们看到红色划线部分，有两个 at 参数，那么服务器以哪个为准呢，答案是不一定。HTTP 协议中并没有规定当 GET 方法的 Query 中出现重复的 key 怎么办，所以通常来说有三种解决方法:</p>
+<ol>
+<li>以前面的为准，比如 <code>&amp;at=1&amp;at=2</code> 会被服务器当做 <strong><code>&amp;at=1</code></strong> 处理</li>
+<li>以后面的为准，比如 <code>&amp;at=1&amp;at=2</code> 会被服务器当做 <strong><code>&amp;at=2</code></strong> 处理</li>
+<li>以两者的拼接结果为准，比如 <code>&amp;at=1&amp;at=2</code> 会被服务器当做 <strong><code>&amp;at=[1，2]</code></strong> 处理</li>
+</ol>
+<p>不同的 Web 服务器实现方法并不一样，比如 PHP 4.4 以后采用的是上述第二种方案。所以我们观察截图可以发现，</p>
+<p><strong>微博在原先的 at 字段后面新增了一个重复字段，填上了自己的推广码，一旦用户访问短链接，它返回的 302 重定向实际指向了微博自己的推广链接。</strong></p>
+<p>这也证明不管苹果使用的是哪种 Web 服务器，必然都是使用了第二种处理策略。</p>
+<p>稍微一动脑子就可以想明白四件事情:</p>
+<ol>
+<li>微博专门为窃取利益做了调试，它必须搞明白苹果 Web 服务器的处理逻辑。如果采用的是第一种策略，微博就不是在原先的 at 字段后面新增，而是在前面新增。</li>
+<li>只要短链接控制权在微博手上，它就可以随意做出修改，当然如果苹果采用了第三种策略，微博是无能为力的(苹果表示这个锅我不背)。</li>
+<li>显然并不是所有的链接都会被加上这样的参数，否则有相当多的地址都无法打开，比如我的博客 <code>https://bestswifter.com</code> 生成的短链接再解析回来依然正常。可见微博专门对短链接格式做了判断，如果是以 iTunes 开头才会做手脚。</li>
+<li>这也是我觉得最可怕的一点，微博可以针对 iTunes 做专门处理，自然也可以针对其他推广链接做类似处理，至于微博偷走了多少钱，我们不得而知。</li>
+</ol>
+<p>更让人气愤但是，@im61 同学的微博在 2017 年 2 月 16 日中午一点钟发出，而我写作本文的时间是 17 日晚上 10 点，接近一天半的时间内微博找出各种理由，但就是没有修改的意图。根据我的经验来看，这种策略的添加和删除都是极为容易的，开发者一定提供了良好的接口。</p>
+<p>所以我猜测微博的管理层觉得事情还不够大，每拖延一分一秒，又是一大笔收入，年底的财报和股价会更好看。</p>
+<p>我没有办法证明时间的准确性，不过希望看到本文的读者还有机会亲自体验一下微博做的恶。</p>
+<h1 id="如何防范"><a href="#如何防范" class="headerlink" title="如何防范"></a>如何防范</h1><p>对于微博这种要钱不要脸的行为，如何防范呢，我想大概有两种方法。</p>
+<p>第一种方法是利用第三方短链接服务，即先将自己的原始地址转换成安全的短链接，然后再将这个短链接转换成微博的短链接。这是原贴评论中有人提出的方案，我不知道为什么非要使用微博短链接(刚刚测了一下，使用别的短链接生成器似乎也可以)，这里姑且认为是有什么限制吧。</p>
+<p>这种方法是一种临时方法，并不保险，因为微博完全可以做一个递归判断，首先检查你的链接访问以后是不是 302，如果是 302 则抓取重定向的地址，直到找到 iTunes 为止。幸好暂时微博还没有这么做，不过为了钱，相信我，微博什么都做得出来。他们可以<a href="http://weibo.com/ttarticle/p/show?id=2309404074275521878291#_0" target="_blank" rel="external">不让你提现，帮你自动发广告微博，乱插时间线</a>。</p>
+<h2 id="自建服务器"><a href="#自建服务器" class="headerlink" title="自建服务器"></a>自建服务器</h2><p>最稳妥的方法还是使用自己的服务器，不过评论区中的 HTTPS 加密似乎用处不大。因为 HTTPS 加密只是请求过程加密，而你在发起请求时，必然走的是 GET 方法打开一个 URL，所以自己的推广码必然是明文放在请求头部，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HTTP GET https://bestswifter.com/promotion=我的推广码</div></pre></td></tr></table></figure>
+<p>然后我在自己的服务器上返回一个 302 重定向，带上推广码，重定向到 iTunes 上。</p>
+<p>在我看来这种做法已经足够安全，因为微博没办法识别自己的 URL 特征，前文说过它只是依赖于 iTunes 开头的链接的识别。当我的域名和 query 键名都被混淆后，微博不可能再对我请求做任何修改，如果还不放心，还可以在服务器上对请求参数自行校验。</p>
+<p>总的来说，控制权在自己手上才是最安全。</p>
+<h1 id="微博做了哪些恶"><a href="#微博做了哪些恶" class="headerlink" title="微博做了哪些恶"></a>微博做了哪些恶</h1><p>对于微博这样的中间平台来说，它本应该提供更好的安全保护服务，保护用户的合法利益不受侵犯。比如我们目前在做的广告和计费服务，客户端看到的并不是广告的真实地址， 也不会直接向服务器发送扣费请求。客户端能拿到的只是一个加了密的地址，在请求服务器时，一方面服务器对参数解密，进行扣费，另一方面返回 302，重定向到真正的广告地址。</p>
+<p>而微博做的确实煞费苦心的调试广告平台存在的 bug，利用自身优势伪造请求数据(类似于 SQL 注入和 XSS 攻击)，并针对不同目标平台做出区分，“优化” 自身收益。当恶行被曝光后，选择是找借口、拖时间而非及时承认错误，抓紧一分一秒从用户手上抢钱。</p>
+<p>我想，微博欠无数像 @im61 这样的用户一个道歉。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/HTML/">HTML</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://fullstack.blog/2017/02/17/复盘微博短链接盗窃门/" data-title="复盘微博短链接盗窃门 | 全栈养成计划" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/01/25/JavaScript 模块化简述/"  title="JavaScript 模块化简析">
+ <strong>NEXT:</strong><br/> 
+ <span>JavaScript 模块化简析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#事件背景"><span class="toc-number">1.</span> <span class="toc-text">事件背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利益分析"><span class="toc-number">2.</span> <span class="toc-text">利益分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#短链接"><span class="toc-number">3.</span> <span class="toc-text">短链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新浪微博是如何作恶的"><span class="toc-number">4.</span> <span class="toc-text">新浪微博是如何作恶的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何防范"><span class="toc-number">5.</span> <span class="toc-text">如何防范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#自建服务器"><span class="toc-number">5.1.</span> <span class="toc-text">自建服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#微博做了哪些恶"><span class="toc-number">6.</span> <span class="toc-text">微博做了哪些恶</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+		
+			<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+		
+			<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
+		
+			<li><a href="/tags/总结分享/" title="总结分享">总结分享<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="https://bestswifter.com" target="_blank" title="Bestswifter">Bestswifter 的博客</a></li>
+    </ul>
+</div>
+
+
+  <div class="linkslist">
+   <p class="asidetitle">微博关注</p>
+     <ul>
+       <li><iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5678670890&verifier=53247bfc&dpc=1"></iframe></li>
+     </ul>
+ </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2017 
+		
+		<a href="http://fullstack.blog" target="_blank" title="Fullstack">Fullstack</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
+
+<a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
