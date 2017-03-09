@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2017-03-09T03:52:02.000Z</updated>
+  <updated>2017-03-09T05:19:42.000Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>业务爬坑与总结——贴吧开屏广告热启动实现方案</title>
+    <title>业务爬坑与总结——开屏广告热启动实现方案</title>
     <link href="http://fullstack.blog/2017/03/09/%E4%B8%9A%E5%8A%A1%E7%88%AC%E5%9D%91%E4%B8%8E%E6%80%BB%E7%BB%93%E2%80%94%E2%80%94%E5%BC%80%E5%B1%8F%E5%B9%BF%E5%91%8A%E7%83%AD%E5%90%AF%E5%8A%A8%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/"/>
     <id>http://fullstack.blog/2017/03/09/业务爬坑与总结——开屏广告热启动实现方案/</id>
     <published>2017-03-09T03:51:07.000Z</published>
-    <updated>2017-03-09T03:52:02.000Z</updated>
+    <updated>2017-03-09T05:19:42.000Z</updated>
     
     <content type="html"><![CDATA[<p>最初接下开屏广告热启动需求时，对于即将踏入一个什么样的深坑，我心里毫无概念。在当时看来，开屏广告的相关代码已经基本实现，我只要额外添加热启动功能就可以，即使算上调研设计、后端联调加上测试的时间，我也只给自己规划了一周多的时间来完成双端的需求。</p>
 <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>所谓的开屏广告热启动是指，应用程序进入后台后(按 Home 键或者跳转到其他应用)，等待一段时间再回到应用时展示开屏广告。由于操作系统会定时清理不活跃且占内存的应用，所以此时展示开屏广告会让用户以为应用正在重新启动。由于对用户体验伤害小，甚至很多时候几乎可以做到无感知，所以目前很多日活量较高的 app 都实现了开屏广告热启动功能，常见的有微博、头条等。</p>
