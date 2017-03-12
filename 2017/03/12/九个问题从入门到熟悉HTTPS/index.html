@@ -1,0 +1,416 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <script>
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('http://images.bestswifter.com/sw.js')
+  }
+  </script>
+  
+    <title>九个问题从入门到熟悉HTTPS  | 全栈养成计划</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Fullstack">
+    
+    <meta name="description" content="女朋友也是软件工程专业，因为快要毕业了，最近一边做毕设一边学习编程。前两天她问我 HTTPS 的问题，本来想直接扔一篇网上的教程给她。后来想了一下，那些文章大多直接介绍概念， 对新手不太友好，于是我干脆亲自给她解释一下，顺便整理了一份问答录。
+Q1: 什么是 HTTPS？BS: HTTPS 是安全的">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="全栈养成计划" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+(function() {
+ var hm = document.createElement("script");
+ hm.src = "https://hm.baidu.com/hm.js?8b8cc550e083bb800d2b0d350318e611";
+ var s = document.getElementsByTagName("script")[0]; 
+ s.parentNode.insertBefore(hm, s);
+
+ })();
+</script>
+
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="全栈养成计划" title="全栈养成计划"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
+				<h2 class="blog-motto">每天学点新知识~</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:fullstack.blog">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/12/九个问题从入门到熟悉HTTPS/" title="九个问题从入门到熟悉HTTPS " itemprop="url">九个问题从入门到熟悉HTTPS </a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://fullstack.blog" title="Fullstack">Fullstack</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2017-03-12T10:23:56.000Z" itemprop="datePublished">2017-03-12</time>
+    Updated:<time datetime="2017-03-12T10:24:54.000Z" itemprop="dateModified">2017-03-12</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Q1-什么是-HTTPS？"><span class="toc-number">1.</span> <span class="toc-text">Q1: 什么是 HTTPS？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-HTTPS-是安全的-HTTP"><span class="toc-number">2.</span> <span class="toc-text">BS: HTTPS 是安全的 HTTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q2-你说的信息传输安全是什么意思"><span class="toc-number">3.</span> <span class="toc-text">Q2: 你说的信息传输安全是什么意思</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-信息传输的安全有三个方面"><span class="toc-number">4.</span> <span class="toc-text">BS: 信息传输的安全有三个方面:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q3-这么多要求，一个一个去满足是不是很累？"><span class="toc-number">5.</span> <span class="toc-text">Q3: 这么多要求，一个一个去满足是不是很累？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-不累，第三个要求可以不用管"><span class="toc-number">6.</span> <span class="toc-text">BS: 不累，第三个要求可以不用管</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q4-那怎么加密信息呢"><span class="toc-number">7.</span> <span class="toc-text">Q4: 那怎么加密信息呢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-使用对称加密技术"><span class="toc-number">8.</span> <span class="toc-text">BS: 使用对称加密技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q5-对称秘钥如何传输"><span class="toc-number">9.</span> <span class="toc-text">Q5: 对称秘钥如何传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-利用非对称加密"><span class="toc-number">10.</span> <span class="toc-text">BS: 利用非对称加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q5-那公钥怎么传输"><span class="toc-number">11.</span> <span class="toc-text">Q5: 那公钥怎么传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-对公钥加密就行了。。。"><span class="toc-number">12.</span> <span class="toc-text">BS: 对公钥加密就行了。。。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q6-你在逗我么。。。。"><span class="toc-number">13.</span> <span class="toc-text">Q6: 你在逗我么。。。。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-存在电脑里"><span class="toc-number">14.</span> <span class="toc-text">BS: 存在电脑里</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q7-怎么知道证书有没有被篡改？"><span class="toc-number">15.</span> <span class="toc-text">Q7: 怎么知道证书有没有被篡改？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-将信息-hash-值随着信息一起传递"><span class="toc-number">16.</span> <span class="toc-text">BS: 将信息 hash 值随着信息一起传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q8-这样可以防止第三方冒充服务器么"><span class="toc-number">17.</span> <span class="toc-text">Q8: 这样可以防止第三方冒充服务器么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-也许可以"><span class="toc-number">18.</span> <span class="toc-text">BS: 也许可以</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q9-HTTPS-握手会影响性能么"><span class="toc-number">19.</span> <span class="toc-text">Q9: HTTPS 握手会影响性能么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-影响肯定有，但是可以接受"><span class="toc-number">20.</span> <span class="toc-text">BS: 影响肯定有，但是可以接受</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number"></span> <span class="toc-text">结语</span></a>
+		</div>
+		
+		<p>女朋友也是软件工程专业，因为快要毕业了，最近一边做毕设一边学习编程。前两天她问我 HTTPS 的问题，本来想直接扔一篇网上的教程给她。后来想了一下，那些文章大多直接介绍概念， 对新手不太友好，于是我干脆亲自给她解释一下，顺便整理了一份问答录。</p>
+<h3 id="Q1-什么是-HTTPS？"><a href="#Q1-什么是-HTTPS？" class="headerlink" title="Q1: 什么是 HTTPS？"></a>Q1: 什么是 HTTPS？</h3><h3 id="BS-HTTPS-是安全的-HTTP"><a href="#BS-HTTPS-是安全的-HTTP" class="headerlink" title="BS: HTTPS 是安全的 HTTP"></a>BS: HTTPS 是安全的 HTTP</h3><p>HTTP 协议中的内容都是明文传输，HTTPS 的目的是将这些内容加密，确保信息传输安全。最后一个字母 S 指的是 SSL/TLS 协议，它位于 HTTP 协议与 TCP/IP 协议中间。</p>
+<h3 id="Q2-你说的信息传输安全是什么意思"><a href="#Q2-你说的信息传输安全是什么意思" class="headerlink" title="Q2: 你说的信息传输安全是什么意思"></a>Q2: 你说的信息传输安全是什么意思</h3><h3 id="BS-信息传输的安全有三个方面"><a href="#BS-信息传输的安全有三个方面" class="headerlink" title="BS: 信息传输的安全有三个方面:"></a>BS: 信息传输的安全有三个方面:</h3><ol>
+<li>客户端和服务器直接的通信只有自己能看懂，即使第三方拿到数据也看不懂这些信息的真实含义。</li>
+<li>第三方虽然看不懂数据，但可以 XJB 改，因此客户端和服务器必须有能力判断数据是否被修改过。</li>
+<li>客户端必须避免中间人攻击，即除了真正的服务器，任何第三方都无法冒充服务器。</li>
+</ol>
+<p>很遗憾的是，目前的 HTTP 协议还不满足上述三条要求中的任何一条。</p>
+<h3 id="Q3-这么多要求，一个一个去满足是不是很累？"><a href="#Q3-这么多要求，一个一个去满足是不是很累？" class="headerlink" title="Q3: 这么多要求，一个一个去满足是不是很累？"></a>Q3: 这么多要求，一个一个去满足是不是很累？</h3><h3 id="BS-不累，第三个要求可以不用管"><a href="#BS-不累，第三个要求可以不用管" class="headerlink" title="BS: 不累，第三个要求可以不用管"></a>BS: 不累，第三个要求可以不用管</h3><p>是的，我没开玩笑，你可以暂时别管第三个要求，因为它实际上隶属于第一个需求。我们都知道加密需要密码，密码不是天下掉下来，也得需要双方经过通信才能协商出来。所以一个设计良好的加密机制必然会防止第三者的干扰和伪造。等搞明白了加密的具体原理，我们自然可以检验是否满足:“任何第三者无法冒充服务器”这一要求。</p>
+<h3 id="Q4-那怎么加密信息呢"><a href="#Q4-那怎么加密信息呢" class="headerlink" title="Q4: 那怎么加密信息呢"></a>Q4: 那怎么加密信息呢</h3><h3 id="BS-使用对称加密技术"><a href="#BS-使用对称加密技术" class="headerlink" title="BS: 使用对称加密技术"></a>BS: 使用对称加密技术</h3><p>对称加密可以理解为对原始数据的可逆变换。比如 <code>Hello</code> 可以变换成 <code>Ifmmp</code>，规则就是每个字母变成它在字母表上的后一个字母，这里的秘钥就是 <code>1</code>，另一方拿到 <code>Ifmmp</code> 就可以还原成原来的信息 <code>Hello</code> 了。</p>
+<p>引入对称加密后，HTTPS 的握手流程就会多了两步，用来传递对称加密的秘钥:</p>
+<ol>
+<li>客户端: 你好，我需要发起一个 HTTPS 请求</li>
+<li>服务器: 好的，你的秘钥是 <code>1</code>。</li>
+</ol>
+<p>提到了对称加密，那么自然还有非对称加密。它的思想很简单，计算两个质数的乘积很容易，但反过来分解成两个质数的乘积就很难，要经过极为复杂的运算。非对称加密有两个秘钥，一个是公钥，一个是私钥。公钥加密的内容只有私钥可以解密，私钥加密的内容只有公钥可以解密。一般我们把服务器自己留着，不对外公布的密钥称为<strong>私钥</strong>，所有人都可以获取的称为<strong>公钥</strong>。</p>
+<p>使用对称加密一般要比非对称加密快得多，对服务器的运算压力也小得多。</p>
+<h3 id="Q5-对称秘钥如何传输"><a href="#Q5-对称秘钥如何传输" class="headerlink" title="Q5: 对称秘钥如何传输"></a>Q5: 对称秘钥如何传输</h3><p>服务器直接返回明文的对称加密密钥是不是不安全。如果有监听者拿到这个密钥，不就知道客户端和服务器后续的通信内容了么？</p>
+<h3 id="BS-利用非对称加密"><a href="#BS-利用非对称加密" class="headerlink" title="BS: 利用非对称加密"></a>BS: 利用非对称加密</h3><p>是这样，所以不能明文传递对称秘钥，而且也不能用一个新的对称加密算法来加密原来的对称秘钥，否则新的对称秘钥同样无法传输，这就是鸡生蛋、蛋生鸡的悖论。</p>
+<p>这里我们引入非对称加密的方式，非对称加密的特性决定了服务器用私钥加密的内容并不是<strong>真正的加密</strong>，因为公钥所有人都有，所以服务器的密文能被所有人解析。但私钥只掌握在服务器手上，这就带来了两个巨大的优势:</p>
+<ol>
+<li>服务器下发的内容不可能被伪造，因为别人都没有私钥，所以无法加密。强行加密的后果是客户端用公钥无法解开。</li>
+<li>任何人用公钥加密的内容都是绝对安全的，因为私钥只有服务器有，也就是只有真正的服务器可以看到被加密的原文。</li>
+</ol>
+<p>所以传输对称秘钥的问题就迎刃而解了: 秘钥不是由服务器下发，而是由客户端生成并且主动告诉服务器。</p>
+<p>所以当引入非对称加密后，HTTPS 的握手流程依然是两步，不过细节略有变化:</p>
+<ol>
+<li>客户端: 你好，我需要发起一个 HTTPS 请求，这是我的 (用公钥加密后的) 秘钥。</li>
+<li>服务器: 好的，我知道你的秘钥了，后续就用它传输。</li>
+</ol>
+<h3 id="Q5-那公钥怎么传输"><a href="#Q5-那公钥怎么传输" class="headerlink" title="Q5: 那公钥怎么传输"></a>Q5: 那公钥怎么传输</h3><p>你好像还是没有解决鸡生蛋，蛋生鸡的问题。你说客户端发送请求时要用公钥加密对称秘钥，那公钥怎么传输呢？</p>
+<h3 id="BS-对公钥加密就行了。。。"><a href="#BS-对公钥加密就行了。。。" class="headerlink" title="BS: 对公钥加密就行了。。。"></a>BS: 对公钥加密就行了。。。</h3><p>每一个使用 HTTPS 的服务器都必须去专门的证书机构注册一个证书，证书中存储了用权威机构私钥加密的公钥。这样客户端用权威机构的公钥解密就可以了。</p>
+<p>现在 HTTPS 协议的握手阶段变成了四步:</p>
+<ol>
+<li>客户端: 你好，我要发起一个 HTTPS 请求，请给我公钥</li>
+<li>服务器: 好的，这是我的证书，里面有加密后的公钥</li>
+<li>客户端: 解密成功以后告诉服务器: 这是我的 (用公钥加密后的) 对称秘钥。</li>
+<li>服务器: 好的，我知道你的秘钥了，后续就用它传输。</li>
+</ol>
+<h3 id="Q6-你在逗我么。。。。"><a href="#Q6-你在逗我么。。。。" class="headerlink" title="Q6: 你在逗我么。。。。"></a>Q6: 你在逗我么。。。。</h3><p>那权威机构的公钥又怎么传输？</p>
+<h3 id="BS-存在电脑里"><a href="#BS-存在电脑里" class="headerlink" title="BS: 存在电脑里"></a>BS: 存在电脑里</h3><p>这个公钥不用传输，会直接内置在各大操作系统(或者浏览器)的出厂设置里。之所以不把每个服务器的公钥内置在电脑里，一方面是因为服务器太多，存不过来。另一方面操作系统也不信任你，凭什么你说你这个就是百度/淘宝的证书呢？</p>
+<p>所以各个公司要先去权威机构认证，申请证书，然后操作系统只会存储权威机构的公钥。因为权威机构数量有限，所以操作系统厂商相对来说容易管理。如果这个权威机构不够权威，XJB 发证书，就会取消他的资格，比如可怜的沃通。。。。</p>
+<h3 id="Q7-怎么知道证书有没有被篡改？"><a href="#Q7-怎么知道证书有没有被篡改？" class="headerlink" title="Q7: 怎么知道证书有没有被篡改？"></a>Q7: 怎么知道证书有没有被篡改？</h3><p>你说服务器第一次会返回证书，也就是加密以后的公钥，那我怎么知道这个证书是可靠的？</p>
+<h3 id="BS-将信息-hash-值随着信息一起传递"><a href="#BS-将信息-hash-值随着信息一起传递" class="headerlink" title="BS: 将信息 hash 值随着信息一起传递"></a>BS: 将信息 hash 值随着信息一起传递</h3><p>我们都知道哈希算法的特点，它可以压缩数据，如果从函数角度来看，不管多复杂的数据(定义域可以非常大)经过哈希算法都会得到一个值，而且这个值处在某个特定(远小于定义域的范围)值域内。相同数据的哈希结果一定相同，不相同数据的哈希结果一般不同，不过也有小概率会重复，这叫哈希冲突。</p>
+<p>为了确保原始证书没有被篡改，我们可以在传递证书的同时传递证书的哈希值。由于第三者无法解析数据，只能 XJB 改，那么修改后的数据在解密后，就不可能通过哈希。</p>
+<p>比如说公钥就是之前的例子 <code>Hello</code>，我们假设哈希算法是获取字符串的最后一个字符，那么 <code>Hello</code> 的哈希值就是 <code>o</code>，所以加密字符串是 <code>Ifmmpp</code>。虽然公钥已知，每个人都可以解密，解密完也可以篡改，但是因为没有私钥， 所以无法正确的加密。所以它再返回给客户端的数据是无效数据，用公钥解析后会得到乱码。即使攻击者通过多次尝试碰巧能够解析，也无法通过哈希校验。</p>
+<h3 id="Q8-这样可以防止第三方冒充服务器么"><a href="#Q8-这样可以防止第三方冒充服务器么" class="headerlink" title="Q8: 这样可以防止第三方冒充服务器么"></a>Q8: 这样可以防止第三方冒充服务器么</h3><h3 id="BS-也许可以"><a href="#BS-也许可以" class="headerlink" title="BS: 也许可以"></a>BS: 也许可以</h3><p>首先真正的服务器下发的内容，无法被别人篡改。他们有权威机构的公钥，所以可以解密，但是因为没有私钥，所以解密以后的信息无法加密。没有加密或者错误加密的信息被客户端用公钥解密以后，必然无法通过哈希校验。</p>
+<p>但是，如果你一开始请求的就不是真的服务器，而是一个攻击者，此时的他完全有机会进行中间人攻击。我们知道第一次握手的时候服务器会下发用于证明自己身份的证书，这个证书会用预设在设备上的公钥来解密。所以要么是经过认证的证书用权威机构的私钥加密，再用权威机构解密，要么是用非权威机构的私钥加密，然后找不到公钥解密。</p>
+<p>所以如果不小心安装过非权威机构的根证书，比如黑客提供的恶意证书，这时候设备上就多了一个预设的公钥，那么用恶意私钥加密的证书就能被正常解析出来。所以千万不要随便装根证书，这等于是为那些恶意证书留了一扇门。</p>
+<p>当然，凡是都有两面性。我们知道 Charles 可以调试 HTTPS 通信，它的原理就是需要用户安装 Charles 的根证书，然后我们的请求会被代理到 Charles 服务器，它下发的 Charles 证书才能被正确解析。另一方面，Charles 会作为客户端，从真正的服务器哪里拿到正确的 https 证书并用于后续通信。幸好 Charles 不是流氓软件，或者它的私钥一旦泄露，对用户都会造成很大的影响。</p>
+<p>我可以举一个例子，证书有多个种类，最贵的叫 EV (Extended Validation)，它需要公司营业执照等多个文件才能申请人工审核，好处也很明显，可以在浏览器地址栏左侧准确显示公司名称，比如 <a href="https://bitbucket.org/" target="_blank" rel="external">Bitbucket 的官网</a>:</p>
+<p><img src="http://images.bestswifter.com/1489308655.png" alt="EV 证书左侧的名字"></p>
+<p>这是客户端直连时候的正常现象。但如果你用 Charles 代理，客户端拿到的是 Charles 证书，所以会变成: </p>
+<p><img src="http://images.bestswifter.com/1489308747.png" alt="代理模式下无法显示"></p>
+<h3 id="Q9-HTTPS-握手会影响性能么"><a href="#Q9-HTTPS-握手会影响性能么" class="headerlink" title="Q9: HTTPS 握手会影响性能么"></a>Q9: HTTPS 握手会影响性能么</h3><p>TCP 有三次握手，再加上 HTTPS 的四次握手，会不会影响性能？</p>
+<h3 id="BS-影响肯定有，但是可以接受"><a href="#BS-影响肯定有，但是可以接受" class="headerlink" title="BS: 影响肯定有，但是可以接受"></a>BS: 影响肯定有，但是可以接受</h3><p>首先，HTTPS 肯定会更慢一点，时间主要花费在两组 SSL 之间的耗时和证书的读取验证上，对称算法的加解密时间几乎可以忽略不计。</p>
+<p>而且如果不是首次握手，后续的请求并不需要完整的握手过程。客户端可以把上次的加密情况直接发送给服务器从而快速恢复，具体细节可以参考 <a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">图解SSL/TLS协议</a>。</p>
+<p>除此以外，SSL 握手的时间并不是只能用来传递加密信息，还可以承担起客户端和服务器沟通 HTTP2 兼容情况的任务。因此从 HTTPS 切换到 HTTP2.0 不会有任何性能上的开销，反倒是得益于 HTTP2.0 的多路复用等技术，后续可以节约大量时间。</p>
+<p>如果把 HTTPS2.0 当做目标，那么 HTTPS 的性能损耗就更小了，远远比不上它带来的安全性提升。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>相信以上九个问题足够帮助新人了解 HTTPS 了，但这只是基本概念，关于 HTTPS 的使用(比如 iOS 上的一些具体问题)还需要不断尝试和研究。</p>
+<p>文章最后打一个求职广告，长期有效，女朋友今年毕业，考研 380+，计算机基础还算扎实，但项目经验偏少，可以实习 6 个月以上。北京地区如果有想要招实习生的公司，欢迎联系我，方向不限，前后端皆可培养，iOS 更好(我自己教)。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/前端/">前端</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://fullstack.blog/2017/03/12/九个问题从入门到熟悉HTTPS/" data-title="九个问题从入门到熟悉HTTPS  | 全栈养成计划" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/03/09/业务爬坑与总结——开屏广告热启动实现方案/"  title="业务爬坑与总结——开屏广告热启动实现方案">
+ <strong>NEXT:</strong><br/> 
+ <span>业务爬坑与总结——开屏广告热启动实现方案
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Q1-什么是-HTTPS？"><span class="toc-number">1.</span> <span class="toc-text">Q1: 什么是 HTTPS？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-HTTPS-是安全的-HTTP"><span class="toc-number">2.</span> <span class="toc-text">BS: HTTPS 是安全的 HTTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q2-你说的信息传输安全是什么意思"><span class="toc-number">3.</span> <span class="toc-text">Q2: 你说的信息传输安全是什么意思</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-信息传输的安全有三个方面"><span class="toc-number">4.</span> <span class="toc-text">BS: 信息传输的安全有三个方面:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q3-这么多要求，一个一个去满足是不是很累？"><span class="toc-number">5.</span> <span class="toc-text">Q3: 这么多要求，一个一个去满足是不是很累？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-不累，第三个要求可以不用管"><span class="toc-number">6.</span> <span class="toc-text">BS: 不累，第三个要求可以不用管</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q4-那怎么加密信息呢"><span class="toc-number">7.</span> <span class="toc-text">Q4: 那怎么加密信息呢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-使用对称加密技术"><span class="toc-number">8.</span> <span class="toc-text">BS: 使用对称加密技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q5-对称秘钥如何传输"><span class="toc-number">9.</span> <span class="toc-text">Q5: 对称秘钥如何传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-利用非对称加密"><span class="toc-number">10.</span> <span class="toc-text">BS: 利用非对称加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q5-那公钥怎么传输"><span class="toc-number">11.</span> <span class="toc-text">Q5: 那公钥怎么传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-对公钥加密就行了。。。"><span class="toc-number">12.</span> <span class="toc-text">BS: 对公钥加密就行了。。。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q6-你在逗我么。。。。"><span class="toc-number">13.</span> <span class="toc-text">Q6: 你在逗我么。。。。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-存在电脑里"><span class="toc-number">14.</span> <span class="toc-text">BS: 存在电脑里</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q7-怎么知道证书有没有被篡改？"><span class="toc-number">15.</span> <span class="toc-text">Q7: 怎么知道证书有没有被篡改？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-将信息-hash-值随着信息一起传递"><span class="toc-number">16.</span> <span class="toc-text">BS: 将信息 hash 值随着信息一起传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q8-这样可以防止第三方冒充服务器么"><span class="toc-number">17.</span> <span class="toc-text">Q8: 这样可以防止第三方冒充服务器么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-也许可以"><span class="toc-number">18.</span> <span class="toc-text">BS: 也许可以</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q9-HTTPS-握手会影响性能么"><span class="toc-number">19.</span> <span class="toc-text">Q9: HTTPS 握手会影响性能么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BS-影响肯定有，但是可以接受"><span class="toc-number">20.</span> <span class="toc-text">BS: 影响肯定有，但是可以接受</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number"></span> <span class="toc-text">结语</span></a>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">扫码关注我的公众号，从大前端的角度聊聊 iOS，安卓和前端开发</h3>
+  <div class="widget">
+    <img src="/img/weixin_qr.jpg" style="width: 100%">
+  </div>
+</div>
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Android/" title="Android">Android<sup>3</sup></a></li>
+		
+			<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Promise/" title="Promise">Promise<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+		
+			<li><a href="/tags/前端/" title="前端">前端<sup>2</sup></a></li>
+		
+			<li><a href="/tags/总结分享/" title="总结分享">总结分享<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="https://bestswifter.com" target="_blank" title="Bestswifter">Bestswifter 的博客</a></li>
+    </ul>
+</div>
+
+
+  <div class="linkslist">
+   <p class="asidetitle">微博关注</p>
+     <ul>
+       <li><iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5678670890&verifier=53247bfc&dpc=1"></iframe></li>
+     </ul>
+ </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2017 
+		
+		<a href="http://fullstack.blog" target="_blank" title="Fullstack">Fullstack</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
+
+<a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
