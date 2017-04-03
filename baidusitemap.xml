@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://fullstack.blog/2017/04/03/QUIC-%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%BF%B0/</loc>
+    <lastmod>2017-04-03T08:16:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>QUIC 协议概述</title>
+        <pubTime>2017-04-03T01:28:34.000Z</pubTime>
+        
+        <tag>前端</tag>
+         
+        <tag>网络</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://fullstack.blog/2017/03/12/%E4%B9%9D%E4%B8%AA%E9%97%AE%E9%A2%98%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%86%9F%E6%82%89HTTPS/</loc>
     <lastmod>2017-03-12T11:01:05.000Z</lastmod>
     <data>
@@ -83,9 +102,9 @@
         <title>JavaScript 模块化简析</title>
         <pubTime>2017-01-25T03:58:44.000Z</pubTime>
         
-        <tag>前端</tag>
-         
         <tag>JavaScript</tag>
+         
+        <tag>前端</tag>
          
          
            

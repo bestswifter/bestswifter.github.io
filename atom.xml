@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2017-03-12T11:01:05.000Z</updated>
+  <updated>2017-04-03T08:16:20.000Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -14,6 +14,101 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>QUIC 协议概述</title>
+    <link href="http://fullstack.blog/2017/04/03/QUIC-%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%BF%B0/"/>
+    <id>http://fullstack.blog/2017/04/03/QUIC-协议概述/</id>
+    <published>2017-04-03T01:28:34.000Z</published>
+    <updated>2017-04-03T08:16:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>网络请求中一个常见的名词是 RTT(Round Trip Time)，表示一个客户端从发出请求数据，到接收到响应数据之间间隔的时间。</p>
+<p><img src="http://images.bestswifter.com/RTT.png" alt="RTT"></p>
+<p>RTT 由可以理解成两部分组成，一部分受到物理条件的限制，比如间隔距离除以信号传递速度，以及包大小除以带宽。另一部分则是客户端、服务器以及沿途各路由器对包的处理解析时间。一般情况下，RTT 大约在几十毫秒左右，网络很好的情况下可以达到个位数，恶劣网络环境下达到几百毫秒也有可能。</p>
+<p>我们考虑一次 HTTPS 请求，它的基本流程是三次 TCP 握手外加四次 SSL/TLS 握手，从图中可以看到这需要三个 RTT:</p>
+<p><img src="http://images.bestswifter.com/3-RTT.png" alt="3 RTT"></p>
+<p>根据阮一峰的 <a href="http://www.ruanyifeng.com/blog/2014/09/ssl-latency.html" target="_blank" rel="external">SSL延迟有多大？</a> 一文中做的计算，用户访问支付宝时，一个 RTT 大约需要 22ms，算上 SSL 握手的三个 RTT 则大约消耗了 64ms。</p>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p>有没有可能对上述流程做优化呢，答案是肯定的，一个 HTTPS 请求涉及了三层协议: HTTP、SSL 和 TCP，每一层都具备优化空间。我们逐个分析一下。</p>
+<h2 id="HTTP-优化"><a href="#HTTP-优化" class="headerlink" title="HTTP 优化"></a>HTTP 优化</h2><p>根据谷歌的调查， 现在请求一个网页，平均涉及到 80 个资源，30 多个域名。考虑最原始的情况，每请求一个资源都需要建立一次 TCP 请求，显然不可接受。HTTP 协议规定了一个字段 <code>Connection</code>，不过默认的值是 <code>close</code>，也就是不开启。</p>
+<p>早在 1999 年提出的 <a href="https://www.ietf.org/rfc/rfc2616.txt" target="_blank" rel="external">HTTP 1.1 协议</a> 中就把 <code>Connection</code> 的默认值改成了<code>Keep-Alive</code>，这样同一个域名下的多个 HTTP 请求就可以复用同一个 TCP 请求。这么做的好处是避免了某些情况下需要重新建立 TCP 链接。</p>
+<h3 id="Head-of-line-blocking"><a href="#Head-of-line-blocking" class="headerlink" title="Head of line blocking"></a>Head of line blocking</h3><p>与此同时，HTTP 协议还允许客户端发起多个并行请求，比如在笔者的机器上最多支持六个并发请求。并发请求主要是用于解决队头阻塞(HOC: Head of line blocking) 问题。队头阻塞说的是当有多个串行请求执行时，如果第一个请求不执行完，后续的请求也无法执行。</p>
+<p>我们假设加载一个 HTML 一共要请求 30 个资源，那么请求的总时间是每一个资源请求时间的总和。最直观的体验就是，网速越快请求时间越短。然而如果某一个资源的请求被阻塞了，可能是 Server 的问题也有可能是网络环境的问题。但对于客户端来说所有后续的请求都会因此而被阻塞。</p>
+<p><img src="http://images.bestswifter.com/HOC.png" alt="HOC"></p>
+<p>比如上图中，如果第四个资源的传输花了很久，后面的资源都得等着，平白浪费了很多时间，或者说带宽资源没有得到充分利用。</p>
+<p>假设有三个并行请求时，情况会变成这样:</p>
+<p><img src="http://images.bestswifter.com/Multi.png" alt="Multi Request"></p>
+<p>可见虽然第四个资源的请求被阻塞了，但是其他的资源请求并不一定会被阻塞，所以总的来说网络的平均利用率得到了提升。</p>
+<p>所以说，浏览器支持多个并发 HTTP 请求并非是直接解决了 HOC 的问题，而是尽可能减少 HOC 造成的影响。</p>
+<p>有人可能会好奇，为什么不多搞几个并发的 HTTP 请求呢？笔者的电脑最多支持 6 个并发请求，谷歌曾经做过实验，把 6 改成 10，然后尝试访问了三千多个网页，发现平均访问时间还增加了 5% 左右。这是因为一次请求涉及的域名有限，再多的并发 HTTP 请求并不能显著提高带宽利用率。</p>
+<h3 id="HTTP-2-0"><a href="#HTTP-2-0" class="headerlink" title="HTTP 2.0"></a>HTTP 2.0</h3><p>HTTP2.0 最重要的一个特点是支持多路复用(Multiplexing)，要注意避免和 Keep-alive 混淆。Keep-Alive 说的是一个域名下的多个 HTTP 请求<strong>复用</strong>同一个 TCP 链接，但依然是串行请求，所以会遇到 HOC 问题。而多路复用指的是同一个域名下的多个 HTTP 请求共同<strong>分享</strong>同一个 TCP 链接，这是并发的请求，也就是多个请求的数据包可以<strong>同时发送</strong>。</p>
+<p>显然，这就要求每个数据包要做好标记，自己属于哪一个 HTTP 请求，这样客户端才能在收到包以后拼装起来。</p>
+<p>当然 HTTP2.0 的好处远远不止这些，由于支持了多路复用，我们可以很容易的基于 HTTP2.0 实现长连接，而以往的选择要么是用更底层的 TCP，要么是使用与 HTTP 同级的 Web Socket 协议。现在 HTTP 协议直接支持了长连接，对开发者而言确实是一大利好。考虑到本篇文章主要是讨论网络优化，就不对 HTTP 2.0 做详细分析了。</p>
+<h2 id="SSL-TLS-优化"><a href="#SSL-TLS-优化" class="headerlink" title="SSL/TLS 优化"></a>SSL/TLS 优化</h2><p>我们总结一下 HTTP 协议层面的优化，HTTP 1.1 的方案是复用 TCP 链接，但是引入了 HOC 问题。HTTP 2.0 将同一域名下的串行请求变为并行请求从而解决了 HOC，但也有一定的不足。由于客户端并不知道服务器是否支持 HTTP 2.0，因此需要首先进行一次握手来确认双方对 HTTP 2.0 的支持情况，这就意味着一旦开启 HTTP2.0，又得多花一个 RTT。</p>
+<p>说完了 HTTP，我们来聊一聊会话层的 SSL/TLS 协议。SSL/TLS 主要用来实现 HTTPS 协议，具体的细节可以看我之前的文章<a href="http://fullstack.blog/2017/03/12/%E4%B9%9D%E4%B8%AA%E9%97%AE%E9%A2%98%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%86%9F%E6%82%89HTTPS/">九个问题从入门到熟悉HTTPS</a>。SSL 握手需要两个 RTT，具备一定的优化空间。</p>
+<p>首先，HTTP2.0 的协商过程可以和 SSL 握手合并，这样就可以节省一个 RTT。从这个角度看，单纯的 HTTP 2.0 需要一个额外 RTT，而 HTTPS 2.0 也只需要两个 RTT，增加了一个 RTT 却收获了数据安全性，性价比非常高。这也就是为什么主流浏览器厂商不支持纯 HTTP 2.0，而只接受 HTTPS 2.0 的原因。</p>
+<h3 id="SSL-对话恢复"><a href="#SSL-对话恢复" class="headerlink" title="SSL 对话恢复"></a>SSL 对话恢复</h3><p>如果每次中断会话以后都要重新建立链接，开销也会比较大，所以 Firefox 和 Chrome 浏览器支持一个叫 Session Ticket 的概念。Session Ticket 经过加密，里面存储了上次会话的各种关键信息，比如对称加密的秘钥，通话双方的身份等，只有服务器可以解开，当客户端需要恢复 SSL 对话时，会把 ticket 带给服务器，如果服务器验证通过就可以直接开始会话。</p>
+<h2 id="TCP-协议优化"><a href="#TCP-协议优化" class="headerlink" title="TCP 协议优化"></a>TCP 协议优化</h2><p>总结一下 SSL 的优化，一方面与 HTTP 2.0 配合，减少了一个 RTT，另一方面支持对话的快速恢复。</p>
+<p>SSL 协议的下面就是 TCP 协议，TCP 协议本身也存在一些问题和可以优化的部分。不过需要注意的是，TCP 的实现由操作系统完成，仅仅对外暴露了 socket 接口，所以即使是可以修改，改起来的难度也很大。</p>
+<p>这里会直接谈优化，所以建议还不了解 TCP 工作原理(握手和释放过程、滑动窗口和慢启动)的读者先阅读这两篇基础文章:</p>
+<ol>
+<li><a href="http://www.jianshu.com/p/dc456cf57e06" target="_blank" rel="external">TCP/IP（四）：TCP 与 UDP 协议简介</a></li>
+<li><a href="http://www.jianshu.com/p/d9edbba4035b" target="_blank" rel="external">TCP/IP（五）：TCP 协议详解</a></li>
+</ol>
+<h3 id="TFO"><a href="#TFO" class="headerlink" title="TFO"></a>TFO</h3><p>我们都知道 TCP 的三次握手，它需要花费一个 RTT，有没有可能做到 0-RTT 呢？比如我们在握手的时候就带上要传递的数据。</p>
+<p>实际上 TCP 协议已经规定了这种情况的处理方式，即客户端可以在发送第一个 SYN 握手包时携带数据，但是 TCP 协议的实现者绝对不允许(原文: MUST NOT) 把这个数据包上传给应用层。这主要是为了防止 TCP 泛洪攻击。</p>
+<p>TCP 泛洪攻击是指攻击者利用多台机器发送 SYN 请求从而耗尽服务器的 backlog 队列，backlog 队列维护的是那些接受了 SYN 请求但还没有正式开始会话的连接。这样做的好处是服务器不会过早的分配端口、建立连接。<a href="https://tools.ietf.org/html/rfc4987" target="_blank" rel="external">RFC 4987</a> 详细的描述了各种防止 TCP 泛洪攻击的方法，包括尽早释放 SYN，增加队列长度等等。</p>
+<p>如果 SYN 握手的包能被传输到应用层，那么现有的防护措施都无法防御泛洪攻击，而且服务端也会因为这些攻击而耗尽内存和 CPU。所以人们设计了 TFO (TCP Fast Open)，这是对 TCP 的拓展，不仅可以在发送 SYN 时携带数据，还可以保证安全性。</p>
+<p>TFO 设计了一个 cookie，它在第一次握手时由 server 生成，cookie 主要是用来标识客户端的身份，以及保存上次会话的配置信息。因此在后续重新建立 TCP 连接时，客户端会携带 SYN + Cookie + 请求数据，然后不等 ACK 返回就直接开始发送数据。服务端收到 SYN 后会验证 cookie 是否有效，如果无效则会退回到三次握手的步骤。同时为了安全起见，服务端为每个端口记录了一个值 <code>PendingFastOpenRequests</code>，用来表示有多少请求利用了 TFO，如果超过预设上限就不再接受。</p>
+<p>关于 TFO 的优化，可以总结出三点内容:</p>
+<ol>
+<li>TFO 设计的 cookie 思想和 SSL 恢复握手时的 Session Ticket 很像，都是由服务端生成一段 cookie 交给客户端保存，从而避免后续的握手，有利于快速恢复。</li>
+<li>第一次请求绝对不会触发 TFO，因为服务器会在接收到 SYN 请求后把 cookie 和 ACK 一起返回。后续客户端如果要重新连接，才有可能使用这个 cookie 进行 TFO</li>
+<li>TFO 并不考虑在 TCP 层过滤重复请求，以前也有类似的提案想要做过滤，但因为无法保证安全性而被拒绝。所以 TFO 仅仅是避免了泛洪攻击(类似于 backlog)，但客户端接收到的，和 SYN 包一起发来的数据，依然有可能重复。不过也只有可能是 SYN 数据重复，所以 TFO 并不处理这种情况，要求服务端程序自行解决。这也就是说，不仅仅要操作系统的支持，更要求应用程序(比如 MySQL) 也支持 TFO。</li>
+</ol>
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>滑动窗口是一个很聪明的设计，它避免了无意义的挨个校验。如果没有滑动窗口，发送方给接收方发送消息，接收方返回 ACK，但这个返回的 ACK 有可能丢失，发送方无法确认是自己发出的包丢失还是对方返回的 ACK 丢失。这一点很重要，如果是自己的包丢失或者数据错误，那需要重传，如果只是对方的 ACK 丢失，并不需要额外处理。</p>
+<p>滑动窗口的好处在于，假设一次性发送 10 个数据包，只要对方返回了第十个包的 ACK，即使丢掉了前面的九个 ACK 都没有问题，因为 TCP 协议规定了接收方返回的 ACK 一定是当前接收到的最后一个连续的包。</p>
+<p>这么做当然也有问题，如果滑动窗口的第一个包丢失了，那么即使后面的包都已经发送，窗口也不能向后滑动，而是等待第一个包重传完成。在介绍 HTTP 的时候我们介绍过 HOC 的问题，在 TCP 层面同样也存在这样的问题。</p>
+<h3 id="纠错"><a href="#纠错" class="headerlink" title="纠错"></a>纠错</h3><p>当 TCP 丢包或者数据错误以后，会收到三次重复 ACK，此时发送发就会重传数据包。对于整个滑动窗口来说，等于浪费了一个 RTT，在这个 RTT 结束之前滑动窗口都无法向后移动。所以说 HOC 问题造成的影响不可谓不严重，那么有没有可能避免重传呢。</p>
+<p>答案是有的，操作系统中有一种存储方式叫 RAID 5，采用的是异或 + 数据冗余的方式来保证前向纠错(FEC: Forward Error Correcting)。曾经有一个算法题目说的是，有一个数组中只有一个元素出现次数为奇数，如何快速找出这个元素。答案是采用异或 (XOR) 运算。对于任何一个数字 a，我们知道:</p>
+<blockquote>
+<p>a XOR a = 0<br>a XOR 0 = a</p>
+</blockquote>
+<p>同时很容易证明异或运算满足交换律和结合律，所以如果有</p>
+<blockquote>
+<p>A1 XOR A2 XOR A3 XOR … XOR An = T</p>
+</blockquote>
+<p>如果想让等式的左边只留下一个一个元素，只要在等号两边做 n-1 次异或就可以了</p>
+<blockquote>
+<p>(A1 XOR A1) XOR A2 XOR A3 XOR … XOR An = T XOR A1<br>……<br>Ai = T XOR A1 XOR A2 XOR … Ai-1 XOR Ai+1 XOR Ai+2 XOR … XOR An</p>
+</blockquote>
+<p>换句话说，A1 到 An 和 T 这总共 n+1 个元素中，不管是任何一个元素缺失，都可以从另外 n 个元素推导出来。</p>
+<p>因此除了丢包重传，我们还可以采用冗余数据包的形式来保证数据准确性。</p>
+<h1 id="QUIC-协议"><a href="#QUIC-协议" class="headerlink" title="QUIC 协议"></a>QUIC 协议</h1><p>再总结一下 TCP 协议，主要是三个问题可以优化: 一个是快速打开(TFO)，一个是 HOC，另一个则是前向纠错(FEC)。</p>
+<p>但对 TCP 的改进要比对 SSL 和 HTTP 的改进麻烦的多，因为 TCP 是由各个操作系统实现，就以 TFO 为例吧，它在新版本的 Linux 内核中被实现，但想等到它普及开来就不知道要到猴年马月了，比如看看现在 XP 系统的市场占有率。</p>
+<p>经过之前的分析也不难看出，HTTP 和 SSL 的优化基本上搞得差不多了，但 TCP 不仅优化点较多，而且还不容易更新。因此，一个比较大胆的想法就冒出来了:</p>
+<p><strong>采用 UDP 作为底层协议，在 UDP 上层实现数据可达性</strong></p>
+<p>这篇文章的主角，QUIC(Quick UDP Internet Connections) 协议就是以此为理论基础设计的。QUIC 协议支持快速重传，也就是类似于 TFO 的功能，同时支持前向纠错，节省了一个 RTT 的时间。但这也是一种权衡，付出的代价是数据冗余。</p>
+<p>QUIC 协议还借鉴了 SCTP(另一种传输层协议) 的特点，不以 IP 地址为通讯双方的身份标识，而是提出了 ConnectionID 的概念，这样当客户端在 4G 和 WiFi 模式下切换时，就不会因为改变了 IP 地址而重新建立连接。</p>
+<p>QUIC 协议用多流的概念来解决 TCP 滑动窗口的 HOC 问题，这样一个流的阻塞不会影响到别的流。</p>
+<p><img src="http://images.bestswifter.com/1491206971.png" alt="QUIC"></p>
+<p>前文我们说过 TCP 的 Fast-Open 是 0-RTT 的，而传统的 SSL 恢复需要一个 RTT，因此 Facebook 甚至还对 QUIC 协议做了一些改造，把 SSL 的验证也放在 Fast Open 中，这样就实现了 0-RTT 的 SSL 协议。</p>
+<p>当然，最重要还是 QUIC 具备快速迭代的特点，谷歌在 Chrome 里面内置了 QUIC 协议，每次更新只需要升级浏览器即可，在 2014 年前就已经迭代了 13 个版本。</p>
+<p>由于 QUIC 协议目前还处于实验状态，笔者对他的具体细节也了解不多，上文仅介绍一些基本概念，感兴趣的同学可以通过<a href="https://www.youtube.com/watch?v=hQZ-0mXFmk8" target="_blank" rel="external">这个视频</a>详细了解一下，更详细的协议细节可以从<a href="https://docs.google.com/document/d/1WJvyZflAO2pq77yOLbp9NsGjC1CHetAXV8I0fQe-B_U/edit#heading=h.o9jvitkc5d2g" target="_blank" rel="external">官方文档</a>中了解到。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;网络请求中一个常见的名词是 RTT(Round Trip Time)，表示一个客户端从发出请求数据，到接收到响应数据之间间隔的时间。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://images.bestswifter.com/RTT.png&quot; alt=&quot;RTT&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="前端" scheme="http://fullstack.blog/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+      <category term="网络" scheme="http://fullstack.blog/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>九个问题从入门到熟悉HTTPS </title>
@@ -464,9 +559,9 @@
     </summary>
     
     
-      <category term="前端" scheme="http://fullstack.blog/tags/%E5%89%8D%E7%AB%AF/"/>
-    
       <category term="JavaScript" scheme="http://fullstack.blog/tags/JavaScript/"/>
+    
+      <category term="前端" scheme="http://fullstack.blog/tags/%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
