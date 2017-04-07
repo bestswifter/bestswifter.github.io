@@ -57,7 +57,7 @@
 				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
 				<h2 class="blog-motto">每天学点新知识~</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -70,7 +70,7 @@
 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:fullstack.blog">
 					</form>
 					
@@ -94,7 +94,7 @@
     </p>
   <p class="article-time">
     <time datetime="2017-02-26T14:23:20.000Z" itemprop="datePublished">2017-02-26</time>
-    更新日期:<time datetime="2017-02-26T14:25:43.000Z" itemprop="dateModified">2017-02-26</time>
+    Updated:<time datetime="2017-02-26T14:25:43.000Z" itemprop="dateModified">2017-02-26</time>
     
   </p>
 </header>
@@ -102,7 +102,7 @@
 		
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#异步编程入门"><span class="toc-number">1.</span> <span class="toc-text">异步编程入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPS"><span class="toc-number">1.1.</span> <span class="toc-text">CPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#没什么卵用的-CPS"><span class="toc-number">1.2.</span> <span class="toc-text">没什么卵用的 CPS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Promise"><span class="toc-number">2.</span> <span class="toc-text">Promise</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPS-的本质"><span class="toc-number">2.1.</span> <span class="toc-text">CPS 的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-的本质"><span class="toc-number">2.2.</span> <span class="toc-text">Promise 的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-的基本概念"><span class="toc-number">2.3.</span> <span class="toc-text">Promise 的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-小细节"><span class="toc-number">2.4.</span> <span class="toc-text">Promise 小细节</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成器-Generator"><span class="toc-number">3.</span> <span class="toc-text">生成器 Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-in-JavaScript"><span class="toc-number">3.1.</span> <span class="toc-text">Generator in JavaScript</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-的实现"><span class="toc-number">3.2.</span> <span class="toc-text">Generator 的实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Async-Await"><span class="toc-number">4.</span> <span class="toc-text">Async/Await</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#回调改为线性"><span class="toc-number">4.1.</span> <span class="toc-text">回调改为线性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#“同步”-写法的设计哲学"><span class="toc-number">4.2.</span> <span class="toc-text">“同步” 写法的设计哲学</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
 		</div>
 		
@@ -200,7 +200,7 @@
 <p>我们注意到 <code>g.next().value.then</code>的内部实际上是重复了外面的调用过程，如何描述这样的递归呢，有一个小技巧，只要在最外层包一个函数，然后递归执行函数就行:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 递归必然要有可以递归的函数，因此我们在外面包装一层函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursive</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	g.next(t).value.then(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</div><div class="line">		t = value;</div><div class="line">		<span class="keyword">return</span> value;</div><div class="line">	&#125;).then( <span class="function"><span class="params">result</span> =&gt;</span> recursive())</div><div class="line">&#125;</div><div class="line"></div><div class="line">recursive();</div></pre></td></tr></table></figure>
 <p>然而有一个问题在于，我们必须在 <code>recursive()</code> 函数外面创建生成器 <code>g</code>，否则放在函数内部就会导致递归创建新的。因此我们可以加一个内部函数处理核心的递归问题，而外部函数处理生成器和临时变量的创建:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursive</span>(<span class="params">generator</span>) </span>&#123;</div><div class="line">	<span class="keyword">let</span> t; <span class="comment">// 临时变量，用来存储</span></div><div class="line">	<span class="keyword">var</span> g = linear();  <span class="comment">// 创建整个递归过程中唯一的生成器</span></div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">_recursive</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		g.next(t).value.then(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</div><div class="line">			t = value;</div><div class="line">			<span class="keyword">return</span> value;</div><div class="line">		&#125;).then(<span class="function"><span class="params">()</span> =&gt;</span> _recursive())</div><div class="line">	&#125;</div><div class="line">	_recursive();</div><div class="line">&#125;</div><div class="line"></div><div class="line">recursive(linear);</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursive</span>(<span class="params">generator</span>) </span>&#123;</div><div class="line">	<span class="keyword">let</span> t; <span class="comment">// 临时变量，用来存储</span></div><div class="line">	<span class="keyword">var</span> g = linear();  <span class="comment">// 创建整个递归过程中唯一的生成器</span></div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">function</span> _recursive(<span class="params"></span>) </span>&#123;</div><div class="line">		g.next(t).value.then(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</div><div class="line">			t = value;</div><div class="line">			<span class="keyword">return</span> value;</div><div class="line">		&#125;).then(<span class="function"><span class="params">()</span> =&gt;</span> _recursive())</div><div class="line">	&#125;</div><div class="line">	_recursive();</div><div class="line">&#125;</div><div class="line"></div><div class="line">recursive(linear);</div></pre></td></tr></table></figure>
 <p>可以看到这个 <code>recursive</code> 函数完全与业务无关，对于任何生成器函数，比如说叫 g，都可以通过 <code>recursive(g)</code> 来进行调用。</p>
 <p>这也就通过实际例子简单的证明了即使是异步事件也可以采用同步写法。</p>
 <p>需要注明的是，这<strong>并不是</strong> async/await 语法的真正实现，这种写法的问题在于，await 外面的每一层函数都要标注为 async，然而没办法把每一个函数都转换成生成器，然后调用 <code>recursive()</code></p>
@@ -270,15 +270,15 @@
 
 	
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
   <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#异步编程入门"><span class="toc-number">1.</span> <span class="toc-text">异步编程入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPS"><span class="toc-number">1.1.</span> <span class="toc-text">CPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#没什么卵用的-CPS"><span class="toc-number">1.2.</span> <span class="toc-text">没什么卵用的 CPS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Promise"><span class="toc-number">2.</span> <span class="toc-text">Promise</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPS-的本质"><span class="toc-number">2.1.</span> <span class="toc-text">CPS 的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-的本质"><span class="toc-number">2.2.</span> <span class="toc-text">Promise 的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-的基本概念"><span class="toc-number">2.3.</span> <span class="toc-text">Promise 的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-小细节"><span class="toc-number">2.4.</span> <span class="toc-text">Promise 小细节</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成器-Generator"><span class="toc-number">3.</span> <span class="toc-text">生成器 Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-in-JavaScript"><span class="toc-number">3.1.</span> <span class="toc-text">Generator in JavaScript</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-的实现"><span class="toc-number">3.2.</span> <span class="toc-text">Generator 的实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Async-Await"><span class="toc-number">4.</span> <span class="toc-text">Async/Await</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#回调改为线性"><span class="toc-number">4.1.</span> <span class="toc-text">回调改为线性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#“同步”-写法的设计哲学"><span class="toc-number">4.2.</span> <span class="toc-text">“同步” 写法的设计哲学</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   <div class="widget-wrap">
@@ -320,7 +320,7 @@
 
 
   <div class="rsspart">
-	<a href="atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="linkslist">

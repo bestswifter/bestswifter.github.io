@@ -14,9 +14,10 @@
     
     <meta name="author" content="Fullstack">
     
-    <meta name="description" content="网络请求中一个常见的名词是 RTT(Round Trip Time)，表示一个客户端从发出请求数据，到接收到响应数据之间间隔的时间。
+    <meta name="description" content="QUIC 协议是 Google 提出的一套开源协议，它基于 UDP 来实现，直接竞争对手是 TCP 协议。QUIC 协议的性能非常好，甚至在某些场景下可以实现 0-RTT 的加密通信。所以这篇文章主要讨论以下几个问题:
 
-RTT 由可以理解成两部分组成，一部分受到物理条件的限制，比如间隔距离除以信号传递速度，以及包大小除以带宽。另一部分则是客户端、服务器以及沿途各路由器对包的处理解析">
+QUIC 协议有哪些优点，如何实现 0-RTT
+传统的 HTTP2 + SSL">
     
     
     
@@ -58,7 +59,7 @@ RTT 由可以理解成两部分组成，一部分受到物理条件的限制，�
 				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
 				<h2 class="blog-motto">每天学点新知识~</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -71,7 +72,7 @@ RTT 由可以理解成两部分组成，一部分受到物理条件的限制，�
 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:fullstack.blog">
 					</form>
 					
@@ -95,7 +96,7 @@ RTT 由可以理解成两部分组成，一部分受到物理条件的限制，�
     </p>
   <p class="article-time">
     <time datetime="2017-04-03T01:28:34.000Z" itemprop="datePublished">2017-04-03</time>
-    更新日期:<time datetime="2017-04-03T08:16:20.000Z" itemprop="dateModified">2017-04-03</time>
+    Updated:<time datetime="2017-04-07T05:17:59.000Z" itemprop="dateModified">2017-04-07</time>
     
   </p>
 </header>
@@ -103,82 +104,128 @@ RTT 由可以理解成两部分组成，一部分受到物理条件的限制，�
 		
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#优化"><span class="toc-number">1.</span> <span class="toc-text">优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-优化"><span class="toc-number">1.1.</span> <span class="toc-text">HTTP 优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Head-of-line-blocking"><span class="toc-number">1.1.1.</span> <span class="toc-text">Head of line blocking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-2-0"><span class="toc-number">1.1.2.</span> <span class="toc-text">HTTP 2.0</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSL-TLS-优化"><span class="toc-number">1.2.</span> <span class="toc-text">SSL/TLS 优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSL-对话恢复"><span class="toc-number">1.2.1.</span> <span class="toc-text">SSL 对话恢复</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-协议优化"><span class="toc-number">1.3.</span> <span class="toc-text">TCP 协议优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TFO"><span class="toc-number">1.3.1.</span> <span class="toc-text">TFO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#滑动窗口"><span class="toc-number">1.3.2.</span> <span class="toc-text">滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#纠错"><span class="toc-number">1.3.3.</span> <span class="toc-text">纠错</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#QUIC-协议"><span class="toc-number">2.</span> <span class="toc-text">QUIC 协议</span></a></li></ol>
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RTT"><span class="toc-number">1.</span> <span class="toc-text">RTT</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#QUIC-协议概述"><span class="toc-number">1.1.</span> <span class="toc-text">QUIC 协议概述</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多路复用，避免队头阻塞"><span class="toc-number">2.</span> <span class="toc-text">多路复用，避免队头阻塞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Pipiline"><span class="toc-number">2.1.</span> <span class="toc-text">Pipiline</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队头阻塞"><span class="toc-number">2.2.</span> <span class="toc-text">队头阻塞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SPDY"><span class="toc-number">2.3.</span> <span class="toc-text">SPDY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#茶歇小结"><span class="toc-number">2.4.</span> <span class="toc-text">茶歇小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-窗口"><span class="toc-number">2.5.</span> <span class="toc-text">TCP 窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QUIC-多路复用与纠错"><span class="toc-number">2.6.</span> <span class="toc-text">QUIC 多路复用与纠错</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更少的-RTT"><span class="toc-number">3.</span> <span class="toc-text">更少的 RTT</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSL-握手优化"><span class="toc-number">3.1.</span> <span class="toc-text">SSL 握手优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-快速打开"><span class="toc-number">3.2.</span> <span class="toc-text">TCP 快速打开</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-RTT"><span class="toc-number">3.3.</span> <span class="toc-text">0-RTT</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-QUIC"><span class="toc-number">4.</span> <span class="toc-text">Why QUIC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">6.</span> <span class="toc-text">参考资料:</span></a></li></ol>
 		</div>
 		
-		<p>网络请求中一个常见的名词是 RTT(Round Trip Time)，表示一个客户端从发出请求数据，到接收到响应数据之间间隔的时间。</p>
+		<p>QUIC 协议是 Google 提出的一套开源协议，它基于 UDP 来实现，直接竞争对手是 TCP 协议。QUIC 协议的性能非常好，甚至在某些场景下可以实现 0-RTT 的加密通信。所以这篇文章主要讨论以下几个问题:</p>
+<ol>
+<li>QUIC 协议有哪些优点，如何实现 0-RTT</li>
+<li>传统的 HTTP2 + SSL + TCP 协议栈有哪些缺点</li>
+<li>为什么 Google 要另起炉灶，基于 UDP 去做</li>
+</ol>
+<p>这三个问题并不独立，所以我不会依次解答他们，我选择从一些常识入手，逐渐深入到底层细节。希望读者能够带着问题阅读并最终获得满意的答案。</p>
+<h1 id="RTT"><a href="#RTT" class="headerlink" title="RTT"></a>RTT</h1><p>网络请求中一个常见的名词是 RTT(Round Trip Time)，表示一个客户端从发出请求数据，到接收到响应数据之间间隔的时间。</p>
 <p><img src="http://images.bestswifter.com/RTT.png" alt="RTT"></p>
 <p>RTT 由可以理解成两部分组成，一部分受到物理条件的限制，比如间隔距离除以信号传递速度，以及包大小除以带宽。另一部分则是客户端、服务器以及沿途各路由器对包的处理解析时间。一般情况下，RTT 大约在几十毫秒左右，网络很好的情况下可以达到个位数，恶劣网络环境下达到几百毫秒也有可能。</p>
-<p>我们考虑一次 HTTPS 请求，它的基本流程是三次 TCP 握手外加四次 SSL/TLS 握手，从图中可以看到这需要三个 RTT:</p>
-<p><img src="http://images.bestswifter.com/3-RTT.png" alt="3 RTT"></p>
 <p>根据阮一峰的 <a href="http://www.ruanyifeng.com/blog/2014/09/ssl-latency.html" target="_blank" rel="external">SSL延迟有多大？</a> 一文中做的计算，用户访问支付宝时，一个 RTT 大约需要 22ms，算上 SSL 握手的三个 RTT 则大约消耗了 64ms。</p>
-<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p>有没有可能对上述流程做优化呢，答案是肯定的，一个 HTTPS 请求涉及了三层协议: HTTP、SSL 和 TCP，每一层都具备优化空间。我们逐个分析一下。</p>
-<h2 id="HTTP-优化"><a href="#HTTP-优化" class="headerlink" title="HTTP 优化"></a>HTTP 优化</h2><p>根据谷歌的调查， 现在请求一个网页，平均涉及到 80 个资源，30 多个域名。考虑最原始的情况，每请求一个资源都需要建立一次 TCP 请求，显然不可接受。HTTP 协议规定了一个字段 <code>Connection</code>，不过默认的值是 <code>close</code>，也就是不开启。</p>
-<p>早在 1999 年提出的 <a href="https://www.ietf.org/rfc/rfc2616.txt" target="_blank" rel="external">HTTP 1.1 协议</a> 中就把 <code>Connection</code> 的默认值改成了<code>Keep-Alive</code>，这样同一个域名下的多个 HTTP 请求就可以复用同一个 TCP 请求。这么做的好处是避免了某些情况下需要重新建立 TCP 链接。</p>
-<h3 id="Head-of-line-blocking"><a href="#Head-of-line-blocking" class="headerlink" title="Head of line blocking"></a>Head of line blocking</h3><p>与此同时，HTTP 协议还允许客户端发起多个并行请求，比如在笔者的机器上最多支持六个并发请求。并发请求主要是用于解决队头阻塞(HOC: Head of line blocking) 问题。队头阻塞说的是当有多个串行请求执行时，如果第一个请求不执行完，后续的请求也无法执行。</p>
-<p>我们假设加载一个 HTML 一共要请求 30 个资源，那么请求的总时间是每一个资源请求时间的总和。最直观的体验就是，网速越快请求时间越短。然而如果某一个资源的请求被阻塞了，可能是 Server 的问题也有可能是网络环境的问题。但对于客户端来说所有后续的请求都会因此而被阻塞。</p>
-<p><img src="http://images.bestswifter.com/HOC.png" alt="HOC"></p>
-<p>比如上图中，如果第四个资源的传输花了很久，后面的资源都得等着，平白浪费了很多时间，或者说带宽资源没有得到充分利用。</p>
-<p>假设有三个并行请求时，情况会变成这样:</p>
-<p><img src="http://images.bestswifter.com/Multi.png" alt="Multi Request"></p>
-<p>可见虽然第四个资源的请求被阻塞了，但是其他的资源请求并不一定会被阻塞，所以总的来说网络的平均利用率得到了提升。</p>
-<p>所以说，浏览器支持多个并发 HTTP 请求并非是直接解决了 HOC 的问题，而是尽可能减少 HOC 造成的影响。</p>
-<p>有人可能会好奇，为什么不多搞几个并发的 HTTP 请求呢？笔者的电脑最多支持 6 个并发请求，谷歌曾经做过实验，把 6 改成 10，然后尝试访问了三千多个网页，发现平均访问时间还增加了 5% 左右。这是因为一次请求涉及的域名有限，再多的并发 HTTP 请求并不能显著提高带宽利用率。</p>
-<h3 id="HTTP-2-0"><a href="#HTTP-2-0" class="headerlink" title="HTTP 2.0"></a>HTTP 2.0</h3><p>HTTP2.0 最重要的一个特点是支持多路复用(Multiplexing)，要注意避免和 Keep-alive 混淆。Keep-Alive 说的是一个域名下的多个 HTTP 请求<strong>复用</strong>同一个 TCP 链接，但依然是串行请求，所以会遇到 HOC 问题。而多路复用指的是同一个域名下的多个 HTTP 请求共同<strong>分享</strong>同一个 TCP 链接，这是并发的请求，也就是多个请求的数据包可以<strong>同时发送</strong>。</p>
-<p>显然，这就要求每个数据包要做好标记，自己属于哪一个 HTTP 请求，这样客户端才能在收到包以后拼装起来。</p>
-<p>当然 HTTP2.0 的好处远远不止这些，由于支持了多路复用，我们可以很容易的基于 HTTP2.0 实现长连接，而以往的选择要么是用更底层的 TCP，要么是使用与 HTTP 同级的 Web Socket 协议。现在 HTTP 协议直接支持了长连接，对开发者而言确实是一大利好。考虑到本篇文章主要是讨论网络优化，就不对 HTTP 2.0 做详细分析了。</p>
-<h2 id="SSL-TLS-优化"><a href="#SSL-TLS-优化" class="headerlink" title="SSL/TLS 优化"></a>SSL/TLS 优化</h2><p>我们总结一下 HTTP 协议层面的优化，HTTP 1.1 的方案是复用 TCP 链接，但是引入了 HOC 问题。HTTP 2.0 将同一域名下的串行请求变为并行请求从而解决了 HOC，但也有一定的不足。由于客户端并不知道服务器是否支持 HTTP 2.0，因此需要首先进行一次握手来确认双方对 HTTP 2.0 的支持情况，这就意味着一旦开启 HTTP2.0，又得多花一个 RTT。</p>
-<p>说完了 HTTP，我们来聊一聊会话层的 SSL/TLS 协议。SSL/TLS 主要用来实现 HTTPS 协议，具体的细节可以看我之前的文章<a href="http://fullstack.blog/2017/03/12/%E4%B9%9D%E4%B8%AA%E9%97%AE%E9%A2%98%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%86%9F%E6%82%89HTTPS/">九个问题从入门到熟悉HTTPS</a>。SSL 握手需要两个 RTT，具备一定的优化空间。</p>
-<p>首先，HTTP2.0 的协商过程可以和 SSL 握手合并，这样就可以节省一个 RTT。从这个角度看，单纯的 HTTP 2.0 需要一个额外 RTT，而 HTTPS 2.0 也只需要两个 RTT，增加了一个 RTT 却收获了数据安全性，性价比非常高。这也就是为什么主流浏览器厂商不支持纯 HTTP 2.0，而只接受 HTTPS 2.0 的原因。</p>
-<h3 id="SSL-对话恢复"><a href="#SSL-对话恢复" class="headerlink" title="SSL 对话恢复"></a>SSL 对话恢复</h3><p>如果每次中断会话以后都要重新建立链接，开销也会比较大，所以 Firefox 和 Chrome 浏览器支持一个叫 Session Ticket 的概念。Session Ticket 经过加密，里面存储了上次会话的各种关键信息，比如对称加密的秘钥，通话双方的身份等，只有服务器可以解开，当客户端需要恢复 SSL 对话时，会把 ticket 带给服务器，如果服务器验证通过就可以直接开始会话。</p>
-<h2 id="TCP-协议优化"><a href="#TCP-协议优化" class="headerlink" title="TCP 协议优化"></a>TCP 协议优化</h2><p>总结一下 SSL 的优化，一方面与 HTTP 2.0 配合，减少了一个 RTT，另一方面支持对话的快速恢复。</p>
-<p>SSL 协议的下面就是 TCP 协议，TCP 协议本身也存在一些问题和可以优化的部分。不过需要注意的是，TCP 的实现由操作系统完成，仅仅对外暴露了 socket 接口，所以即使是可以修改，改起来的难度也很大。</p>
-<p>这里会直接谈优化，所以建议还不了解 TCP 工作原理(握手和释放过程、滑动窗口和慢启动)的读者先阅读这两篇基础文章:</p>
+<p>可见网络请求时间绝对不是简单的数据量除以网速这么简单， RTT 是网络请求耗时中不可忽略的一部分，不仅仅是握手阶段需要三个 RTT，在实际网络请求中，还有可能因为丢包等问题而额外增加 RTT。因此任何一个能减少 RTT 的技术都值得认真考虑，因为他们<strong>真的能够显著降低</strong>网络请求耗时。</p>
+<h2 id="QUIC-协议概述"><a href="#QUIC-协议概述" class="headerlink" title="QUIC 协议概述"></a>QUIC 协议概述</h2><p>下面进入正题，本文的主角，QUIC 协议主要具备以下优点:</p>
 <ol>
-<li><a href="http://www.jianshu.com/p/dc456cf57e06" target="_blank" rel="external">TCP/IP（四）：TCP 与 UDP 协议简介</a></li>
-<li><a href="http://www.jianshu.com/p/d9edbba4035b" target="_blank" rel="external">TCP/IP（五）：TCP 协议详解</a></li>
+<li>多路复用，避免队头阻塞</li>
+<li>减少 RTT，请求更快速</li>
+<li>快速迭代，广泛支持</li>
 </ol>
-<h3 id="TFO"><a href="#TFO" class="headerlink" title="TFO"></a>TFO</h3><p>我们都知道 TCP 的三次握手，它需要花费一个 RTT，有没有可能做到 0-RTT 呢？比如我们在握手的时候就带上要传递的数据。</p>
+<h1 id="多路复用，避免队头阻塞"><a href="#多路复用，避免队头阻塞" class="headerlink" title="多路复用，避免队头阻塞"></a>多路复用，避免队头阻塞</h1><p>这句话说起来很容易，但理解起来并不那么显然，要想理解 QUIC 协议到底做了什么以及这么做的必要性和意义，我想还是从最基础的 HTTP 1.0 聊起比较合适。</p>
+<h2 id="Pipiline"><a href="#Pipiline" class="headerlink" title="Pipiline"></a>Pipiline</h2><p>根据谷歌的调查， 现在请求一个网页，平均涉及到 80 个资源，30 多个域名。考虑最原始的情况，每请求一个资源都需要建立一次 TCP 请求，显然不可接受。HTTP 协议规定了一个字段 <code>Connection</code>，不过默认的值是 <code>close</code>，也就是不开启。</p>
+<p>早在 1999 年提出的 <a href="https://www.ietf.org/rfc/rfc2616.txt" target="_blank" rel="external">HTTP 1.1 协议</a> 中就把 <code>Connection</code> 的默认值改成了<code>Keep-Alive</code>，这样同一个域名下的多个 HTTP 请求就可以复用同一个 TCP 请求。这么做的好处是避免了某些情况下需要重新建立 TCP 链接。</p>
+<p>这种做法被称为 HTTP Pipeline，优点是显著的减少了建立连接的次数，也就是大幅度减少了 RTT。以上面的数据为例，如果 80 个资源都要走一次 HTTP 1.0，那么需要建立 80 个 TCP 连接，握手 80 次，也就是 80 个 RTT。如果采用了 HTTP 1.1 的 Pipeline，只需要建立 30 个 TCP 连接，也就是 30 个 RTT，提高了 <strong>62.5%</strong> 的效率。</p>
+<p>Pipeline 解决了 TCP 连接浪费的问题，但它自己还存在可以优化的空间，也就是队头阻塞问题。</p>
+<h2 id="队头阻塞"><a href="#队头阻塞" class="headerlink" title="队头阻塞"></a>队头阻塞</h2><p>我们再举个简单而且直观的例子，假设加载一个 HTML 一共要请求 10 个资源，那么请求的总时间是每一个资源请求时间的总和。最直观的体验就是，网速越快请求时间越短。然而如果某一个资源的请求被阻塞了(比如某个 SQL 语句执行非常慢)。但对于客户端来说所有后续的请求都会因此而被阻塞。</p>
+<p><img src="http://images.bestswifter.com/HOC.png" alt="HOC"></p>
+<p>队头阻塞(Head of line blocking，下文简称 HOC)说的是当有多个串行请求执行时，如果第一个请求不执行完，后续的请求也无法执行。比如上图中，如果第四个资源的传输花了很久，后面的资源都得等着，平白浪费了很多时间，带宽资源没有得到充分利用。</p>
+<p>因此，HTTP 协议允许客户端发起多个并行请求，比如在笔者的机器上最多支持六个并发请求。并发请求主要是用于解决 HOC 问题。当有三个并发请求时，情况会变成这样:</p>
+<p><img src="http://images.bestswifter.com/Multi.png" alt="Multi Request"></p>
+<p>可见虽然第四个资源的请求被阻塞了，但是其他的资源请求并不一定会被阻塞，这样总的来说网络的平均利用率得到了提升。</p>
+<p>支持并发请求是解决解决 HOC 问题的一种方案，这句话没有错，但是我们要理解到: “并发请求并非是直接解决了 HOC 的问题，而是尽可能减少 HOC 造成的影响”，以上图为例，HOC 的问题依然存在，只是不会太浪费带宽而已。有读者可能会好奇，为什么不多搞几个并发的 HTTP 请求呢？笔者的电脑最多支持 6 个并发请求，谷歌曾经做过实验，把 6 改成 10，然后尝试访问了三千多个网页，发现平均访问时间还增加了 5% 左右。这是因为一次请求涉及的域名有限，再多的并发 HTTP 请求并不能显著提高带宽利用率。</p>
+<h2 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h2><p>有没有办法解决队头阻塞呢，答案是肯定的。SPDY 协议的做法很值得借鉴，它采用了多路复用(Multiplexing) 技术，允许多个 HTTP 请求共享同一个 TCP 连接。我们假设每个资源被分为多个包传递，在 HTTP 1.1 中只有前面一个资源的所有数据包传输完毕后后面资源的包才能开始传递(HOC 问题)，而 SPDY 并不这么要求，大家可以一起传输。</p>
+<p><img src="http://images.bestswifter.com/1491491570.png" alt=""></p>
+<p>这么做的代价是数据会略微有一些冗余，每一个资源的数据包都要带上标记，用来指明自己是哪个资源的数据包，这样客户端才能在最后把他们正确的拼接起来。不同的标记可以理解为图中不同的颜色，每一个小方格可以理解为资源的某一个包。</p>
+<p>有些读者对 SPDY 协议可能不太了解，其实把它当做 HTTP2 的前身和试验品就好。当然 HTTP2.0 的好处远远不止这些，由于支持了多路复用，我们可以很容易的基于 HTTP2.0 实现长连接，而以往的选择要么是用更底层的 TCP，要么是使用与 HTTP 同级的 Web Socket 协议。现在 HTTP 协议直接支持了长连接，对开发者而言确实是一大利好。考虑到本篇文章主要是讨论 QUIC 协议相关，就不对 HTTP 2.0 做详细分析了。</p>
+<h2 id="茶歇小结"><a href="#茶歇小结" class="headerlink" title="茶歇小结"></a>茶歇小结</h2><p>刚刚聊到了三个技术名词，Pipeline、并发请求和多路复用，千万不要被绕晕了。</p>
+<p>Pipeline 是为了减少不必要的 TCP 连接，但依然存在队头阻塞(HOC)的缺点，一种解决思路是利用并发连接介绍某一个 HOC 的影响，另一个是共享(<strong>注意与复用的区别</strong>) TCP 连接，直接避免 HOC 问题的发生。</p>
+<p>我举个不恰当的例子(略重口，但真没有任何歧视的意思，纯粹是考虑到男性读者较多，这样讲可能容易理解一点): 如果有三个男性和一个女性要做某种不可描述的运动，Pipeline 类似于你爽完了换我爽，中间不要停，省掉了穿裤子再脱的时间。并发连接指的是再找一个女性来，但依然会出现有男性干等的尴尬局面。多路复用就比较高效了，也别叫人了，不是有三个洞么？</p>
+<h2 id="TCP-窗口"><a href="#TCP-窗口" class="headerlink" title="TCP 窗口"></a>TCP 窗口</h2><p>是不是觉得 SPDY 的多路复用已经够厉害了，解决了队头阻塞问题？很遗憾的是，并没有，而且我可以很肯定的说，只要你还在用 TCP 链接，HOC 就是逃不掉的噩梦，不信我们来看看 TCP 的实现细节。</p>
+<p>我们知道 TCP 会保证数据的可达性，如果发生了丢包或者错包，数据就会被重传。于是问题来了，如果一个包丢了，那么后面的包就得停下来等这个包重新传输，也就是发生了队头阻塞。当然 TCP 协议的设计者们也不傻，他们发明了滑动窗口的概念:</p>
+<p><img src="http://images.bestswifter.com/network/tcp-window.png" alt="TCP 窗口"></p>
+<p>这样的好处是在第一个数据包(1-1000) 发出后，不必等到 ACK 返回就可以立刻发送第二个数据包。可以看出图中的 TCP 窗口大小是 4，所以第四个包发送后就会开始等待，直到第一个包的 ACK 返回。这样窗口可以向后滑动一位，第五个包被发送。</p>
+<p>如果第一、二、三个的包都丢失了也没有关系，当发送方收到第四个包时，它可以确信一定是前三个 ACK 丢了而不是数据包丢了，否则不会受到 4001 的 ACK，所以发送方可以大胆的把窗口向后滑动四位。</p>
+<p>滑动窗口的概念大幅度提高了 TCP 传输数据时抗干扰的能力，一般丢失一两个 ACK 根本没关系。但如果是发送的包丢失，或者出错，窗口就无法向前滑动，出现了队头阻塞的现象。</p>
+<h2 id="QUIC-多路复用与纠错"><a href="#QUIC-多路复用与纠错" class="headerlink" title="QUIC 多路复用与纠错"></a>QUIC 多路复用与纠错</h2><p>所以说 HOC 不仅仅在 HTTP 层存在，在 TCP 层也存在，这也正是 QUIC 协议要解决的问题。回顾 SPDY 是如何解决 HOC 的，没错，多路复用(Multiplex)。QUIC 协议也采用了多路复用技术。</p>
+<p><img src="http://images.bestswifter.com/1491206971.png" alt="QUIC 多路复用"></p>
+<p>QUIC 协议基于 UDP 实现，我们知道 UDP 协议只负责发送数据，并不保证数据可达性。这一方面为 QUIC  的多路复用提供了基础，但也要求 QUIC 协议自己保证数据可达性。</p>
+<p>SPDY 为各个数据包做好标记，指明他们属于哪个 HTTP 请求，至于这些包能不能到达客户端，SPDY 并不关心，因为数据可达性由 TCP 协议保证。既然客户端一定能收到包，那就只要排序、拼接就行了。QUIC 协议采用了多路复用度思想，但同时还得自己保证数据的可达性。</p>
+<p>TCP 协议的丢包重传并不是一个好想法，因为一旦有了前后顺序，队头阻塞问题将不可避免。而无序的数据发送给接受者以后，如何保证不丢包，不错包呢？这看起来是个不可能完成的任务，不过如果把要求降低成:“最多丢一个包，或者错一个包”，事情就简单多了，操作系统中有一种存储方式叫 RAID 5，采用的是异或 + 数据冗余的方式来保证前向纠错(FEC: Forward Error Correcting)。</p>
+<p>我们知道异或运算的规则是，<code>0 ^ 1 = 1</code>、<code>1 ^ 1 = 0</code>，也就是相同数字异或成 1，不同数字异或成 0。对两个数字做异或运算，其实就是将他们转成二进制后按位做异或，因此对于任何数字 a，都有:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a ^ a = <span class="number">0</span></div><div class="line">a ^ <span class="number">0</span> = a</div></pre></td></tr></table></figure>
+<p>同时很容易证明异或运算满足交换律和结合律，所以如果有</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">A1 ^ A2 ^ A3 ^ ... ^ An = T</div></pre></td></tr></table></figure>
+<p>如果想让等式的左边只留下一个一个元素，只要在等号两边做 n-1 次异或就可以了:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(A1 ^ A1) ^ A2 ^ A3 ^ ... ^ An = T ^ A1</div><div class="line"><span class="comment">// 所以</span></div><div class="line">A2 ^ A3 ^ ... ^ An = T ^ A1</div><div class="line"><span class="comment">// 所以</span></div><div class="line">A3 ^ ... ^ An = T ^ A1 ^ A2</div><div class="line"><span class="comment">// 所以 ......</span></div><div class="line">Ai = T ^ A1 ^ A2 ^ ... Ai<span class="number">-1</span> ^ Ai+<span class="number">1</span> ^ Ai+<span class="number">2</span> ^ ... ^ An</div></pre></td></tr></table></figure>
+<p>换句话说，A1 到 An 和 T 这总共 n+1 个元素中，不管是任何一个元素缺失，都可以从另外 n 个元素推导出来。因此除了丢包重传，我们还可以采用冗余数据包的形式来保证数据准确性。</p>
+<p>举个例子，假设有 5 个数据包要发送，我可以额外发送一个包(上面例子中的 T)，它的内容是前五个包的异或结果。这样不管是前五个包中丢失了任何一个，或者某个包数据有错(可以当成丢包来处理)，都可以用另外四个包和这个冗余的包 T 进行异或运算，从而恢复出来。</p>
+<p>当然要注意的是，这种方案仅仅在只发生一个错包或丢包时有效，如果丢失两个包就无能为力了(这也就是为啥只发一个冗余包就够的原因)。因此数据包和冗余包之间的比值需要精心设计，如果比值过高，很容易出现丢两个包的情况，如果比值过低，又会导致大幅度的增加数据包大小，需要设计者根据概率计算结果进行权衡。</p>
+<p>利用冗余数据的思想，QUIC 协议基本上避免了重发数据的情况，这种利用已有数据就能进行错误恢复的技术叫做前向恢复(FEC: Fowrard Error Correcting)。当然 QUIC 协议还是支持重传的，比如某些非常重要的数据或者丢失两个包的情况。</p>
+<h1 id="更少的-RTT"><a href="#更少的-RTT" class="headerlink" title="更少的 RTT"></a>更少的 RTT</h1><p>我们考虑一次 HTTPS 请求，它的基本流程是三次 TCP 握手外加四次 SSL/TLS 握手，从图中可以看到这需要三个 RTT:</p>
+<p><img src="http://images.bestswifter.com/3-RTT.png" alt="3 RTT"></p>
+<p>对于 HTTP 2.0 来说，本来需要一个额外的 RTT 来进行协商，判断客户端与服务器是不是都支持 HTTP 2.0，不过好在它可以和 SSL 握手的请求合并。这也就是为什么大多数主流浏览器(Chrome、Firefox) 仅支持 HTTPS 2.0 而不单独支持 HTTP 2.0 的原因，毕竟 HTTP 2.0 需要一个额外的 RTT，HTTPS 2.0 需要两个额外的 RTT，仅仅是增加一个 RTT 就能获得数据安全性，还是很划算的。</p>
+<h2 id="SSL-握手优化"><a href="#SSL-握手优化" class="headerlink" title="SSL 握手优化"></a>SSL 握手优化</h2><p>有关 HTTPS 的详细解释可以参考我之前的文章: <a href="http://www.jianshu.com/p/072a657337ae" target="_blank" rel="external">九个问题从入门到熟悉HTTPS</a>，这里我们简单复习一下 SSL 握手的大致流程:</p>
+<ol>
+<li>客户端发送第一个握手，包含一个随机数，以及对协议的支持情况(版本、加密方法、压缩方法等)</li>
+<li>服务器返回证书，以及服务端生成随机数</li>
+<li>客户端校验证书，生成一个新的随机数，用证书中的公钥加密后发给服务端</li>
+<li>服务端确认消息，双方根据上述三个随机数生成后续会话的公钥</li>
+</ol>
+<p>由于需要确认证书，生成多个随机数保证安全，握手阶段的两个 RTT 很难节省。不过之前我们见过 HTTP 的 Pipeline 技术可以复用 TCP 连接，那么按照类似的思想，SSL 连接也可以被恢复。思考一下为什么 SSL 要设计这么复杂的握手机制，它本质上是为了保证对称秘钥的安全传输，所以 SSL 会话恢复主要考虑的也是如何恢复对称秘钥。</p>
+<p>一个常用的方案是采用 Session Ticket，实现起来很容易: 一旦 SSL 会话建立起来，服务端把会话的基本信息，比如对称秘钥、加密方法等信息加密后发给客户端，客户端可以缓存下来这个 Session Ticket。需要恢复 SSL 会话时直接把它发回给服务端校验即可，这样可以在 SSL 层减少一个 RTT。</p>
+<h2 id="TCP-快速打开"><a href="#TCP-快速打开" class="headerlink" title="TCP 快速打开"></a>TCP 快速打开</h2><p>聊完了 SSL 层，下面说说 TCP 的优化方案。我们都知道 TCP 的三次握手需要花费一个 RTT，有没有可能做到 0-RTT 呢？比如我们在握手的时候就带上要传递的数据。</p>
 <p>实际上 TCP 协议已经规定了这种情况的处理方式，即客户端可以在发送第一个 SYN 握手包时携带数据，但是 TCP 协议的实现者绝对不允许(原文: MUST NOT) 把这个数据包上传给应用层。这主要是为了防止 TCP 泛洪攻击。</p>
 <p>TCP 泛洪攻击是指攻击者利用多台机器发送 SYN 请求从而耗尽服务器的 backlog 队列，backlog 队列维护的是那些接受了 SYN 请求但还没有正式开始会话的连接。这样做的好处是服务器不会过早的分配端口、建立连接。<a href="https://tools.ietf.org/html/rfc4987" target="_blank" rel="external">RFC 4987</a> 详细的描述了各种防止 TCP 泛洪攻击的方法，包括尽早释放 SYN，增加队列长度等等。</p>
 <p>如果 SYN 握手的包能被传输到应用层，那么现有的防护措施都无法防御泛洪攻击，而且服务端也会因为这些攻击而耗尽内存和 CPU。所以人们设计了 TFO (TCP Fast Open)，这是对 TCP 的拓展，不仅可以在发送 SYN 时携带数据，还可以保证安全性。</p>
-<p>TFO 设计了一个 cookie，它在第一次握手时由 server 生成，cookie 主要是用来标识客户端的身份，以及保存上次会话的配置信息。因此在后续重新建立 TCP 连接时，客户端会携带 SYN + Cookie + 请求数据，然后不等 ACK 返回就直接开始发送数据。服务端收到 SYN 后会验证 cookie 是否有效，如果无效则会退回到三次握手的步骤。同时为了安全起见，服务端为每个端口记录了一个值 <code>PendingFastOpenRequests</code>，用来表示有多少请求利用了 TFO，如果超过预设上限就不再接受。</p>
+<p>TFO 设计了一个 cookie，它在第一次握手时由 server 生成，cookie 主要是用来标识客户端的身份，以及保存上次会话的配置信息。因此在后续重新建立 TCP 连接时，客户端会携带 SYN + Cookie + 请求数据，然后不等 ACK 返回就直接开始发送数据。</p>
+<p><img src="http://images.bestswifter.com/1491536313.png" alt="TFO 工作示意图"></p>
+<p>服务端收到 SYN 后会验证 cookie 是否有效，如果无效则会退回到三次握手的步骤，如下图所示:</p>
+<p><img src="http://images.bestswifter.com/1491536652.png" alt="回退到普通三次握手"></p>
+<p>同事，为了安全起见，服务端为每个端口记录了一个值 <code>PendingFastOpenRequests</code>，用来表示有多少请求利用了 TFO，如果超过预设上限就不再接受。</p>
 <p>关于 TFO 的优化，可以总结出三点内容:</p>
 <ol>
 <li>TFO 设计的 cookie 思想和 SSL 恢复握手时的 Session Ticket 很像，都是由服务端生成一段 cookie 交给客户端保存，从而避免后续的握手，有利于快速恢复。</li>
 <li>第一次请求绝对不会触发 TFO，因为服务器会在接收到 SYN 请求后把 cookie 和 ACK 一起返回。后续客户端如果要重新连接，才有可能使用这个 cookie 进行 TFO</li>
 <li>TFO 并不考虑在 TCP 层过滤重复请求，以前也有类似的提案想要做过滤，但因为无法保证安全性而被拒绝。所以 TFO 仅仅是避免了泛洪攻击(类似于 backlog)，但客户端接收到的，和 SYN 包一起发来的数据，依然有可能重复。不过也只有可能是 SYN 数据重复，所以 TFO 并不处理这种情况，要求服务端程序自行解决。这也就是说，不仅仅要操作系统的支持，更要求应用程序(比如 MySQL) 也支持 TFO。</li>
 </ol>
-<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>滑动窗口是一个很聪明的设计，它避免了无意义的挨个校验。如果没有滑动窗口，发送方给接收方发送消息，接收方返回 ACK，但这个返回的 ACK 有可能丢失，发送方无法确认是自己发出的包丢失还是对方返回的 ACK 丢失。这一点很重要，如果是自己的包丢失或者数据错误，那需要重传，如果只是对方的 ACK 丢失，并不需要额外处理。</p>
-<p>滑动窗口的好处在于，假设一次性发送 10 个数据包，只要对方返回了第十个包的 ACK，即使丢掉了前面的九个 ACK 都没有问题，因为 TCP 协议规定了接收方返回的 ACK 一定是当前接收到的最后一个连续的包。</p>
-<p>这么做当然也有问题，如果滑动窗口的第一个包丢失了，那么即使后面的包都已经发送，窗口也不能向后滑动，而是等待第一个包重传完成。在介绍 HTTP 的时候我们介绍过 HOC 的问题，在 TCP 层面同样也存在这样的问题。</p>
-<h3 id="纠错"><a href="#纠错" class="headerlink" title="纠错"></a>纠错</h3><p>当 TCP 丢包或者数据错误以后，会收到三次重复 ACK，此时发送发就会重传数据包。对于整个滑动窗口来说，等于浪费了一个 RTT，在这个 RTT 结束之前滑动窗口都无法向后移动。所以说 HOC 问题造成的影响不可谓不严重，那么有没有可能避免重传呢。</p>
-<p>答案是有的，操作系统中有一种存储方式叫 RAID 5，采用的是异或 + 数据冗余的方式来保证前向纠错(FEC: Forward Error Correcting)。曾经有一个算法题目说的是，有一个数组中只有一个元素出现次数为奇数，如何快速找出这个元素。答案是采用异或 (XOR) 运算。对于任何一个数字 a，我们知道:</p>
-<blockquote>
-<p>a XOR a = 0<br>a XOR 0 = a</p>
-</blockquote>
-<p>同时很容易证明异或运算满足交换律和结合律，所以如果有</p>
-<blockquote>
-<p>A1 XOR A2 XOR A3 XOR … XOR An = T</p>
-</blockquote>
-<p>如果想让等式的左边只留下一个一个元素，只要在等号两边做 n-1 次异或就可以了</p>
-<blockquote>
-<p>(A1 XOR A1) XOR A2 XOR A3 XOR … XOR An = T XOR A1<br>……<br>Ai = T XOR A1 XOR A2 XOR … Ai-1 XOR Ai+1 XOR Ai+2 XOR … XOR An</p>
-</blockquote>
-<p>换句话说，A1 到 An 和 T 这总共 n+1 个元素中，不管是任何一个元素缺失，都可以从另外 n 个元素推导出来。</p>
-<p>因此除了丢包重传，我们还可以采用冗余数据包的形式来保证数据准确性。</p>
-<h1 id="QUIC-协议"><a href="#QUIC-协议" class="headerlink" title="QUIC 协议"></a>QUIC 协议</h1><p>再总结一下 TCP 协议，主要是三个问题可以优化: 一个是快速打开(TFO)，一个是 HOC，另一个则是前向纠错(FEC)。</p>
-<p>但对 TCP 的改进要比对 SSL 和 HTTP 的改进麻烦的多，因为 TCP 是由各个操作系统实现，就以 TFO 为例吧，它在新版本的 Linux 内核中被实现，但想等到它普及开来就不知道要到猴年马月了，比如看看现在 XP 系统的市场占有率。</p>
-<p>经过之前的分析也不难看出，HTTP 和 SSL 的优化基本上搞得差不多了，但 TCP 不仅优化点较多，而且还不容易更新。因此，一个比较大胆的想法就冒出来了:</p>
-<p><strong>采用 UDP 作为底层协议，在 UDP 上层实现数据可达性</strong></p>
-<p>这篇文章的主角，QUIC(Quick UDP Internet Connections) 协议就是以此为理论基础设计的。QUIC 协议支持快速重传，也就是类似于 TFO 的功能，同时支持前向纠错，节省了一个 RTT 的时间。但这也是一种权衡，付出的代价是数据冗余。</p>
-<p>QUIC 协议还借鉴了 SCTP(另一种传输层协议) 的特点，不以 IP 地址为通讯双方的身份标识，而是提出了 ConnectionID 的概念，这样当客户端在 4G 和 WiFi 模式下切换时，就不会因为改变了 IP 地址而重新建立连接。</p>
-<p>QUIC 协议用多流的概念来解决 TCP 滑动窗口的 HOC 问题，这样一个流的阻塞不会影响到别的流。</p>
-<p><img src="http://images.bestswifter.com/1491206971.png" alt="QUIC"></p>
-<p>前文我们说过 TCP 的 Fast-Open 是 0-RTT 的，而传统的 SSL 恢复需要一个 RTT，因此 Facebook 甚至还对 QUIC 协议做了一些改造，把 SSL 的验证也放在 Fast Open 中，这样就实现了 0-RTT 的 SSL 协议。</p>
-<p>当然，最重要还是 QUIC 具备快速迭代的特点，谷歌在 Chrome 里面内置了 QUIC 协议，每次更新只需要升级浏览器即可，在 2014 年前就已经迭代了 13 个版本。</p>
-<p>由于 QUIC 协议目前还处于实验状态，笔者对他的具体细节也了解不多，上文仅介绍一些基本概念，感兴趣的同学可以通过<a href="https://www.youtube.com/watch?v=hQZ-0mXFmk8" target="_blank" rel="external">这个视频</a>详细了解一下，更详细的协议细节可以从<a href="https://docs.google.com/document/d/1WJvyZflAO2pq77yOLbp9NsGjC1CHetAXV8I0fQe-B_U/edit#heading=h.o9jvitkc5d2g" target="_blank" rel="external">官方文档</a>中了解到。</p>
+<h2 id="0-RTT"><a href="#0-RTT" class="headerlink" title="0-RTT"></a>0-RTT</h2><p>TFO 使得 TCP 协议有可能变成 0-RTT，核心思想和 Session Ticket 的概念类似: 将当前会话的上下文缓存在客户端。如果以后需要恢复对话，只需要将缓存发给服务器校验，而不必花费一个 RTT 去等待。</p>
+<p>结合 TFO 和 Session Ticket 技术，一个本来需要花费 3 个 RTT 才能完成的请求可以被优化到一个 RTT。如果使用 QUIC 协议，我们甚至可以更进一步，将 Session Ticket 也放到 TFO 中一起发送，这样就实现了 0-RTT 的对话恢复。感兴趣的读者可以阅读: <a href="https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&amp;mid=2651113095&amp;idx=1&amp;sn=0f7beafe5f48b4fdcde5465373044eab" target="_blank" rel="external">Facebook App对TLS的魔改造：实现0-RTT</a></p>
+<h1 id="Why-QUIC"><a href="#Why-QUIC" class="headerlink" title="Why QUIC"></a>Why QUIC</h1><p>从以上分析可以发现，HTTP2 和 SSL 可以说已经进行了大量的优化，可以提升的空间非常小。而 TCP 存在诸多不足之处，一方面它设计较早，主要目的是设计一种通用、可靠的传输协议，并非专门为网页或者 App 而设计，另一方面对 TCP 的改进要比对 SSL 和 HTTP 的改进麻烦的多，因为 TCP 是由各个操作系统实现，就以 TFO 为例吧，它在新版本的 Linux 内核中被实现，但想等到它普及开来就不知道要到猴年马月了，有兴趣的读者可以参考参考现在 XP 系统的市场占有率。</p>
+<p>反观 HTTP 和 SSL，虽然早期的 HTTP 1.0 问题更多，但是经过 1.1、SPDY、2.0 等协议的更迭，已经非常优秀了。其中的根本原因还是在于 HTTP  和 SSL 位于应用层，优化升级比较容易实现，所以经过长年累月的优化升级，现在大部分瓶颈都集中于 TCP 层。但 TCP 不仅优化点较多，而且还不容易更新。那么能不能在传输层搞一个和 TCP、UDP 类似的协议呢？答案也是否定的，其实有一个 SCTP 协议曾经打算进行一系列优化，但并没有被广泛接受。这是因为数据在传输的过程中需要经过各个路由器，这些设备只能识别并解析 TCP 和 UDP 协议的数据包，无法解析新的协议。所以 SCTP 也只能用于内网的实验环境中。</p>
+<p>TCP 要改进，但不方便改，新增一个协议又不被已有的设备支持，看起来唯一的方案就是使用 UDP 了。虽然 UDP 协议不保证数据可达性，但这也是 UDP 的优点所在，它支持 0-RTT 的通信，所以一个比较大胆的想法就冒出来了:</p>
+<p><strong>采用 UDP 作为底层协议，在 UDP 之上实现数据可达性</strong></p>
+<p>目前，QUIC 协议内置在 Chrome 浏览器中，每次更新只需要升级浏览器即可，在 2014 年前就已经迭代了 13 个版本。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>回答一下文章开头的几个问题:</p>
+<ol>
+<li>QUIC 协议有哪些优点，如何实现 0-RTT？<ol>
+<li>QUIC 协议在传输层就支持多路复用，避免了队头阻塞问题。</li>
+<li>QUIC 协议基于 UDP，更自由更高效</li>
+<li>QUIC 协议借鉴了 TFO 的思想，把会话上下文缓存下来，方便恢复，具备实现 0-RTT 的可能</li>
+</ol>
+</li>
+<li>传统的 HTTP2 + SSL + TCP 协议栈有哪些缺点？<ol>
+<li>SSL 的会话恢复依然需要一个 RTT，而且难以合并到 TCP 层</li>
+<li>TCP 的滑动窗口存在队头阻塞问题</li>
+<li>TCP 的重传纠错会浪费一个 RTT</li>
+</ol>
+</li>
+<li>为什么 Google 要另起炉灶，基于 UDP 去做？<ol>
+<li>TCP 由操作系统实现，很难更新</li>
+<li>UDP 非常高效，几乎没有性能负担</li>
+<li>将 QUIC 嵌入到 Chrome 中可以方便后续的升级迭代</li>
+</ol>
+</li>
+</ol>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料:"></a>参考资料:</h1><ol>
+<li><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html?utm_source=tuicool" target="_blank" rel="external">图解SSL/TLS协议</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="external">SSL/TLS协议运行机制的概述</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&amp;mid=2651113095&amp;idx=1&amp;sn=0f7beafe5f48b4fdcde5465373044eab" target="_blank" rel="external">Facebook App对TLS的魔改造：实现0-RTT</a></li>
+</ol>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -215,15 +262,15 @@ RTT 由可以理解成两部分组成，一部分受到物理条件的限制，�
 
 	
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#优化"><span class="toc-number">1.</span> <span class="toc-text">优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-优化"><span class="toc-number">1.1.</span> <span class="toc-text">HTTP 优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Head-of-line-blocking"><span class="toc-number">1.1.1.</span> <span class="toc-text">Head of line blocking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-2-0"><span class="toc-number">1.1.2.</span> <span class="toc-text">HTTP 2.0</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSL-TLS-优化"><span class="toc-number">1.2.</span> <span class="toc-text">SSL/TLS 优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSL-对话恢复"><span class="toc-number">1.2.1.</span> <span class="toc-text">SSL 对话恢复</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-协议优化"><span class="toc-number">1.3.</span> <span class="toc-text">TCP 协议优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TFO"><span class="toc-number">1.3.1.</span> <span class="toc-text">TFO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#滑动窗口"><span class="toc-number">1.3.2.</span> <span class="toc-text">滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#纠错"><span class="toc-number">1.3.3.</span> <span class="toc-text">纠错</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#QUIC-协议"><span class="toc-number">2.</span> <span class="toc-text">QUIC 协议</span></a></li></ol>
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RTT"><span class="toc-number">1.</span> <span class="toc-text">RTT</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#QUIC-协议概述"><span class="toc-number">1.1.</span> <span class="toc-text">QUIC 协议概述</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多路复用，避免队头阻塞"><span class="toc-number">2.</span> <span class="toc-text">多路复用，避免队头阻塞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Pipiline"><span class="toc-number">2.1.</span> <span class="toc-text">Pipiline</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队头阻塞"><span class="toc-number">2.2.</span> <span class="toc-text">队头阻塞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SPDY"><span class="toc-number">2.3.</span> <span class="toc-text">SPDY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#茶歇小结"><span class="toc-number">2.4.</span> <span class="toc-text">茶歇小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-窗口"><span class="toc-number">2.5.</span> <span class="toc-text">TCP 窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QUIC-多路复用与纠错"><span class="toc-number">2.6.</span> <span class="toc-text">QUIC 多路复用与纠错</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更少的-RTT"><span class="toc-number">3.</span> <span class="toc-text">更少的 RTT</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSL-握手优化"><span class="toc-number">3.1.</span> <span class="toc-text">SSL 握手优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-快速打开"><span class="toc-number">3.2.</span> <span class="toc-text">TCP 快速打开</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-RTT"><span class="toc-number">3.3.</span> <span class="toc-text">0-RTT</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-QUIC"><span class="toc-number">4.</span> <span class="toc-text">Why QUIC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">6.</span> <span class="toc-text">参考资料:</span></a></li></ol>
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   <div class="widget-wrap">
@@ -265,7 +312,7 @@ RTT 由可以理解成两部分组成，一部分受到物理条件的限制，�
 
 
   <div class="rsspart">
-	<a href="atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="linkslist">
