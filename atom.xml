@@ -151,9 +151,9 @@
     </summary>
     
     
-      <category term="前端" scheme="http://fullstack.blog/public/tags/%E5%89%8D%E7%AB%AF/"/>
+      <category term="前端" scheme="http://fullstack.blog/tags/%E5%89%8D%E7%AB%AF/"/>
     
-      <category term="网络" scheme="http://fullstack.blog/public/tags/%E7%BD%91%E7%BB%9C/"/>
+      <category term="网络" scheme="http://fullstack.blog/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -235,7 +235,7 @@
     </summary>
     
     
-      <category term="前端" scheme="http://fullstack.blog/public/tags/%E5%89%8D%E7%AB%AF/"/>
+      <category term="前端" scheme="http://fullstack.blog/tags/%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
@@ -309,9 +309,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://fullstack.blog/public/tags/Android/"/>
+      <category term="Android" scheme="http://fullstack.blog/tags/Android/"/>
     
-      <category term="Java" scheme="http://fullstack.blog/public/tags/Java/"/>
+      <category term="Java" scheme="http://fullstack.blog/tags/Java/"/>
     
   </entry>
   
@@ -452,9 +452,9 @@
     </summary>
     
     
-      <category term="JavaScript" scheme="http://fullstack.blog/public/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://fullstack.blog/tags/JavaScript/"/>
     
-      <category term="Promise" scheme="http://fullstack.blog/public/tags/Promise/"/>
+      <category term="Promise" scheme="http://fullstack.blog/tags/Promise/"/>
     
   </entry>
   
@@ -526,7 +526,7 @@
     </summary>
     
     
-      <category term="HTML" scheme="http://fullstack.blog/public/tags/HTML/"/>
+      <category term="HTML" scheme="http://fullstack.blog/tags/HTML/"/>
     
   </entry>
   
@@ -606,9 +606,9 @@
     </summary>
     
     
-      <category term="JavaScript" scheme="http://fullstack.blog/public/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://fullstack.blog/tags/JavaScript/"/>
     
-      <category term="前端" scheme="http://fullstack.blog/public/tags/%E5%89%8D%E7%AB%AF/"/>
+      <category term="前端" scheme="http://fullstack.blog/tags/%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
@@ -701,7 +701,7 @@
     </summary>
     
     
-      <category term="总结分享" scheme="http://fullstack.blog/public/tags/%E6%80%BB%E7%BB%93%E5%88%86%E4%BA%AB/"/>
+      <category term="总结分享" scheme="http://fullstack.blog/tags/%E6%80%BB%E7%BB%93%E5%88%86%E4%BA%AB/"/>
     
   </entry>
   
@@ -752,7 +752,7 @@
     </summary>
     
     
-      <category term="python" scheme="http://fullstack.blog/public/tags/python/"/>
+      <category term="python" scheme="http://fullstack.blog/tags/python/"/>
     
   </entry>
   
@@ -781,7 +781,7 @@
     </summary>
     
     
-      <category term="Android" scheme="http://fullstack.blog/public/tags/Android/"/>
+      <category term="Android" scheme="http://fullstack.blog/tags/Android/"/>
     
   </entry>
   
@@ -819,7 +819,7 @@
     </summary>
     
     
-      <category term="Android" scheme="http://fullstack.blog/public/tags/Android/"/>
+      <category term="Android" scheme="http://fullstack.blog/tags/Android/"/>
     
   </entry>
   
