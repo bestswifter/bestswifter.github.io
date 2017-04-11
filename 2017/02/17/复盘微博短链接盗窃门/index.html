@@ -157,7 +157,7 @@
 <p>第一种方法是利用第三方短链接服务，即先将自己的原始地址转换成安全的短链接，然后再将这个短链接转换成微博的短链接。这是原贴评论中有人提出的方案，我不知道为什么非要使用微博短链接(刚刚测了一下，使用别的短链接生成器似乎也可以)，这里姑且认为是有什么限制吧。</p>
 <p>这种方法是一种临时方法，并不保险，因为微博完全可以做一个递归判断，首先检查你的链接访问以后是不是 302，如果是 302 则抓取重定向的地址，直到找到 iTunes 为止。幸好暂时微博还没有这么做，不过为了钱，相信我，微博什么都做得出来。他们可以<a href="http://weibo.com/ttarticle/p/show?id=2309404074275521878291#_0" target="_blank" rel="external">不让你提现，帮你自动发广告微博，乱插时间线</a>。</p>
 <h2 id="自建服务器"><a href="#自建服务器" class="headerlink" title="自建服务器"></a>自建服务器</h2><p>最稳妥的方法还是使用自己的服务器，不过评论区中的 HTTPS 加密似乎用处不大。因为 HTTPS 加密只是请求过程加密，而你在发起请求时，必然走的是 GET 方法打开一个 URL，所以自己的推广码必然是明文放在请求头部，比如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HTTP GET https://bestswifter.com/promotion=我的推广码</div></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HTTP GET <span class="string">https:</span><span class="comment">//bestswifter.com/promotion=我的推广码</span></div></pre></td></tr></table></figure>
 <p>然后我在自己的服务器上返回一个 302 重定向，带上推广码，重定向到 iTunes 上。</p>
 <p>在我看来这种做法已经足够安全，因为微博没办法识别自己的 URL 特征，前文说过它只是依赖于 iTunes 开头的链接的识别。当我的域名和 query 键名都被混淆后，微博不可能再对我请求做任何修改，如果还不放心，还可以在服务器上对请求参数自行校验。</p>
 <p>总的来说，控制权在自己手上才是最安全。</p>
