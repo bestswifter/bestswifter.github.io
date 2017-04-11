@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2017-04-08T06:37:18.000Z</updated>
+  <updated>2017-04-11T02:09:27.000Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://fullstack.blog/2017/04/03/QUIC-%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%BF%B0/"/>
     <id>http://fullstack.blog/2017/04/03/QUIC-协议概述/</id>
     <published>2017-04-03T01:28:34.000Z</published>
-    <updated>2017-04-08T06:37:18.000Z</updated>
+    <updated>2017-04-11T02:09:27.000Z</updated>
     
     <content type="html"><![CDATA[<p>QUIC 协议是 Google 提出的一套开源协议，它基于 UDP 来实现，直接竞争对手是 TCP 协议。QUIC 协议的性能非常好，甚至在某些场景下可以实现 0-RTT 的加密通信。所以这篇文章主要讨论以下几个问题:</p>
 <ol>
@@ -57,7 +57,6 @@
 <p>有些读者对 SPDY 协议可能不太了解，其实把它当做 HTTP2 的前身和试验品就好。当然 HTTP2.0 的好处远远不止这些，比如我们可以很容易的基于 HTTP2.0 实现长连接，而以往的选择要么是用更底层的 TCP，要么是使用与 HTTP 同级的 Web Socket 协议。现在 HTTP 协议直接支持了长连接，对开发者而言确实是一大利好。考虑到本篇文章主要是讨论 QUIC 协议相关，就不对 HTTP 2.0 做详细分析了。</p>
 <h2 id="茶歇小结"><a href="#茶歇小结" class="headerlink" title="茶歇小结"></a>茶歇小结</h2><p>刚刚聊到了三个技术名词，Pipeline、并发请求和多路复用，千万不要被绕晕了。</p>
 <p>Pipeline 是为了减少不必要的 TCP 连接，但依然存在队头阻塞(HOC)的缺点，一种解决思路是利用并发连接减少某一个 HOC 的影响，另一个是共享(<strong>注意与复用的区别</strong>) TCP 连接，直接避免 HOC 问题的发生。</p>
-<p>我举个不恰当的例子(略重口，但真没有任何歧视的意思，纯粹是考虑到男性读者较多，这样讲可能容易理解一点)，如果有三个男性和一个女性要做某种不可描述的运动，Pipeline 类似于你爽完了换我爽，中间不要停，省掉了穿裤子再脱的时间。并发连接指的是再找一个女性来，虽然效率略高一点，但依然会出现有男性干等的尴尬局面。多路复用就比较高效了，也别叫人了，不是有三个洞么？</p>
 <h2 id="TCP-窗口"><a href="#TCP-窗口" class="headerlink" title="TCP 窗口"></a>TCP 窗口</h2><p>是不是觉得 SPDY 的多路复用已经够厉害了，解决了队头阻塞问题？很遗憾的是，并没有，而且我可以很肯定的说，只要你还在用 TCP 链接，HOC 就是逃不掉的噩梦，不信我们来看看 TCP 的实现细节。</p>
 <p>我们知道 TCP 协议会保证数据的可达性，如果发生了丢包或者错包，数据就会被重传。于是问题来了，如果一个包丢了，那么后面的包就得停下来等这个包重新传输，也就是发生了队头阻塞。当然 TCP 协议的设计者们也不傻，他们发明了滑动窗口的概念:</p>
 <p><img src="http://images.bestswifter.com/network/tcp-window.png" alt="TCP 窗口"></p>
