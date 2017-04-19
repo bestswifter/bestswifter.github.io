@@ -3,6 +3,23 @@
 
 
     
+  <url>
+    <loc>http://fullstack.blog/2017/04/19/%E6%88%91%E7%9C%BC%E4%B8%AD%E7%9A%84%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-04-19T07:16:39.000Z</lastmod>
+    <data>
+        <display>
+        <title>我眼中的工厂模式</title>
+        <pubTime>2017-04-19T07:12:54.000Z</pubTime>
+        
+        <tag>zen</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
     
     
   <url>
@@ -105,9 +122,9 @@
         <title>JavaScript 模块化简析</title>
         <pubTime>2017-01-25T03:58:44.000Z</pubTime>
         
-        <tag>前端</tag>
-         
         <tag>JavaScript</tag>
+         
+        <tag>前端</tag>
          
          
            
