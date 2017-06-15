@@ -54,7 +54,7 @@
 				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
 				<h2 class="blog-motto">每天学点新知识~</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -71,7 +71,7 @@
 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:fullstack.blog">
 					</form>
 					
@@ -83,6 +83,21 @@
     </header>
     <div id="container">
       <div id="main">
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2017/06/16/指针和引用的区别/" title="指针和引用的区别" itemprop="url">
+  
+    <h1 itemprop="name">指针和引用的区别</h1>
+    
+     
+           <p itemprop="description" >从用法上来讲，C/C++ 中的指针和 Java 等语言中的引用非常类似。它们和被指向的内容分开存储(一般存储在栈上)，并且持有被指向的对象的地址。通过指针/引用，我们可以方便的操作实际的对象。
+当然，区别还是有的。C 系的指针更加透明，换句话说指针其实就是一个整数，只不过这个整数</p>
+        
+    
+    <time datetime="2017-06-15T16:50:05.000Z" itemprop="datePublished">2017-06-16</time>
+  </a>
+</section>
 
   <section class="post" itemscope itemprop="blogPost">
   
@@ -103,9 +118,9 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2017/04/03/QUIC-协议概述/" title="QUIC 协议概述" itemprop="url">
+    <a href="/2017/04/03/试图取代 TCP 的 QUIC 协议到底是什么/" title="试图取代 TCP 的 QUIC 协议到底是什么" itemprop="url">
   
-    <h1 itemprop="name">QUIC 协议概述</h1>
+    <h1 itemprop="name">试图取代 TCP 的 QUIC 协议到底是什么</h1>
     
      
            <p itemprop="description" >QUIC 协议是 Google 提出的一套开源协议，它基于 UDP 来实现，直接竞争对手是 TCP 协议。QUIC 协议的性能非常好，甚至在某些场景下可以实现 0-RTT 的加密通信。所以这篇文章主要讨论以下几个问题:
@@ -224,31 +239,16 @@ Q1: 什么是 HTTPS？BS: </p>
   </a>
 </section>
 
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2016/12/12/该死的-XML-in-Android/" title="该死的 XML in Android" itemprop="url">
-  
-    <h1 itemprop="name">该死的 XML in Android</h1>
-    
-     
-           <p itemprop="description" >虽然大三曾经短暂的接触 Android，但都只是囫囵吞枣，仅仅停留在调用 API 和开源库完成效果的程度上。既然真的要开始搞 Android，还是有必要刨根问底一下的。
-作为入门，最近开始看 Google 的 Android Training。最简单的肯定是创建一个 Hello </p>
-        
-    
-    <time datetime="2016-12-12T10:19:15.000Z" itemprop="datePublished">2016-12-12</time>
-  </a>
-</section>
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   <div class="widget-wrap">
@@ -284,6 +284,8 @@ Q1: 什么是 HTTPS？BS: </p>
 		
 			<li><a href="/tags/总结分享/" title="总结分享">总结分享<sup>1</sup></a></li>
 		
+			<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>1</sup></a></li>
+		
 			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 		
 		</ul>
@@ -292,7 +294,7 @@ Q1: 什么是 HTTPS？BS: </p>
 
 
   <div class="rsspart">
-	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="linkslist">

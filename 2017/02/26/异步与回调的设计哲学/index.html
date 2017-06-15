@@ -57,7 +57,7 @@
 				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
 				<h2 class="blog-motto">每天学点新知识~</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -74,7 +74,7 @@
 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:fullstack.blog">
 					</form>
 					
@@ -98,7 +98,7 @@
     </p>
   <p class="article-time">
     <time datetime="2017-02-26T14:23:20.000Z" itemprop="datePublished">2017-02-26</time>
-    Updated:<time datetime="2017-02-26T14:25:43.000Z" itemprop="dateModified">2017-02-26</time>
+    更新日期:<time datetime="2017-02-26T14:25:43.000Z" itemprop="dateModified">2017-02-26</time>
     
   </p>
 </header>
@@ -106,7 +106,7 @@
 		
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#异步编程入门"><span class="toc-number">1.</span> <span class="toc-text">异步编程入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPS"><span class="toc-number">1.1.</span> <span class="toc-text">CPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#没什么卵用的-CPS"><span class="toc-number">1.2.</span> <span class="toc-text">没什么卵用的 CPS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Promise"><span class="toc-number">2.</span> <span class="toc-text">Promise</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPS-的本质"><span class="toc-number">2.1.</span> <span class="toc-text">CPS 的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-的本质"><span class="toc-number">2.2.</span> <span class="toc-text">Promise 的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-的基本概念"><span class="toc-number">2.3.</span> <span class="toc-text">Promise 的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-小细节"><span class="toc-number">2.4.</span> <span class="toc-text">Promise 小细节</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成器-Generator"><span class="toc-number">3.</span> <span class="toc-text">生成器 Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-in-JavaScript"><span class="toc-number">3.1.</span> <span class="toc-text">Generator in JavaScript</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-的实现"><span class="toc-number">3.2.</span> <span class="toc-text">Generator 的实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Async-Await"><span class="toc-number">4.</span> <span class="toc-text">Async/Await</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#回调改为线性"><span class="toc-number">4.1.</span> <span class="toc-text">回调改为线性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#“同步”-写法的设计哲学"><span class="toc-number">4.2.</span> <span class="toc-text">“同步” 写法的设计哲学</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
 		</div>
 		
@@ -274,15 +274,15 @@
 
 	
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
   <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#异步编程入门"><span class="toc-number">1.</span> <span class="toc-text">异步编程入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPS"><span class="toc-number">1.1.</span> <span class="toc-text">CPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#没什么卵用的-CPS"><span class="toc-number">1.2.</span> <span class="toc-text">没什么卵用的 CPS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Promise"><span class="toc-number">2.</span> <span class="toc-text">Promise</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPS-的本质"><span class="toc-number">2.1.</span> <span class="toc-text">CPS 的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-的本质"><span class="toc-number">2.2.</span> <span class="toc-text">Promise 的本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-的基本概念"><span class="toc-number">2.3.</span> <span class="toc-text">Promise 的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-小细节"><span class="toc-number">2.4.</span> <span class="toc-text">Promise 小细节</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成器-Generator"><span class="toc-number">3.</span> <span class="toc-text">生成器 Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-in-JavaScript"><span class="toc-number">3.1.</span> <span class="toc-text">Generator in JavaScript</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-的实现"><span class="toc-number">3.2.</span> <span class="toc-text">Generator 的实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Async-Await"><span class="toc-number">4.</span> <span class="toc-text">Async/Await</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#回调改为线性"><span class="toc-number">4.1.</span> <span class="toc-text">回调改为线性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#“同步”-写法的设计哲学"><span class="toc-number">4.2.</span> <span class="toc-text">“同步” 写法的设计哲学</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   <div class="widget-wrap">
@@ -318,6 +318,8 @@
 		
 			<li><a href="/tags/总结分享/" title="总结分享">总结分享<sup>1</sup></a></li>
 		
+			<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>1</sup></a></li>
+		
 			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 		
 		</ul>
@@ -326,7 +328,7 @@
 
 
   <div class="rsspart">
-	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="linkslist">

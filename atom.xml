@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2017-04-19T07:16:39.000Z</updated>
+  <updated>2017-06-15T16:53:12.000Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -14,6 +14,47 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>指针和引用的区别</title>
+    <link href="http://fullstack.blog/2017/06/16/%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>http://fullstack.blog/2017/06/16/指针和引用的区别/</id>
+    <published>2017-06-15T16:50:05.000Z</published>
+    <updated>2017-06-15T16:53:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>从用法上来讲，C/C++ 中的指针和 Java 等语言中的引用非常类似。它们和被指向的内容分开存储(一般存储在栈上)，并且持有被指向的对象的地址。通过指针/引用，我们可以方便的操作实际的对象。</p>
+<p>当然，区别还是有的。C 系的指针更加透明，换句话说指针其实就是一个整数，只不过这个整数恰好表示了被指向的变量的地址。这是一种非常简单的，直来直去的表示方法。而 Java 等语言的引用就像是一个黑盒了。Java 的规范并没有要求引用的值一定就是内存地址，在实现的时候，它中间有可能加了一层映射啥的，具体的做法我不太清楚，据说是为了方便 GC 算法。</p>
+<h1 id="指针可以进行四则运算"><a href="#指针可以进行四则运算" class="headerlink" title="指针可以进行四则运算"></a>指针可以进行四则运算</h1><p>一个是透明的数字，表示内存地址。一个是不透明的中间层，带来的直接区别就是指针可以进行四则运算。指针四则运算在提供方便的同时，也相当危险，比如这段代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> <span class="built_in">array</span>[<span class="number">4</span>] = &#123;<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>&#125;;</div><div class="line">    <span class="keyword">int</span> array2[<span class="number">8</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>&#125;;</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">12</span>; ++i) &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, array2[i]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这个十二次的 for 循环中，前八次的输出结果毫无疑问是依次输出 <code>array2</code> 数组的每个元素。但之后的四次循环并不会发送数组越界，而是相当“正常的”输出了 <code>array</code> 数组的元素。在大部分机器上，这段代码的运行结果应该是依次输出 1 到 12 这 12 个数字。</p>
+<p>实际上，这里的输出结果完全是由 <code>array</code> 和 <code>array2</code> 两个数组变量在内存中的布局决定的，如果增加或减少一点 <code>array</code> 数组的长度，恐怕就没有那么幸运了。</p>
+<p>可见，透明的指针带来的问题在于，开发者知道了太多他们本来不该知道的东西(比如开发者竟然可以拿到变量的真实地址，还可以不借助变量名就访问一个变量，比如这里的 <code>array</code>)。在某些精心构造的场合下，攻击者甚至可以通过修改字符串的值来控制程序的执行逻辑，只要计算得当，他们可以调用原本根本不会被调用的函数。</p>
+<p>在引用的概念中，引用就是引用，它什么也不是，更不可能是数字，也就谈不上什么四则运算了。因此想要通过 A 对象的引用来访问 B 对象是完全不可能的。</p>
+<h1 id="指针无法检查类型"><a href="#指针无法检查类型" class="headerlink" title="指针无法检查类型"></a>指针无法检查类型</h1><p>指针的灵活性除了体现在四则运算外，还包括它对类型的弱检查。实际上，因为指针仅仅是数字，它根本没有检查类型的可能。C 的 <code>reinterpret_cast</code> 方法可以将任何一个类型的指针转化为其它任何一个类型的指针，这种做法可以通过编译，但会在运行时报错。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> value = <span class="number">21</span>; </div><div class="line">Person p = <span class="keyword">reinterpret_cast</span>&lt;Person&gt; (&amp;value);</div></pre></td></tr></table></figure>
+<p>比如我们可以把一个整数的指针转换成对象类型，然后到处拿去使用，最终将会得到一个 <code>EXC_BAD_ACCESS</code> 的错误。</p>
+<p>绝大多数时候，<code>reinterpret_cast</code> 既危险，也鸡肋。倒是在计算对象的哈希值时，把指针类型转换成整数类型会有助于计算:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">short</span> <span class="title">Hash</span><span class="params">( <span class="keyword">void</span> *p )</span> </span>&#123;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> val = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">unsigned</span> <span class="keyword">int</span>&gt;( p );</div><div class="line">    <span class="keyword">return</span> ( <span class="keyword">unsigned</span> <span class="keyword">short</span> )( val ^ (val &gt;&gt; <span class="number">16</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而引用由于具备了中间层，完全可以在编译期进行类型检查，确保被转换的类型之间存在继承关系，从而确保安全性:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Father father = <span class="keyword">new</span> Son(); <span class="comment">// 正常</span></div><div class="line"></div><div class="line">Father father = <span class="keyword">new</span>  Father();</div><div class="line">Son son = (Son) father;  <span class="comment">// ClassCastException</span></div></pre></td></tr></table></figure>
+<p>至于在运行时进行类型检测，这已经是另一码事了。单就编译期而言，引用对类型的控制能力远超过指针。</p>
+<h1 id="引用是未来的趋势"><a href="#引用是未来的趋势" class="headerlink" title="引用是未来的趋势"></a>引用是未来的趋势</h1><p>很多人通过分析 Swift 的优点来解释为什么 Swift 会取代 Objective-C。他们说的都对，因为这些确实是 Swift 的优点；但说的也都错，因为这些都不是取代 Objective-C 的理由。</p>
+<p>因为 Swift 的创造者自己已经解释过了，OC 是基于 C 语言的，使用的是指针的模型，这就注定了 OC 不是一门安全的语言。而 Swift 采用了引用的模型，仅通过 <code>UnsafePointer</code> 开放了微弱的指针能力，它的命名也时刻提醒使用者，指针的操作是不安全的。</p>
+<p>而那些所谓的  Swift 的优点，没有一个是替换 Objective-C 的理由，因为它们要么可以在 Objective-C 上引入，要么并不见得优于 Objective-C。</p>
+<p>如果站在架构或者工程的角度来看问题的话，框架的提供者应该为使用者提供尽可能简洁的操作，一方面降低使用成本，最重要的则是减少出错概率。可能出现的错误往往会随着可以使用的操作的线性增加而几何式的增加。如何提供一些简单的，正交的基础操作，让使用者在有限、可控的操作下完成全部任务，是设计的艺术，也是对设计者的挑战。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从用法上来讲，C/C++ 中的指针和 Java 等语言中的引用非常类似。它们和被指向的内容分开存储(一般存储在栈上)，并且持有被指向的对象的地址。通过指针/引用，我们可以方便的操作实际的对象。&lt;/p&gt;
+&lt;p&gt;当然，区别还是有的。C 系的指针更加透明，换句话说指针其实就是一个
+    
+    </summary>
+    
+    
+      <category term="编程语言" scheme="http://fullstack.blog/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
   
   <entry>
     <title>我眼中的工厂模式</title>
@@ -100,11 +141,11 @@
   </entry>
   
   <entry>
-    <title>QUIC 协议概述</title>
-    <link href="http://fullstack.blog/2017/04/03/QUIC-%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%BF%B0/"/>
-    <id>http://fullstack.blog/2017/04/03/QUIC-协议概述/</id>
+    <title>试图取代 TCP 的 QUIC 协议到底是什么</title>
+    <link href="http://fullstack.blog/2017/04/03/%E8%AF%95%E5%9B%BE%E5%8F%96%E4%BB%A3%20TCP%20%E7%9A%84%20QUIC%20%E5%8D%8F%E8%AE%AE%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/"/>
+    <id>http://fullstack.blog/2017/04/03/试图取代 TCP 的 QUIC 协议到底是什么/</id>
     <published>2017-04-03T01:28:34.000Z</published>
-    <updated>2017-04-11T02:09:27.000Z</updated>
+    <updated>2017-04-24T01:47:50.000Z</updated>
     
     <content type="html"><![CDATA[<p>QUIC 协议是 Google 提出的一套开源协议，它基于 UDP 来实现，直接竞争对手是 TCP 协议。QUIC 协议的性能非常好，甚至在某些场景下可以实现 0-RTT 的加密通信。所以这篇文章主要讨论以下几个问题:</p>
 <ol>
