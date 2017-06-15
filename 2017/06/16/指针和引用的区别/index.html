@@ -14,8 +14,8 @@
     
     <meta name="author" content="Fullstack">
     
-    <meta name="description" content="从用法上来讲，C/C++ 中的指针和 Java 等语言中的引用非常类似。它们和被指向的内容分开存储(一般存储在栈上)，并且持有被指向的对象的地址。通过指针/引用，我们可以方便的操作实际的对象。
-当然，区别还是有的。C 系的指针更加透明，换句话说指针其实就是一个整数，只不过这个整数恰好表示了被指向的变">
+    <meta name="description" content="从概念理解和用法上来讲，C/C++ 中的指针和 Java 等语言中的引用非常类似。它们和被指向的内容分开存储(一般存储在栈上)，并且持有被指向的对象的地址。通过指针/引用，我们可以方便的操作实际的对象。
+当然，区别还是有的。C 系的指针更加透明，换句话说指针其实就是一个整数，只不过这个整数恰好表示了">
     
     
     
@@ -57,7 +57,7 @@
 				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
 				<h2 class="blog-motto">每天学点新知识~</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -74,7 +74,7 @@
 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:fullstack.blog">
 					</form>
 					
@@ -98,7 +98,7 @@
     </p>
   <p class="article-time">
     <time datetime="2017-06-15T16:50:05.000Z" itemprop="datePublished">2017-06-16</time>
-    更新日期:<time datetime="2017-06-15T16:53:12.000Z" itemprop="dateModified">2017-06-16</time>
+    Updated:<time datetime="2017-06-15T16:55:50.000Z" itemprop="dateModified">2017-06-16</time>
     
   </p>
 </header>
@@ -106,11 +106,11 @@
 		
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#指针可以进行四则运算"><span class="toc-number">1.</span> <span class="toc-text">指针可以进行四则运算</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#指针无法检查类型"><span class="toc-number">2.</span> <span class="toc-text">指针无法检查类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用是未来的趋势"><span class="toc-number">3.</span> <span class="toc-text">引用是未来的趋势</span></a></li></ol>
 		</div>
 		
-		<p>从用法上来讲，C/C++ 中的指针和 Java 等语言中的引用非常类似。它们和被指向的内容分开存储(一般存储在栈上)，并且持有被指向的对象的地址。通过指针/引用，我们可以方便的操作实际的对象。</p>
+		<p>从概念理解和用法上来讲，C/C++ 中的指针和 Java 等语言中的引用非常类似。它们和被指向的内容分开存储(一般存储在栈上)，并且持有被指向的对象的地址。通过指针/引用，我们可以方便的操作实际的对象。</p>
 <p>当然，区别还是有的。C 系的指针更加透明，换句话说指针其实就是一个整数，只不过这个整数恰好表示了被指向的变量的地址。这是一种非常简单的，直来直去的表示方法。而 Java 等语言的引用就像是一个黑盒了。Java 的规范并没有要求引用的值一定就是内存地址，在实现的时候，它中间有可能加了一层映射啥的，具体的做法我不太清楚，据说是为了方便 GC 算法。</p>
 <h1 id="指针可以进行四则运算"><a href="#指针可以进行四则运算" class="headerlink" title="指针可以进行四则运算"></a>指针可以进行四则运算</h1><p>一个是透明的数字，表示内存地址。一个是不透明的中间层，带来的直接区别就是指针可以进行四则运算。指针四则运算在提供方便的同时，也相当危险，比如这段代码:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> <span class="built_in">array</span>[<span class="number">4</span>] = &#123;<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>&#125;;</div><div class="line">    <span class="keyword">int</span> array2[<span class="number">8</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>&#125;;</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">12</span>; ++i) &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, array2[i]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -166,15 +166,15 @@
 
 	
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
   <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#指针可以进行四则运算"><span class="toc-number">1.</span> <span class="toc-text">指针可以进行四则运算</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#指针无法检查类型"><span class="toc-number">2.</span> <span class="toc-text">指针无法检查类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用是未来的趋势"><span class="toc-number">3.</span> <span class="toc-text">引用是未来的趋势</span></a></li></ol>
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   <div class="widget-wrap">
@@ -220,7 +220,7 @@
 
 
   <div class="rsspart">
-	<a href="atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="linkslist">
