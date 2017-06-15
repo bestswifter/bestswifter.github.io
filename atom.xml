@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2017-06-15T16:55:50.000Z</updated>
+  <updated>2017-06-15T16:58:46.000Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -20,10 +20,10 @@
     <link href="http://fullstack.blog/2017/06/16/%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
     <id>http://fullstack.blog/2017/06/16/指针和引用的区别/</id>
     <published>2017-06-15T16:50:05.000Z</published>
-    <updated>2017-06-15T16:55:50.000Z</updated>
+    <updated>2017-06-15T16:58:46.000Z</updated>
     
     <content type="html"><![CDATA[<p>从概念理解和用法上来讲，C/C++ 中的指针和 Java 等语言中的引用非常类似。它们和被指向的内容分开存储(一般存储在栈上)，并且持有被指向的对象的地址。通过指针/引用，我们可以方便的操作实际的对象。</p>
-<p>当然，区别还是有的。C 系的指针更加透明，换句话说指针其实就是一个整数，只不过这个整数恰好表示了被指向的变量的地址。这是一种非常简单的，直来直去的表示方法。而 Java 等语言的引用就像是一个黑盒了。Java 的规范并没有要求引用的值一定就是内存地址，在实现的时候，它中间有可能加了一层映射啥的，具体的做法我不太清楚，据说是为了方便 GC 算法。</p>
+<p>当然，区别还是有的。C 系的指针更加透明，换句话说指针其实就是一个整数，只不过这个整数恰好表示了被指向的变量的地址。这是一种非常简单的，直来直去的表示方法。而 Java 等语言的引用就像是一个黑盒了。Java 的规范并没有要求引用的值一定就是内存地址，在实现的时候，它有可能有一个中间层进行映射，但最终还是指针的模型，也就是说依然会持有地址，只不过从使用者的角度来看，地址的概念经过封装已经不存在了。具体的做法我不太清楚，据说是为了提高垃圾回收算法的效率。</p>
 <h1 id="指针可以进行四则运算"><a href="#指针可以进行四则运算" class="headerlink" title="指针可以进行四则运算"></a>指针可以进行四则运算</h1><p>一个是透明的数字，表示内存地址。一个是不透明的中间层，带来的直接区别就是指针可以进行四则运算。指针四则运算在提供方便的同时，也相当危险，比如这段代码:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> <span class="built_in">array</span>[<span class="number">4</span>] = &#123;<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>&#125;;</div><div class="line">    <span class="keyword">int</span> array2[<span class="number">8</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>&#125;;</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">12</span>; ++i) &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, array2[i]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在这个十二次的 for 循环中，前八次的输出结果毫无疑问是依次输出 <code>array2</code> 数组的每个元素。但之后的四次循环并不会发送数组越界，而是相当“正常的”输出了 <code>array</code> 数组的元素。在大部分机器上，这段代码的运行结果应该是依次输出 1 到 12 这 12 个数字。</p>
