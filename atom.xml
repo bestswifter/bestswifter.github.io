@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2017-06-24T14:05:19.000Z</updated>
+  <updated>2017-06-24T14:09:19.000Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://fullstack.blog/2017/06/24/%E5%A4%A7%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%80%85%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E5%9F%BA%E7%A1%80%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%AF%AD%E8%A8%80%E7%9F%A5%E8%AF%86/"/>
     <id>http://fullstack.blog/2017/06/24/大前端开发者需要了解的基础编译原理和语言知识/</id>
     <published>2017-06-24T14:03:39.000Z</published>
-    <updated>2017-06-24T14:05:19.000Z</updated>
+    <updated>2017-06-24T14:09:19.000Z</updated>
     
     <content type="html"><![CDATA[<p>在我刚刚进入大学，从零开始学习 C 语言的时候，我就不断的从学长的口中听到一个又一个语言，比如 C++、Java、Python、JavaScript 这些大众的，也有 Lisp、Perl、Ruby 这些相对小众的。一般来说，当程序员讨论一门语言的时候，默认的上下文经常是:“用 xxx 语言来完成 xxx 任务”。所以一直困扰着的我的一个问题就是，为什么完成某个任务，一定要选择特定的语言，比如安卓开发是 Java，前端要用 JavaScript，iOS 开发使用 Objective-C 或者 Swift。这些问题的答案非常复杂，有的是技术原因，有的是历史原因，有的会考虑成本，很难得出统一的结论，只能 case-by-case 的分析。这篇文章并非专门解答上述问题，而是希望通过介绍一些通用的概念，帮助读者掌握分析问题的能力，如果这个概念在实际编程中用得到，我也会举一些具体的例子。</p>
 <p>在阅读本文前，不妨思考一下这几个问题，如果没有头绪，建议看完文章以后再思考一遍。如果觉得答案显而易见，恭喜你，这篇文章并非为你准备的:</p>
@@ -129,7 +129,7 @@
 <p>LLVM IR 是一种中间代码，它长成这样:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define i32 @square_unsigned(i32 %a) &#123;</div><div class="line">  %1 = mul i32 %a, %a</div><div class="line">  ret i32 %1</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="生成目标代码"><a href="#生成目标代码" class="headerlink" title="生成目标代码"></a>生成目标代码</h2><p>目标代码也可以叫做汇编代码。由于中间代码已经非常接近于实际的汇编代码，它几乎可以直接被转化。主要的工作量在于兼容各种 CPU 以及填写模板。在最终生成的汇编代码中，不仅有汇编命令，也有一些对文件的说明。比如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">    .file       &quot;test.c&quot;      # 文件名称</div><div class="line">    .global     m             # 全局变量 m</div><div class="line">    .data                     # 数据段声明</div><div class="line">    .align      4             # 4 字节对齐</div><div class="line">    .type       m, @objc</div><div class="line">    .size       m, 4</div><div class="line">m:</div><div class="line">    .long       10            # m 的值是 10</div><div class="line">    .text</div><div class="line">    .global     main</div><div class="line">    .type       main, @function</div><div class="line">main:</div><div class="line">    pushl   %ebp</div><div class="line">    movl    %esp,   %ebp</div><div class="line">    ...</div></pre></td></tr></table></figure>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">    .file       <span class="string">"test.c"</span>      # 文件名称</div><div class="line">    <span class="meta">.global</span>     m             # 全局变量 m</div><div class="line">    <span class="meta">.data</span>                     # 数据段声明</div><div class="line">    <span class="meta">.align</span>      <span class="number">4</span>             # <span class="number">4</span> 字节对齐</div><div class="line">    .type       m, <span class="comment">@objc</span></div><div class="line">    .size       m, <span class="number">4</span></div><div class="line">m:</div><div class="line">    <span class="meta">.long</span>       <span class="number">10</span>            # m 的值是 <span class="number">10</span></div><div class="line">    <span class="meta">.text</span></div><div class="line">    <span class="meta">.global</span>     main</div><div class="line">    .type       main, <span class="comment">@function</span></div><div class="line"><span class="symbol">main</span>:</div><div class="line">    <span class="keyword">pushl </span>  %ebp</div><div class="line">    <span class="keyword">movl </span>   %esp,   %ebp</div><div class="line">    ...</div></pre></td></tr></table></figure>
 <h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><p>汇编器会接收汇编代码，将它转换成二进制的机器码，生成目标文件(后缀是 .o)，机器码可以直接被 CPU 识别并执行。从目标代码可以猜出来，最终的目标文件(机器码)也是分段的，这主要有以下三个原因:</p>
 <ol>
 <li>分段可以将数据和代码区分开。其中代码只读，数据可写，方便权限管理，避免指令被改写，提高安全性。</li>
