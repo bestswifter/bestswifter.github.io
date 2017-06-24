@@ -1,0 +1,645 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <script>
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('http://images.bestswifter.com/sw.js')
+  }
+  </script>
+  
+    <title>大前端开发者需要了解的基础编译原理和语言知识 | 全栈养成计划</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Fullstack">
+    
+    <meta name="description" content="在我刚刚进入大学，从零开始学习 C 语言的时候，我就不断的从学长的口中听到一个又一个语言，比如 C++、Java、Python、JavaScript 这些大众的，也有 Lisp、Perl、Ruby 这些相对小众的。一般来说，当程序员讨论一门语言的时候，默认的上下文经常是:“用 xxx 语言来完成 x">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="全栈养成计划" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+(function() {
+ var hm = document.createElement("script");
+ hm.src = "https://hm.baidu.com/hm.js?8b8cc550e083bb800d2b0d350318e611";
+ var s = document.getElementsByTagName("script")[0]; 
+ s.parentNode.insertBefore(hm, s);
+
+ })();
+</script>
+
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="全栈养成计划" title="全栈养成计划"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
+				<h2 class="blog-motto">每天学点新知识~</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/categories">categories</a></li>
+					
+						<li><a href="/tags">tags</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:fullstack.blog">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/06/24/大前端开发者需要了解的基础编译原理和语言知识/" title="大前端开发者需要了解的基础编译原理和语言知识" itemprop="url">大前端开发者需要了解的基础编译原理和语言知识</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://fullstack.blog" title="Fullstack">Fullstack</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2017-06-24T14:03:39.000Z" itemprop="datePublished">2017-06-24</time>
+    Updated:<time datetime="2017-06-24T14:05:19.000Z" itemprop="dateModified">2017-06-24</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编译原理"><span class="toc-number">1.</span> <span class="toc-text">编译原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#词法分析"><span class="toc-number">1.1.</span> <span class="toc-text">词法分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语法分析"><span class="toc-number">1.2.</span> <span class="toc-text">语法分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成中间代码"><span class="toc-number">1.3.</span> <span class="toc-text">生成中间代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#语法树转高端-gimple"><span class="toc-number">1.3.1.</span> <span class="toc-text">语法树转高端 gimple</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高端-gimple-转低端-gimple"><span class="toc-number">1.3.2.</span> <span class="toc-text">高端 gimple 转低端 gimple</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#低端-gimple-经过-cfa-转-ssa-再转中间代码"><span class="toc-number">1.3.3.</span> <span class="toc-text">低端 gimple 经过 cfa 转 ssa 再转中间代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中间代码的意义"><span class="toc-number">1.3.4.</span> <span class="toc-text">中间代码的意义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成目标代码"><span class="toc-number">1.4.</span> <span class="toc-text">生成目标代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.5.</span> <span class="toc-text">汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-number">1.6.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预处理"><span class="toc-number">1.7.</span> <span class="toc-text">预处理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编译-VS-解释"><span class="toc-number">2.</span> <span class="toc-text">编译 VS 解释</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java"><span class="toc-number">2.1.</span> <span class="toc-text">Java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释型语言"><span class="toc-number">2.2.</span> <span class="toc-text">解释型语言</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自举"><span class="toc-number">3.</span> <span class="toc-text">自举</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运行时"><span class="toc-number">4.</span> <span class="toc-text">运行时</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时库的基本概念"><span class="toc-number">4.1.</span> <span class="toc-text">运行时库的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#swift-运行时库"><span class="toc-number">4.2.</span> <span class="toc-text">swift 运行时库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript-那些事"><span class="toc-number">5.</span> <span class="toc-text">JavaScript 那些事</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-是如何运行的"><span class="toc-number">5.1.</span> <span class="toc-text">JavaScript 是如何运行的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JIT-优化"><span class="toc-number">5.2.</span> <span class="toc-text">JIT 优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebAssembly"><span class="toc-number">5.3.</span> <span class="toc-text">WebAssembly</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#跨语言那些事儿"><span class="toc-number">6.</span> <span class="toc-text">跨语言那些事儿</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#直接语法转换"><span class="toc-number">6.1.</span> <span class="toc-text">直接语法转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#胶水语言-Python"><span class="toc-number">6.2.</span> <span class="toc-text">胶水语言 Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OCS"><span class="toc-number">6.3.</span> <span class="toc-text">OCS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
+		</div>
+		
+		<p>在我刚刚进入大学，从零开始学习 C 语言的时候，我就不断的从学长的口中听到一个又一个语言，比如 C++、Java、Python、JavaScript 这些大众的，也有 Lisp、Perl、Ruby 这些相对小众的。一般来说，当程序员讨论一门语言的时候，默认的上下文经常是:“用 xxx 语言来完成 xxx 任务”。所以一直困扰着的我的一个问题就是，为什么完成某个任务，一定要选择特定的语言，比如安卓开发是 Java，前端要用 JavaScript，iOS 开发使用 Objective-C 或者 Swift。这些问题的答案非常复杂，有的是技术原因，有的是历史原因，有的会考虑成本，很难得出统一的结论，只能 case-by-case 的分析。这篇文章并非专门解答上述问题，而是希望通过介绍一些通用的概念，帮助读者掌握分析问题的能力，如果这个概念在实际编程中用得到，我也会举一些具体的例子。</p>
+<p>在阅读本文前，不妨思考一下这几个问题，如果没有头绪，建议看完文章以后再思考一遍。如果觉得答案显而易见，恭喜你，这篇文章并非为你准备的:</p>
+<ol>
+<li>什么是编译器，它以什么为分界线，分为前端和后端？</li>
+<li>Java 是编译型语言还是解释型语言，Python 呢？</li>
+<li>C 语言的编译器也是 C 语言，那它怎么被编译的？</li>
+<li>目标文件的格式是什么样的，段表、符号表、重定位表有什么作用？</li>
+<li>Swift 是静态语言，为什么还有运行时库？</li>
+<li>什么是 ABI，ABI 不稳定有什么问题？</li>
+<li>什么是 WebAssembly，为什么要推出这门技术，用 C++ 代替 JavaScript 可行么？</li>
+<li>JavaScript 和 DOM API 是什么关系，JavaScript 可以读写文件么？</li>
+<li>C++ 代码可以自动转换成 Java 代码么，任意两种语言是否可以互转？</li>
+<li>为什么说 Python 是胶水语言，它可以用来开发 iOS/Android 么？</li>
+</ol>
+<h1 id="编译原理"><a href="#编译原理" class="headerlink" title="编译原理"></a>编译原理</h1><p>就像数学是一个公理体系，从简单的公理就能推导出各种高阶公式一样，我们从最基本的 C 语言和编译说起。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> a = <span class="built_in">strlen</span>(<span class="string">"Hello world"</span>);  <span class="comment">// 字符串的长度是 11</span></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>相关的介绍编译过程的文章很多，读者应该都非常熟悉了，整个流程包括<strong>预处理</strong>、<strong>词法分析</strong>、<strong>语法分析</strong>、<strong>生成中间代码</strong>，<strong>生成目标代码</strong>，<strong>汇编</strong>，<strong>链接</strong> 等。已有的文章大多分析了每一步的逻辑，但很少谈实现思路，我会尽量用简单的语言来描述每一步的实现思路，相信这样有助于加深记忆。由于主要谈的概念和思路，难免会有一些不够准确的抽象，读者学会抓重点就行。</p>
+<p>预处理是一个独立的模块，它放在最后介绍，我们先看词法分析。</p>
+<h2 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h2><p>最先登场的是编译器，它负责前五个步骤，也就是说编译器的输入是源代码，输出是中间代码。</p>
+<p>编译器不能像人一样，一眼就看明白源代码的内容，它只能比较傻的逐个单词分析。词法分析要做的就是把源代码分割开，形成若干个单词。这个过程并不像想象的那么简单。比如举几个例子:</p>
+<ol>
+<li><code>int t</code> 表示一个整数，而 <code>intt</code>  只是一个变量名。</li>
+<li><code>int a()</code> 表示一个函数而非整数 a，<code>int a ()</code> 也是一个函数。</li>
+<li><code>a =</code> 没有具体价值，它可以是一个赋值语句，还可以是 <code>a == 1</code> 的前缀，表示一个判断。</li>
+</ol>
+<p>词法分析的主要难点在于，前缀无法决定一个完整字符串的含义，通常需要看完整句以后才知道每个单词的具体含义。同时，C 语言的语法也不简单，各种关键字，括号，逗号，语法等等都会给词法分析的实现增加难度。</p>
+<p>词法分析的主要实现原理是状态机，它逐个读取字符，然后根据读到的字符的特点转换状态。比如这是 GCC 的词法分析状态机(引用自《编译系统透视》):</p>
+<p><img src="http://images.bestswifter.com/1497792598.png" alt=""></p>
+<p>如果自己实现的话，思路也不难。外面包一个循环，然后各种 <code>switch...case</code> 就完事了。词法分析应该算是最简单的一节。</p>
+<h2 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h2><p>经过词法分析以后，编译器已经知道了每个单词，但这些单词组合起来表示的语法还不清楚。一个简单的思路是模板匹配，比如有这样的语句:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</div></pre></td></tr></table></figure>
+<p>它其实表示了这么一种通用的语法格式:</p>
+<blockquote>
+<p>类型 变量名 = 常量;</p>
+</blockquote>
+<p>所以 <code>int a = 10;</code> 当然可以匹配上这种模式。同理，它不可能匹配 <code>类型 函数名(参数);</code> 这种函数定义模式，因为两者结构不一致，等号无法被匹配。</p>
+<p>语法分析比词法分析更复杂，因为所有 C 语言支持的语法特性都必须被语法分析器正确的匹配，这个难度比纯新手学习 C 语言语法难上很多倍。不过这个属于业务复杂性，无论采用哪种解决方案都不可避免，因为语法规则的数量就是这么多。</p>
+<p>在匹配模式的时候，另一个问题在于上述的名词，比如 <strong>类型</strong>、<strong>参数</strong>，很难界定。比如 <code>int</code> 是类型，<code>long long</code> 也是类型，<code>unsigned long long</code> 也是类型。<code>(int a)</code> 可以是参数，<code>(int a, int b)</code> 也是参数，<code>(unsigned long long a, long long double b, int *p)</code> 看起来能把人逼疯。</p>
+<p>下面举一个简单的例子来解释 <code>int a = 10</code> 是如何被解析的，总的思路是归纳与分解。我们把一个复杂的式子分割成若干部分，然后分析各个部分，这样可以简化复杂度。对于 <code>int a = 10</code> 来说，他是一个声明，声明由两部分组成，分别是声明说明符和初始声明符列表。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">声明</th>
+<th style="text-align:center">声明说明符</th>
+<th style="text-align:center">初始声明符列表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">int a = 10</td>
+<td style="text-align:center">int</td>
+<td style="text-align:center">a = 10</td>
+</tr>
+<tr>
+<td style="text-align:left">int fun(int a)</td>
+<td style="text-align:center">int</td>
+<td style="text-align:center">fun(int a)</td>
+</tr>
+<tr>
+<td style="text-align:left">int array[5]</td>
+<td style="text-align:center">int</td>
+<td style="text-align:center">array[5]</td>
+</tr>
+</tbody>
+</table>
+<p>声明说明符比较简单，它其实是若干个类型的串联:</p>
+<blockquote>
+<p>声明说明符 = 类型 + 类型的数组(长度可以为 0)</p>
+</blockquote>
+<p>而且我们知道若干个类型连在一起又变成了声明说明符，所以上述等式等价于:</p>
+<blockquote>
+<p>声明说明符 = 类型 + 声明说明符(可选)</p>
+</blockquote>
+<p>再严谨一些，声明说明符还可以包括 <code>const</code> 这样的限定说明符，<code>inline</code> 这样的函数说明符，和 <code>_Alignas</code> 这样的对齐说明符。借用书中的公式，它的完整表达如下:</p>
+<p><img src="http://images.bestswifter.com/1497794113.png" alt=""></p>
+<p>这才仅仅是声明语句中最简单的声明说明符，仅仅是几个类型和关键字的组合而已。后面的<strong>初始声明符列表</strong>的解析更复杂。如果有能力做完这些解析，恭喜你，成功的解析了声明语句。你会发现什么定义语句啦，调用语句啦，正妩媚的向你招手╮(╯▽╰)╭。</p>
+<p>成功解析语法以后，我们会得到抽象语法树(AST: Abstract Syntax Tree)。以这段代码为例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> c = <span class="number">0</span>;</div><div class="line">    c = a + b;</div><div class="line">    <span class="keyword">return</span> c;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>它的语法树如下:</p>
+<p><img src="http://images.bestswifter.com/1497794686.png" alt=""></p>
+<p>语法树将字符串格式的源代码转化为树状的数据结构，更容易被计算机理解和处理。但它距离中间代码还有一定的距离。</p>
+<h2 id="生成中间代码"><a href="#生成中间代码" class="headerlink" title="生成中间代码"></a>生成中间代码</h2><p>以 GCC 为例，生成中间代码可以分为三个步骤:</p>
+<ol>
+<li>语法树转高端 gimple</li>
+<li>高端 gimple 转低端 gimple</li>
+<li>低端 gimple 经过 cfa 转 ssa 再转中间代码</li>
+</ol>
+<p>简单的介绍一下每一步都做了什么。</p>
+<h3 id="语法树转高端-gimple"><a href="#语法树转高端-gimple" class="headerlink" title="语法树转高端 gimple"></a>语法树转高端 gimple</h3><p>这一步主要是处理寄存器和栈，比如 <code>c = a + b</code> 并没有直接的汇编代码和它对应，一般来说需要把 <code>a + b</code> 的结果保存到寄存器中，然后再把寄存器赋值给 c。所以这一步如果用 C 语言来表示其实是: </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> temp = a + b; <span class="comment">// temp 其实是寄存器</span></div><div class="line">c =  temp;</div></pre></td></tr></table></figure>
+<p>另外，调用一个新的函数时会进入到函数自己的栈，建栈的操作也需要在 gimple 中声明。</p>
+<h3 id="高端-gimple-转低端-gimple"><a href="#高端-gimple-转低端-gimple" class="headerlink" title="高端 gimple 转低端 gimple"></a>高端 gimple 转低端 gimple</h3><p>这一步主要是把变量定义，语句执行和返回语句区分存储。比如:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</div><div class="line">a++;</div><div class="line"><span class="keyword">int</span> b = <span class="number">1</span>;</div></pre></td></tr></table></figure>
+<p>会被处理成:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">int</span> b = <span class="number">1</span>;</div><div class="line">a++;</div></pre></td></tr></table></figure>
+<p>这样做的好处是很容易计算一个函数到底需要多少栈空间。</p>
+<p>此外，<code>return</code> 语句会被统一处理，放在函数的末尾，比如:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="number">1</span> &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>会被处理成:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="number">1</span> &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">goto</span> a;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">goto</span> b;</div><div class="line">&#125;</div><div class="line">a:</div><div class="line">    <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">b:</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div></pre></td></tr></table></figure>
+<h3 id="低端-gimple-经过-cfa-转-ssa-再转中间代码"><a href="#低端-gimple-经过-cfa-转-ssa-再转中间代码" class="headerlink" title="低端 gimple 经过 cfa 转 ssa 再转中间代码"></a>低端 gimple 经过 cfa 转 ssa 再转中间代码</h3><p>这一步主要是进行各种优化，添加版本号等，我不太了解，对于普通开发者来说也没有学习的必要。</p>
+<h3 id="中间代码的意义"><a href="#中间代码的意义" class="headerlink" title="中间代码的意义"></a>中间代码的意义</h3><p>其实中间代码可以被省略，抽象语法树可以直接转化为目标代码(汇编代码)。然而，不同的 CPU 的汇编语法并不一致，比如 <a href="http://blog.csdn.net/wusuopubupt/article/details/26378845" target="_blank" rel="external">AT&amp;T与Intel汇编风格比较</a> 这篇文章所提到的，Intel 架构和 AT&amp;T 架构的汇编码中，源操作数和目标操作数位置恰好相反。Intel 架构下操作数和立即数没有前缀但 AT&amp;T 有。因此一种比较高效的做法是先生成语言无关，CPU 也无关的中间代码，然后再生成对应各个 CPU 的汇编代码。</p>
+<p>生成中间代码是非常重要的一步，一方面它和语言无关，也和 CPU 与具体实现无关。可以理解为中间代码是一种非常抽象，又非常普适的代码。它客观中立的描述了代码要做的事情，如果用中文、英文来分别表示  C 和 Java 的话，中间码某种意义上可以被理解为世界语。</p>
+<p>另一方面，中间代码是编译器前端和后端的分界线。编译器前端负责把源码转换成中间代码，编译器后端负责把中间代码转换成汇编代码。</p>
+<p>LLVM IR 是一种中间代码，它长成这样:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define i32 @square_unsigned(i32 %a) &#123;</div><div class="line">  %1 = mul i32 %a, %a</div><div class="line">  ret i32 %1</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="生成目标代码"><a href="#生成目标代码" class="headerlink" title="生成目标代码"></a>生成目标代码</h2><p>目标代码也可以叫做汇编代码。由于中间代码已经非常接近于实际的汇编代码，它几乎可以直接被转化。主要的工作量在于兼容各种 CPU 以及填写模板。在最终生成的汇编代码中，不仅有汇编命令，也有一些对文件的说明。比如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">    .file       &quot;test.c&quot;      # 文件名称</div><div class="line">    .global     m             # 全局变量 m</div><div class="line">    .data                     # 数据段声明</div><div class="line">    .align      4             # 4 字节对齐</div><div class="line">    .type       m, @objc</div><div class="line">    .size       m, 4</div><div class="line">m:</div><div class="line">    .long       10            # m 的值是 10</div><div class="line">    .text</div><div class="line">    .global     main</div><div class="line">    .type       main, @function</div><div class="line">main:</div><div class="line">    pushl   %ebp</div><div class="line">    movl    %esp,   %ebp</div><div class="line">    ...</div></pre></td></tr></table></figure>
+<h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><p>汇编器会接收汇编代码，将它转换成二进制的机器码，生成目标文件(后缀是 .o)，机器码可以直接被 CPU 识别并执行。从目标代码可以猜出来，最终的目标文件(机器码)也是分段的，这主要有以下三个原因:</p>
+<ol>
+<li>分段可以将数据和代码区分开。其中代码只读，数据可写，方便权限管理，避免指令被改写，提高安全性。</li>
+<li>现代 CPU  一般有自己的数据缓存和指令缓存，区分存储有助于提高缓存命中率。</li>
+<li>当多个进程同时运行时，他们的指令可以被共享，这样能节省内存。</li>
+</ol>
+<p>段分离我们并不遥远，比如命令行中的 <code>objcopy</code> 可以自行添加自定义的段名，C 语言的 <code>__attribute((section(段名)))__</code> 可以把变量定义在某个特定名称的段中。</p>
+<p>对于一个目标文件来说，文件的最开头(也叫作 ELF 头)记录了目标文件的基本信息，程序入口地址，以及段表的位置，相当于是对文件的整体描述。接下来的重点是段表，它记录了每个段的段名，长度，偏移量。比较常用的段有:</p>
+<ul>
+<li>.strtab 段: 字符串长度不定，分开存放浪费空间(因为需要内存对齐)，因此可以统一放到字符串表(也就是 .strtab 段)中进行管理。字符串之间用 <code>\0</code> 分割，所以凡是引用字符串的地方用一个数字就可以代表。</li>
+<li>.symtab: 表示符号表。符号表统一管理所有符号，比如变量名，函数名。符号表可以理解为一个表格，每行都有符号名(数字)、符号类型和符号值(存储地址)</li>
+<li>.rel 段: 它表示一系列重定位表。这个表主要在链接时用到，下面会详细解释。</li>
+</ul>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>在一个目标文件中，不可能所有变量和函数都定义在文件内部。比如 <code>strlen</code> 函数就是一个被调用的外部函数，此时就需要把 <code>main.o</code> 这个目标文件和包含了 <code>strlen</code> 函数实现的目标文件链接起来。我们知道函数调用对应到汇编其实是 <code>jump</code> 指令，后面写上被调用函数的地址，但在生成 <code>main.o</code> 的过程中，<code>strlen()</code> 函数的地址并不知道，所以只能先用 0 来代替，直到最后链接时，才会修改成真实的地址。</p>
+<p>链接器就是靠着重定位表来知道哪些地方需要被重定位的。每个可能存在重定位的段都会有对应的重定位表。在链接阶段，链接器会根据重定位表中，需要重定位的内容，去别的目标文件中找到地址并进行重定位。</p>
+<p>有时候我们还会听到动态链接这个名词，它表示重定位发生在运行时而非编译后。动态链接可以节省内存，但也会带来加载的性能问题，这里不详细解释，感兴趣的读者可以阅读《程序员的自我修养》这本书。</p>
+<h2 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h2><p>最后简单描述一下预处理。预处理主要是处理一些宏定义，比如 <code>#define</code>、<code>#include</code>、<code>#if</code> 等。预处理的实现有很多种，有的编译器会在词法分析前先进行预处理，替换掉所有 # 开头的宏，而有的编译器则是在词法分析的过程中进行预处理。当分析到 # 开头的单词时才进行替换。虽然先预处理再词法分析比较符合直觉，但在实际使用中，GCC 使用的却是一边词法分析，一边预处理的方案。</p>
+<h1 id="编译-VS-解释"><a href="#编译-VS-解释" class="headerlink" title="编译 VS 解释"></a>编译 VS 解释</h1><p>总结一下，对于 C 语言来说，从源码到运行结果大致上需要经历编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。</p>
+<p>编译器以中间代码为界限，又可以分前端和后端。比如 clang 就是一个前端工具，而 LLVM 则负责后端处理。另一个知名工具 GCC(GNU Compile Collection)则是一个套装，包揽了前后端的所有任务。前端主要负责预处理、词法分析、语法分析，最终生成语言无关的中间代码。后端主要负责目标代码的生成和优化。</p>
+<p>关于编译原理的基础知识虽然枯燥，但掌握这些知识有助于我们理解一些有用的，但不太容易理解的概念。接下来，我们简单看一下别的语言是如何运行的。</p>
+<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><p>在 Java 代码的执行过程中，可以简单分为编译和执行两步。Java 的编译器首先会把 .java 格式的源码编译成 .class 格式的字节码。字节码对应到 C 语言的编译体系中就是中间码，Java 虚拟机执行这些中间码得到最终结果。</p>
+<p>回忆一下上文对中间码的解释，一方面它与语言无关，仅仅描述客观事实。另一方面它和目标代码的差距并不大，已经包括了对寄存器和栈的处理，仅仅是抽象了 CPU 架构而已，只要把它具体化成各个平台下的目标代码，就可以交给汇编器了。</p>
+<h2 id="解释型语言"><a href="#解释型语言" class="headerlink" title="解释型语言"></a>解释型语言</h2><p>一般来说我们也把解释型语言叫做脚本语言，比如 Python、Ruby、JavaScript 等等。这类语言的特点是，不需要编译，直接由解释器执行。换言之，运行流程变成了:</p>
+<blockquote>
+<p>源代码 -&gt; 解释器 -&gt; 运行结果</p>
+</blockquote>
+<p>需要注意的是，这里的解释器只是一个黑盒，它的实现方式可以是多种多样的。举个例子，它的实现可以非常类似于 Java 的执行过程。解释器里面可以包含一个编译器和虚拟机，编译器把源码转化成 AST 或者字节码(中间代码)然后交给虚拟机执行，比如 Ruby 1.9 以后版本的官方实现就是这个思路。</p>
+<p>至于虚拟机，它并不是什么黑科技，它的内部可以编译执行，也可以解释执行。如果是编译执行，那么它会把字节码编译成当前 CPU 下的机器码然后统一执行。如果是解释执行，它会逐条翻译字节码。</p>
+<p>有意思的是，如果虚拟机是编译执行的，那么这套流程和 C 语言几乎一样，都满足下面这个流程:</p>
+<blockquote>
+<p>源代码 -&gt; 中间代码 -&gt; 目标代码 -&gt; 运行结果</p>
+</blockquote>
+<p><strong>下面是重点!!!</strong><br><strong>下面是重点!!!</strong><br><strong>下面是重点!!!</strong></p>
+<p>因此，解释型语言和编译型语言的根本区别在于，对于用户来说，到底是直接从源码开始执行，还是从中间代码开始执行。以 C 语言为例，所有的可执行程序都是二进制文件。而对于传统意义的 Python 或者 JavaScript，用户并没有拿到中间代码，他们直接从源码开始执行。从这个角度来看， Java 不可能是解释型语言，虽然 Java 虚拟机会解释字节码，但是对于用户来说，他们是从编译好的 .class 文件开始执行，而非源代码。</p>
+<p>实际上，在 x86 这种复杂架构下，二进制的机器码也不能被硬件直接执行，CPU 会把它翻译成更底层的指令。从这个角度来说，我们眼中的硬件其实也是一个虚拟机，执行了一些“抽象”指令，但我相信不会有人认为 C 语言是解释型语言。因此，有没有虚拟机，虚拟机是不是解释执行，会不会生成中间代码，这些都不重要，重要的是如果从中间代码开始执行，而且 AST 已经事先生成好，那就是编译型的语言。</p>
+<p>如果更本质一点看问题，<strong>根本就不存在解释型语言或者编译型语言这种说法</strong>。已经有人证明，如果一门语言是可以解释的，必然可以开发出这门语言的编译器。反过来说，如果一门语言是可编译的，我只要把它的编译器放到解释器里，把编译推迟到运行时，这么语言就可以是解释型的。事实上，早有人开发出了 C 语言的解释器:</p>
+<blockquote>
+<p>C  源代码 -&gt; C 语言解释器(运行时编译、汇编、链接) -&gt; 运行结果</p>
+</blockquote>
+<p>我相信这一点很容易理解，规范和实现是两套分离的体系。我们平常说的 C 语言的语法，实际上是一套规范。理论上来说每个人都可以写出自己的编译器来实现 C 语言，只要你的编译器能够正确运行，最终的输出结果正确即可。而编译型和解释型说的其实是语言的实现方案，是提前编译以获得最大的性能提高，还是运行时去解析以获得灵活性，往往取决于语言的应用场景。所以说一门语言是编译型还是解释型的，这会非常可笑。一个标准怎么可能会有固定的实现呢？之所以给大家留下了 C 语言是编译型语言，Python 是解释型语言的印象，往往是因为这门语言的应用场景决定了它是主流实现是编译型还是解释型。</p>
+<h1 id="自举"><a href="#自举" class="headerlink" title="自举"></a>自举</h1><p>不知道有没有人思考过，C 语言的编译器是如何实现的？实际上<strong>它还是用 C 语言实现的</strong>。这种自己能编译自己的神奇能力被称为自举(Bootstrap)。</p>
+<p>乍一看，自举是不可能的。因为 C 语言编译器，比如 GCC，要想运行起来，必定需要 GCC 的编译器将它编译成二进制的机器码。然而 GCC 的编译器又如何编译呢……</p>
+<p>解决问题的关键在于打破这个循环，我们可以先用一个比 C 语言低级的语言来实现一个 C 语言编译器。这件事是可能做到的，因为这个低级语言必然会比 C 语言简单，比如我们可以直接用汇编代码来写 C 语言的编译器。由于越低级的语言越简单，但表达能力越弱，所以用汇编来写可能太复杂。这种情况下我们可以先用一个比 C 语言低级但比汇编高级的语言来实现 C 语言的编译器，同时用汇编来实现这门语言的编译器。总之就是不断用低级语言来写高级语言的编译器，虽然语言越低级，它的表达能力越弱，但是它要解析的语言也在不断变简单，所以这件事是可以做到的。</p>
+<p>有了低级语言写好的  C 语言编译器以后，这个编译器是二进制格式的。此时就可以删掉所有的低级语言，只留一个二进制格式的 C 语言编译器，接下来我们就可以用 C 语言写编译器，再用这个二进制格式的编译器去编译 C 语言实现的 C 语言编译器了，于是完成了自举。</p>
+<p>以上逻辑描述起来比较绕，但我想多读几遍应该可以理解。如果实在不理解也没关系，我们只要明白 C 语言可以自举是因为它可以编译成二进制机器码，只要用低级语言生成这个机器码，就不再需要低级语言了，因为机器码可以直接被 CPU 执行。</p>
+<p>从这个角度来看，解释型语言是不可能自举的。以 Python 为例，自举要求它能用 Python 语言写出来 Python 的解释器，然而这个解释器如何运行呢，最终还是需要一个解释器。而解释器体系下， Python 都是从源码经过解释器执行，又不能留下什么可以直接被硬件执行的二进制形式的解释器文件，自然是没办法自举的。然而，就像前面说的，Python 完全可以实现一个编译器，这种情况下它就是可以自举的。</p>
+<p>所以一门语言能不能自举，主要取决于它的实现形式能否被编译并留下二进制格式的可执行文件。</p>
+<h1 id="运行时"><a href="#运行时" class="headerlink" title="运行时"></a>运行时</h1><p>本文的读者如果是使用 Objective-C 的 iOS 开发者，想必都有过在面试时被 runtime 支配的恐惧。然而，runtime 并非是 Objective-C 的专利，绝大多数语言都有这个概念。所以有人说 Objective-C 具有动态性是因为它有 runtime，这种说法并不准确，我觉得要把 Objective-C 的 runtime 和一般意义的运行时库区分开，认识到它仅仅是运行时库的一个组成部分，同时还是要深入到方法调用的层面来谈。</p>
+<h2 id="运行时库的基本概念"><a href="#运行时库的基本概念" class="headerlink" title="运行时库的基本概念"></a>运行时库的基本概念</h2><p>以 C 语言为例，有非常多的操作最终都依赖于 <strong>glibc</strong> 这个动态链接库。包括但不限于字符串处理(<code>strlen</code>、<code>strcpy</code>)、信号处理、socket、线程、IO、动态内存分屏(malloc)等等。这一点很好理解，如果回忆一下之前编译器的工作原理，我们会发现它仅仅是处理了语言的语法，比如变量定义，函数声明和调用等等。至于语言的功能， 比如内存管理，內建的类型，一些必要功能的实现等等。如果要对运行时库进行分类，大概有两类。一种是语言自身功能的实现，比如一些內建类型，内置的函数；另一种则是语言无关的基础功能，比如文件 IO，socket 等等。</p>
+<p>由于每个程序都依赖于运行时库，这些库一般都是动态链接的，比如 C 语言的 (g)libc。这样一来，运行时库可以存储在操作系统中，节省内存占用空间和应用程序大小。</p>
+<p>对于 Java 语言来说，它的垃圾回收功能，文件 IO 等都是在虚拟机中实现，并提供给 Java 层调用。从这个角度来看，虚拟机/解释器也可以被看做语言的运行时环境(库)。</p>
+<h2 id="swift-运行时库"><a href="#swift-运行时库" class="headerlink" title="swift 运行时库"></a>swift 运行时库</h2><p>经过这样的解释，相信 swift 的运行时库就很容易理解了。一方面，swift 是绝对的静态语言，另一方面，swift 毫无疑问的带有自己的运行时库。举个最简单的例子，如果阅读 swift 源码就会发现某些类型，比如字符串(String)，或者数组，再或者某些函数(print)都是用 swift 实现的，这些都是 swift 运行时库的一部分。按理说，运行时库应该内置于操作系统中并且和应用程序动态链接，然而坑爹的 Swift 在本文写作之时依然没有稳定 ABI，导致每个程序都必须自带运行时库，这也就是为什么目前 swift 开发的 app 普遍会增加几 Mb 包大小的原因。</p>
+<p>说到 ABI，它其实就是一个编译后的 API。简单来说，API 是描述了在应用程序级别，模块之间的调用约定。比如某个模块想要调用另一个模块的功能，就必须根据被调用模块提供的 API 来调用，因为 API 中规定了方法名、参数和返回结果的类型。而当源码被编译成二进制文件后，它们之间的调用也存在一些规则和约定。</p>
+<p>比如模块 A 有两个整数 a 和 b，它们的内存布局如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模块 A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">初始地址</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+</tr>
+</tbody>
+</table>
+<p>这时候别的模块调用 A 模块的 b 变量，可以通过初始地址加偏移量的方式进行。</p>
+<p>如果后来模块 A 新增了一个整数 c，它的内存布局可能会变成:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模块 A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">初始地址</td>
+</tr>
+<tr>
+<td style="text-align:center">c</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+</tr>
+</tbody>
+</table>
+<p>如果调用方还是使用相同的偏移量，可以想见，这次拿到的就是变量 a 了。因此，每当模块 A 有更新，所有依赖于模块 A 的模块都必须重新编译才能正确工作。如果这里的模块 A 是 swift 的运行时库，它内置于操作系统并与其他模块(应用程序)动态链接会怎么样呢？结果就是每次更新系统后，所有的 app 都无法打开。显然这是无法接受的。</p>
+<p>当然，ABI 稳定还包括其他的一些要求，比如调用和被调用者遵守相同的调用约定(参数和返回值如何传递)等。</p>
+<h1 id="JavaScript-那些事"><a href="#JavaScript-那些事" class="headerlink" title="JavaScript 那些事"></a>JavaScript 那些事</h1><p>我们继续刚才有关运行时的话题，先从 JavaScript 的运行时聊起，再介绍 JavaScript 的相关知识。</p>
+<h2 id="JavaScript-是如何运行的"><a href="#JavaScript-是如何运行的" class="headerlink" title="JavaScript 是如何运行的"></a>JavaScript 是如何运行的</h2><p>JavaScript 和其他语言，无论是 C 语言，还是 Python 这样的脚本语言，最大的区别在于 JavaScript 的宿主环境比较奇怪，一般来说是浏览器。</p>
+<p>无论是 C 还是 Python，他们都有一个编译器/解释器运行在操作系统上，直接把源码转换成机器码。而 JavaScript 的解释器一般内置在浏览器中，比如 Chrome 就有一个 V8 引擎可以解析并执行 JavaScript 代码。因此 JavaScript 的能力实际上会受到宿主环境的影响，有一些限制和加强。</p>
+<p>首先来看看 DOM 操作，相关的 API 并没有定义在 ECMAScript 标准中，因此我们常用的 <code>window.xxx</code> 还有 <code>window.document.xxx</code> 并非是 JavaScript 自带的功能，这通常是由宿主平台通过 C/C++ 等语言实现，然后提供给 JavaScript 的接口。同样的，由于浏览器中的 JavaScript 只是一个轻量的语言，没有必要读写操作系统的文件，因此浏览器引擎一般不会向 JavaScript 提供文件读写的运行时组件，它也就不具备 IO 的能力。从这个角度来看，整个浏览器都可以看做 JavaScript 的虚拟机或者运行时环境。</p>
+<p>因此，当我们换一个宿主环境，比如 Node.js，JavaScript 的能力就会发生变化。它不再具有 DOM API，但多了读写文件等能力。这时候，Node.js 就更像是一个标准的 JavaScript 解析器了。这也是为什么 Node.js 让 JavaScript 可以编写后端应用的原因。</p>
+<h2 id="JIT-优化"><a href="#JIT-优化" class="headerlink" title="JIT 优化"></a>JIT 优化</h2><p>解释执行效率低的主要原因之一在于，相同的语句被反复解释，因此优化的思路是动态的观察哪些代码是经常被调用的。对于那些被高频率调用的代码，可以用编译器把它编译成机器码并且缓存下来，下次执行的时候就不用重新解释，从而提升速度。这就是 JIT(Just-In-Time) 的技术原理。</p>
+<p>但凡基于缓存的优化，一定会涉及到缓存命中率的问题。在 JavaScript 中，即使是同一段代码，在不同上下文中生成的机器码也不一定相同。比如这个函数:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> a + b;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果这里的 a 和 b 都是整数，可以想见最终的代码一定是汇编中的 <code>add</code> 命令。如果类似的加法运算调用了很多次，解释器可能会认为它值得被优化，于是编译了这段代码。但如果下一次调用的是 <code>add(&quot;hello&quot;, &quot;world&quot;)</code>，之前的优化就无效了，因为字符串加法的实现和整数加法的实现完全不同。</p>
+<p>于是优化后的代码(二进制格式)还得被还原成原先的形式(字符串格式)，这样的过程被称为去优化。反复的优化 -&gt; 去优化 -&gt; 优化 …… 非常耗时，大大降低了引入 JIT 带来的性能提升。</p>
+<p>JIT 理论上给传统的 JavaScript 带了了 20-40 倍的性能提升，但由于上述去优化的存在，在实际运行的过程中远远达不到这个理论上的性能天花板。</p>
+<h2 id="WebAssembly"><a href="#WebAssembly" class="headerlink" title="WebAssembly"></a>WebAssembly</h2><p>前文说过，JavaScript 实际上是由浏览器引擎负责解析并提供一些功能的。浏览器引擎可能是由 C++ 这样高效的语言实现的，那么为什么不用 C++  来写网页呢？实际上我认为从技术角度来说并不存在问题，直接下发 C++ 代码，然后交给 C++ 解释器去执行，再调用浏览器的 C++ 组件，似乎更加符合直觉一些。</p>
+<p>之所以选择 JavaScript 而不是 C++，除了主流浏览器目前都只支持 JavaScript 而不支持 C++ 这个历史原因以外，更重要的一点是一门语言的高性能和简单性不可兼得。JavaScript 在运行速度方面做出了牺牲，但也具备了简单易开发的优点。作为通用编程语言，JavaScript 和 C++ 主要的性能差距就在于缺少类型标注，导致无法进行有效的提前编译。之前说过 JIT 这种基于缓存去猜测类型的方式存在瓶颈，那么最精确的方式肯定还是直接加上类型标注，这样就可以直接编译了，代表性的作品有 Mozilla 的 <a href="http://asmjs.org/" target="_blank" rel="external">Asm.js</a>。</p>
+<p>Asm.js 是 JavaScript 的一个子集，任何 JavaScript 解释器都可以解释它:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">    a = a | <span class="number">0</span>  <span class="comment">// 任何整数和自己做按位或运算的结果都是自己</span></div><div class="line">    b = b | <span class="number">0</span>  <span class="comment">// 所以这个标记不改变运算结果，但是可以提示编译器 a、b 都是整数</span></div><div class="line">    <span class="keyword">return</span> a + b | <span class="number">0</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果有 Asm.js 特定的解释器，完全可以把它提前编译出来。即使没有也没关系，因为它完全是 JavaScript 语法的子集，普通的解释器也可以解释。</p>
+<p>然而，回顾一下我们最初对解释器的定义: 解释器是一个黑盒，输入源码，输出运行结果。Asm.js 其实是黑盒内部的一个优化，不同的黑盒(浏览器)无法共享这一优化。换句话说 Asm.js 写成的代码放到 Chrome  上面和普通的 JavaScript 毫无区别。</p>
+<p>于是，包括微软、谷歌和苹果在内的各大公司觉得，是时候搞个标准了，这个标准就是 WebAssembly 格式。它是介于中间代码和目标代码之间的一种二进制格式，借用 <a href="https://zhuanlan.zhihu.com/p/25754084" target="_blank" rel="external">WebAssembly 系列（四）WebAssembly 工作原理</a> 一文的插图来表示:</p>
+<p><img src="https://pic1.zhimg.com/v2-282dc5b30b62517ed56a187d43a6ab90_b.png" alt=""></p>
+<p>通常从中间代码到机器码，需要经过平台具体化(转目标代码)和二进制化(汇编器把汇编代码变为二进制机器码)这两个步骤。而 WebAssembly 首先完成了第二个步骤，即已经是二进制格式的，但只是一系列虚拟的通用指令，还需要转换到各个 CPU 架构上。这样一来，从 WebAssembly 到机器码其实是透明且统一的，各个浏览器厂商只需要考虑如何从中间代码转换 WebAssembly 就行了。</p>
+<p>由于编译器的前端工具 Clang 可以把 C/C++ 转换成中间代码，因此理论上它们都可以用来开发网页。然而谁会这么这么做呢，放着简单快捷，现在又高效的 JavaScript 不写，非要去啃 C++？</p>
+<h1 id="跨语言那些事儿"><a href="#跨语言那些事儿" class="headerlink" title="跨语言那些事儿"></a>跨语言那些事儿</h1><p>C++ 写网页这个脑洞虽然比较大，但它启发我思考一个问题:“对于一个常见的可以由某个语言完成的任务(比如 JavaScript 写网页)，能不能换一个语言来实现(比如 C++)，如果不能，制约因素在哪里”。</p>
+<p>由于绝大多数主流语言都是<a href="http://mp.weixin.qq.com/s/0Dp63Lx3eSzG06Z8YonX6g" target="_blank" rel="external">图灵完备的</a>，也就是说一切可计算的问题，在这些语言层面都是等价的，都可以计算。那么制约语言能力的因素也就只剩下了运行时的环境是否提供了相应的功能。比如前文解释过的，虽然浏览器中的 JavaScript 不能读写文件，不能实现一个服务器，但这是浏览器(即运行时环境)不行，不是 JavaScript 不行，只要把运行环境换成 Node.js 就行了。</p>
+<h2 id="直接语法转换"><a href="#直接语法转换" class="headerlink" title="直接语法转换"></a>直接语法转换</h2><p>大部分读者应该接触过简单的逆向工程。比如编译后的 .o 目标文件和 .class 字节码都可以反编译成源代码，这种从中间代码倒推回源代码的技术也被叫做反编译(decompile)，反编译器的工作流程基本上是编译器的倒序，只不过完美的反编译一般来说比较困难，这取决于中间代码的实现。像 Java 字节码这样的中间代码，由于信息比较全，所以反编译就相对容易、准确一些。C 代码在生成中间代码时丢失了很多信息，因此就几乎不可能 100% 准确的倒推回去，感兴趣的读者可以参考一下知名的反编译工具 <a href="https://www.hex-rays.com/products/ida/support/ppt/decompilers_and_beyond_white_paper.pdf" target="_blank" rel="external">Hex-Rays 的一篇博客</a>。</p>
+<p>前文说过，编译器前端可以对多种语言进行词法分析和语法分析，并且生成一套语言无关的中间代码，因此理论上来说，如果某个编译器前端工具支持两个语言 A 和 B 的解析，那么 A 和 B 是可以互相转换的，流程如下:</p>
+<blockquote>
+<p>A 源码 &lt;–&gt; 语言无关的中间代码 &lt;–&gt; B 源码</p>
+</blockquote>
+<p>其中从源码转换到中间代码需要使用编译器，从中间代码转换到源码则使用反编译器。</p>
+<p>但在实际情况中，事情会略复杂一些，这是因为中间代码虽然是一套语言无关、CPU 也无关的指令集，但不代表不同语言生成的中间代码就可以通用。比如中间代码共有 1、2、3、……、6 这六个指令。A 语言生成的中间代码仅仅是所有指令的一个子集，比如是 1-5 这 5 个指令；B 语言生成的中间代码可能是所有指令的另一个子集，比如 2-6。这时候我们说的 B 语言的反编译器，实际上是从 2-6 的指令子集推导出 B 语言源码，它对指令 1 可能无能为力。</p>
+<p>以 GCC 的中间代码 <a href="https://zh.wikipedia.org/wiki/%E6%9A%AB%E5%AD%98%E5%99%A8%E5%82%B3%E9%81%9E%E8%AA%9E%E8%A8%80" target="_blank" rel="external">RTL: Register Transfer Language</a> 为例，<a href="https://gcc.gnu.org/onlinedocs/gccint/GENERIC.html#GENERIC" target="_blank" rel="external">官方文档</a> 在对 RTL 的解释中，就明确的把 RTL 树分为了通用的、C/C++ 特有的、Java 特有的等几个部分。</p>
+<p><img src="http://images.bestswifter.com/1498235065.png" alt=""></p>
+<p>具体来说，我们知道 Java 并不能直接访问内存地址，这一点和浏览器上的 JavaScript 不能读写文件很类似，都是因为它们的运行环境(虚拟机)具备这种能力，但没有在语言层面提供。因此，含有指针四则运算的 C 代码无法直接被转换成 Java 代码，因为 Java 字节码层面并没有定义这样的抽象，一种简单的方案是申请一个超大的数组，然后自己模拟内存地址。</p>
+<p>所以，即使编译器前端同时支持两种语言的解析，要想进行转换，还必须处理两种语言在中间代码层面的一些小差异，实际流程应该是:</p>
+<blockquote>
+<p>A 源码 &lt;–&gt; 中间代码子集(A) &lt;–适配器–&gt; 中间代码子集(B) &lt;–&gt; B 源码</p>
+</blockquote>
+<p>这个思路已经不仅仅停留在理论上了，比如 Github 上有一个库: <a href="https://github.com/kripken/emscripten" target="_blank" rel="external">emscripten</a> 就实现了将任何 Clang 支持的语言(比如 C/C++ 等)转换成 JavaScript，再比如 <a href="https://github.com/davidar/lljvm" target="_blank" rel="external">lljvm</a> 实现了 C 到 Java 字节码的转换。</p>
+<p>然而前文已经解释过，实现单纯语法的转换意义并不大。一方面，对于图灵完备的语言来说，换一种表示方法(语言)去解决相同的问题并没有意义。另一方面，语言的真正功能绝不仅仅是语法本身，而在于它的运行时环境提供了什么样的功能。比如 Objective-C 的 Foundation 库提供了字典类型 <code>NSDictionary</code>，它如果直接转换成 C 语言，将是一个找不到的符号。因为 C 语言的运行时环境根本就不提供对这种数据结构的支持。因此凡是在语言层面进行强制转换的，要么利用反编译器拿到一堆格式正确但无法运行的代码，要么就自行解析语法树并为转换后的语言添加对应的能力，来实现转换前语言的功能。</p>
+<p><img src="http://images.bestswifter.com/1497887162.png" alt=""></p>
+<p>比如图中就是一个 C 语言转换 Java 的工具，为了实现 C 语言中的字符串申请和释放内存，这个工具不得不自己实现了 <code>com.mtsystems.coot.String8</code> 类。这样巨大的成本，显然不够普适，应用场景相对有限。</p>
+<p>总之，直接的语法转换是一个美好的想法，但实现起来难度大，收益有限，通常是为了移植已经用某个语言写好的框架，或者开个脑洞用于学习，但实际应用场景并不多。</p>
+<h2 id="胶水语言-Python"><a href="#胶水语言-Python" class="headerlink" title="胶水语言 Python"></a>胶水语言 Python</h2><p>Python 一个很强大的特点是胶水语言，可以把 Python 理解为各种语言的粘合剂。对于 Python 可以处理的逻辑，用 Python 代码即可完成。如果追求极致的性能或者调用已经实现的功能，也可以让 Python 调用已经由别的语言实现的模块，以 Python 和 C 语言的交互解释一下。</p>
+<p>首先，如果是 C 语言要执行 Python 代码，显然需要一个 Python 的解释器。由于在 Mac OS X 系统上，Python 解释器是一个动态链接库，所以只要导入一下头文件即可，下面这段代码可以成功输出 “Hello Python!!!”:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">&lt;Python/Python.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</div><div class="line">    Py_SetProgramName(argv[<span class="number">0</span>]);</div><div class="line">    Py_Initialize();</div><div class="line">    PyRun_SimpleString(<span class="string">"print 'Hello Python!!!'\n"</span>);</div><div class="line">    Py_Finalize();</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果是在 iOS 应用里，由于 iOS 系统没有对应的动态库，所以需要把 Python 的解释器打包成一个静态库并且链接到应用中，网上已经有人做好了: <a href="https://github.com/cobbal/python-for-iphone" target="_blank" rel="external">python-for-iphone</a>，这就是为什么我们看到一些<a href="http://pythonforios.com/" target="_blank" rel="external">教育类的应用</a>模拟了 Python 解释器，允许用户编写 Python 代码并得到输出。</p>
+<p>Python 调用 Objective-C/C 也不复杂，只需要在 C 代码中指定要暴露的模块 A  和要暴露的方法 a，然后 Python 就可以直接调用了:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> A</div><div class="line">A.a()</div></pre></td></tr></table></figure>
+<p>详细的教程可以看这里: <a href="https://www.zhihu.com/question/23003213" target="_blank" rel="external">如何实现 C/C++ 与 Python 的通信？</a></p>
+<p>有时候，如果能把自己熟悉的语言应用到一个陌生的领域，无疑会大大降低上手的难度。以 iOS 开发为例，开发者的日常其实是利用 Objective-C 语法来描述一些逻辑，最终利用 UIKit 等框架完成和应用的交互。 一种很自然而然的想法是，能不能用 Python 来实现逻辑，并且调用 Objective-C 的接口，比如 UIKit、Foundation 等。实际上前者是完全可以实现的，但是 Python 调用 Objective-C 远比调用 C 语言要复杂得多。</p>
+<p>一方面从之前的分析中也能看出，并不是所有的源码编译成目标文件都可以被 Python 引用；另一方面，最重要的是 Objective-C 方法调用的特性。我们知道方法调用实际上会被编译成 <code>msg_Send</code> 并交给 runtime 处理，最终找到函数指针并调用。这里 Objective-C 的 runtime 其实是一个用 C 语言实现动态链接库，它可以理解为 Objective-C 运行时环境的一部分。换句话说，没有 runtime 这个库，包含方法调用的 Objective-C 代码是不可能运行起来的，因为 <code>msg_Send</code> 这个符号无法被重定向，运行时将找不到 <code>msg_Send</code> 函数的地址。就连原生的 Objective-C 代码都需要依赖运行时，想让 Python 直接调用某个 Objective-C 编译出来的库就更不可能了。</p>
+<p>想用 Python 写开发 iOS 应用是有可能的，比如: <a href="https://pythonhosted.org/pyobjc/" target="_blank" rel="external">PyObjc</a>，但最终还是要依赖 Runtime。大概的思路是首先用 Python 拿到 runtime 这个库，然后通过这个库去和 runtime 交互，进而具备了调用 Objective-C 和各种框架的能力。比如我要实现 Python 中的 <code>UIView</code> 这个类，代码会变成这样:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> objc</div><div class="line"></div><div class="line"><span class="comment"># 这个 objc 是动态加载 libobjc.dylib 得到的</span></div><div class="line"><span class="comment"># Python 会对 objc 做一些封装，提供调用 runtime 的能力</span></div><div class="line"><span class="comment"># 实际的工作还是交给 libobjc.dylib 完成</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UIView</span>:</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, param)</span>:</span></div><div class="line">		objc.msgSend(<span class="string">"UIView"</span>, <span class="string">"init"</span>, param)</div></pre></td></tr></table></figure>
+<p>这么做的性价比并不高，如果和 JSPatch 相比，JSPatch 使用了内置的 JavaScriptCore 作为 JavaScript 的解析器，而 PyObjc 就得自己带一个 libPython.a 解释器。此外，由于 iOS 系统的沙盒限制，非越狱机器并不能拿到 libobjc 库，所以这个工具只能在越狱手机上使用。</p>
+<h2 id="OCS"><a href="#OCS" class="headerlink" title="OCS"></a>OCS</h2><p>既然说到了 JSPatch 这一类动态化的 iOS 开发工具，我就斗胆猜测一下腾讯 OCS 的实现原理，目前介绍 OCS 的文章寥寥无几，由于苹果公司的要求，原文已经被删除，从新浪博客上摘录了一份: <a href="http://blog.sina.com.cn/s/blog_1328b55460102xayq.html" target="_blank" rel="external">OCS ——史上最疯狂的 iOS 动态化方案</a>。如果用一句话来概述，那么就是 OCS 是一个 Objective-C 解释器。</p>
+<p>首先，OCS 基于 clang 对下发的 Objective-C 代码做词法、语法分析，生成 AST 然后转化成自定义的一套中间码(OSScript)。当然，原生的 Objective-C 可以运行，绝不仅仅是编译器的功劳。就像之前反复强调的那样，运行时环境也必不可少，比如负责 GCD 的 libdispatch 库，还有内存管理，多线程等等功能。这些功能原来都由系统的动态库实现，但现在必须由解释器实现，所以 OCS 的做法是开发了一套自己的虚拟机去解释执行中间码。这个运行原理就和 JVM 非常类似了。</p>
+<p>当然，最终还是要和 Objective-C 的 Runtime 打交道，这样才能调用 UIKit 等框架。由于对虚拟机的实现原理并不清楚，这里就不敢多讲了，希望在学习完 JVM 以后再做分享。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><a href="http://blog.csdn.net/wusuopubupt/article/details/26378845" target="_blank" rel="external">AT&amp;T与Intel汇编风格比较</a></li>
+<li><a href="http://baike.baidu.com/link?url=KLKsJxx7NgDSulEVqwpy0SW_w5sCGDVev9LamscTl-4mHPuKNb5O-kQh44XZpzTkXbC--iQOodC2IDWeW0Z_i_" target="_blank" rel="external">glibc</a></li>
+<li><a href="http://huziketang.com/blog/posts/detail?postId=58ce8036a6d8a07e449fdd27" target="_blank" rel="external">WebAssembly 系列（一）生动形象地介绍 WebAssembly</a></li>
+<li><a href="https://www.hex-rays.com/products/ida/support/ppt/decompilers_and_beyond_white_paper.pdf" target="_blank" rel="external">Decompilers and beyond</a></li>
+<li><a href="https://github.com/cobbal/python-for-iphone" target="_blank" rel="external">python-for-iphone</a></li>
+<li><a href="https://www.zhihu.com/question/23003213" target="_blank" rel="external">如何实现 C/C++ 与 Python 的通信？</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/25754084" target="_blank" rel="external">WebAssembly 系列（四）WebAssembly 工作原理</a></li>
+<li><a href="http://www.jianshu.com/p/9083823b8318" target="_blank" rel="external">扯淡：大白话聊聊编译那点事儿</a></li>
+<li><a href="https://github.com/pybee/rubicon-objc" target="_blank" rel="external">rubicon-objc</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_1328b55460102xayq.html" target="_blank" rel="external">OCS ——史上最疯狂的 iOS 动态化方案</a></li>
+<li><a href="http://rednaxelafx.iteye.com/blog/492667" target="_blank" rel="external">虚拟机随谈（一）：解释器，树遍历解释器，基于栈与基于寄存器，大杂烩</a></li>
+<li><a href="https://zhihu.com/question/49176184/answer/116708101" target="_blank" rel="external">JavaScript的功能是不是都是靠C或者C++这种编译语言提供的？</a></li>
+<li><a href="https://www.zhihu.com/question/25017764/answer/142836802" target="_blank" rel="external">计算机编程语言必须能够自举吗?</a></li>
+<li><a href="https://zhihu.com/question/31415286/answer/58022648" target="_blank" rel="external">如何评论浏览器最新的 WebAssembly 字节码技术？</a></li>
+<li><a href="https://niyaoyao.github.io/2016/07/29/Objective-C-Runtime-From-Build-To-Did-Launch/" target="_blank" rel="external">Objective-C Runtime —— From Build To Did Launch</a></li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gccint/GENERIC.html#GENERIC" target="_blank" rel="external">10 GENERIC</a></li>
+<li><a href="https://www.zhihu.com/question/51380338" target="_blank" rel="external">写个编译器，把C++代码编译到JVM的字节码可不可行？</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/编程语言/">编程语言</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://fullstack.blog/2017/06/24/大前端开发者需要了解的基础编译原理和语言知识/" data-title="大前端开发者需要了解的基础编译原理和语言知识 | 全栈养成计划" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/06/16/指针和引用的区别/"  title="指针和引用的区别">
+ <strong>NEXT:</strong><br/> 
+ <span>指针和引用的区别
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编译原理"><span class="toc-number">1.</span> <span class="toc-text">编译原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#词法分析"><span class="toc-number">1.1.</span> <span class="toc-text">词法分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语法分析"><span class="toc-number">1.2.</span> <span class="toc-text">语法分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成中间代码"><span class="toc-number">1.3.</span> <span class="toc-text">生成中间代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#语法树转高端-gimple"><span class="toc-number">1.3.1.</span> <span class="toc-text">语法树转高端 gimple</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高端-gimple-转低端-gimple"><span class="toc-number">1.3.2.</span> <span class="toc-text">高端 gimple 转低端 gimple</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#低端-gimple-经过-cfa-转-ssa-再转中间代码"><span class="toc-number">1.3.3.</span> <span class="toc-text">低端 gimple 经过 cfa 转 ssa 再转中间代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中间代码的意义"><span class="toc-number">1.3.4.</span> <span class="toc-text">中间代码的意义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成目标代码"><span class="toc-number">1.4.</span> <span class="toc-text">生成目标代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.5.</span> <span class="toc-text">汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-number">1.6.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预处理"><span class="toc-number">1.7.</span> <span class="toc-text">预处理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编译-VS-解释"><span class="toc-number">2.</span> <span class="toc-text">编译 VS 解释</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java"><span class="toc-number">2.1.</span> <span class="toc-text">Java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释型语言"><span class="toc-number">2.2.</span> <span class="toc-text">解释型语言</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自举"><span class="toc-number">3.</span> <span class="toc-text">自举</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运行时"><span class="toc-number">4.</span> <span class="toc-text">运行时</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时库的基本概念"><span class="toc-number">4.1.</span> <span class="toc-text">运行时库的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#swift-运行时库"><span class="toc-number">4.2.</span> <span class="toc-text">swift 运行时库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript-那些事"><span class="toc-number">5.</span> <span class="toc-text">JavaScript 那些事</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-是如何运行的"><span class="toc-number">5.1.</span> <span class="toc-text">JavaScript 是如何运行的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JIT-优化"><span class="toc-number">5.2.</span> <span class="toc-text">JIT 优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebAssembly"><span class="toc-number">5.3.</span> <span class="toc-text">WebAssembly</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#跨语言那些事儿"><span class="toc-number">6.</span> <span class="toc-text">跨语言那些事儿</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#直接语法转换"><span class="toc-number">6.1.</span> <span class="toc-text">直接语法转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#胶水语言-Python"><span class="toc-number">6.2.</span> <span class="toc-text">胶水语言 Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OCS"><span class="toc-number">6.3.</span> <span class="toc-text">OCS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">扫码关注我的公众号，从大前端的角度聊聊 iOS，安卓和前端开发</h3>
+  <div class="widget">
+    <img src="/img/weixin_qr.jpg" style="width: 100%">
+  </div>
+</div>
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Android/" title="Android">Android<sup>3</sup></a></li>
+		
+			<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Promise/" title="Promise">Promise<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+		
+			<li><a href="/tags/zen/" title="zen">zen<sup>1</sup></a></li>
+		
+			<li><a href="/tags/前端/" title="前端">前端<sup>3</sup></a></li>
+		
+			<li><a href="/tags/总结分享/" title="总结分享">总结分享<sup>1</sup></a></li>
+		
+			<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		
+			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="https://bestswifter.com" target="_blank" title="Bestswifter">Bestswifter 的博客</a></li>
+    </ul>
+</div>
+
+
+  <div class="linkslist">
+   <p class="asidetitle">微博关注</p>
+     <ul>
+       <li><iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5678670890&verifier=53247bfc&dpc=1"></iframe></li>
+     </ul>
+ </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2017 
+		
+		<a href="http://fullstack.blog" target="_blank" title="Fullstack">Fullstack</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
+
+<a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
