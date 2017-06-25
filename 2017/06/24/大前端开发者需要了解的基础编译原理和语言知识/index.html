@@ -56,7 +56,7 @@
 				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
 				<h2 class="blog-motto">每天学点新知识~</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -73,7 +73,7 @@
 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:fullstack.blog">
 					</form>
 					
@@ -97,7 +97,7 @@
     </p>
   <p class="article-time">
     <time datetime="2017-06-24T14:03:39.000Z" itemprop="datePublished">2017-06-24</time>
-    Updated:<time datetime="2017-06-24T14:09:19.000Z" itemprop="dateModified">2017-06-24</time>
+    更新日期:<time datetime="2017-06-25T15:36:47.000Z" itemprop="dateModified">2017-06-25</time>
     
   </p>
 </header>
@@ -105,7 +105,7 @@
 		
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编译原理"><span class="toc-number">1.</span> <span class="toc-text">编译原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#词法分析"><span class="toc-number">1.1.</span> <span class="toc-text">词法分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语法分析"><span class="toc-number">1.2.</span> <span class="toc-text">语法分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成中间代码"><span class="toc-number">1.3.</span> <span class="toc-text">生成中间代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#语法树转高端-gimple"><span class="toc-number">1.3.1.</span> <span class="toc-text">语法树转高端 gimple</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高端-gimple-转低端-gimple"><span class="toc-number">1.3.2.</span> <span class="toc-text">高端 gimple 转低端 gimple</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#低端-gimple-经过-cfa-转-ssa-再转中间代码"><span class="toc-number">1.3.3.</span> <span class="toc-text">低端 gimple 经过 cfa 转 ssa 再转中间代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中间代码的意义"><span class="toc-number">1.3.4.</span> <span class="toc-text">中间代码的意义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成目标代码"><span class="toc-number">1.4.</span> <span class="toc-text">生成目标代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.5.</span> <span class="toc-text">汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-number">1.6.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预处理"><span class="toc-number">1.7.</span> <span class="toc-text">预处理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编译-VS-解释"><span class="toc-number">2.</span> <span class="toc-text">编译 VS 解释</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java"><span class="toc-number">2.1.</span> <span class="toc-text">Java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释型语言"><span class="toc-number">2.2.</span> <span class="toc-text">解释型语言</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自举"><span class="toc-number">3.</span> <span class="toc-text">自举</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运行时"><span class="toc-number">4.</span> <span class="toc-text">运行时</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时库的基本概念"><span class="toc-number">4.1.</span> <span class="toc-text">运行时库的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#swift-运行时库"><span class="toc-number">4.2.</span> <span class="toc-text">swift 运行时库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript-那些事"><span class="toc-number">5.</span> <span class="toc-text">JavaScript 那些事</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-是如何运行的"><span class="toc-number">5.1.</span> <span class="toc-text">JavaScript 是如何运行的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JIT-优化"><span class="toc-number">5.2.</span> <span class="toc-text">JIT 优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebAssembly"><span class="toc-number">5.3.</span> <span class="toc-text">WebAssembly</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#跨语言那些事儿"><span class="toc-number">6.</span> <span class="toc-text">跨语言那些事儿</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#直接语法转换"><span class="toc-number">6.1.</span> <span class="toc-text">直接语法转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#胶水语言-Python"><span class="toc-number">6.2.</span> <span class="toc-text">胶水语言 Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OCS"><span class="toc-number">6.3.</span> <span class="toc-text">OCS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
 		</div>
 		
@@ -265,7 +265,7 @@
 <p>从这个角度来看，解释型语言是不可能自举的。以 Python 为例，自举要求它能用 Python 语言写出来 Python 的解释器，然而这个解释器如何运行呢，最终还是需要一个解释器。而解释器体系下， Python 都是从源码经过解释器执行，又不能留下什么可以直接被硬件执行的二进制形式的解释器文件，自然是没办法自举的。然而，就像前面说的，Python 完全可以实现一个编译器，这种情况下它就是可以自举的。</p>
 <p>所以一门语言能不能自举，主要取决于它的实现形式能否被编译并留下二进制格式的可执行文件。</p>
 <h1 id="运行时"><a href="#运行时" class="headerlink" title="运行时"></a>运行时</h1><p>本文的读者如果是使用 Objective-C 的 iOS 开发者，想必都有过在面试时被 runtime 支配的恐惧。然而，runtime 并非是 Objective-C 的专利，绝大多数语言都有这个概念。所以有人说 Objective-C 具有动态性是因为它有 runtime，这种说法并不准确，我觉得要把 Objective-C 的 runtime 和一般意义的运行时库区分开，认识到它仅仅是运行时库的一个组成部分，同时还是要深入到方法调用的层面来谈。</p>
-<h2 id="运行时库的基本概念"><a href="#运行时库的基本概念" class="headerlink" title="运行时库的基本概念"></a>运行时库的基本概念</h2><p>以 C 语言为例，有非常多的操作最终都依赖于 <strong>glibc</strong> 这个动态链接库。包括但不限于字符串处理(<code>strlen</code>、<code>strcpy</code>)、信号处理、socket、线程、IO、动态内存分屏(malloc)等等。这一点很好理解，如果回忆一下之前编译器的工作原理，我们会发现它仅仅是处理了语言的语法，比如变量定义，函数声明和调用等等。至于语言的功能， 比如内存管理，內建的类型，一些必要功能的实现等等。如果要对运行时库进行分类，大概有两类。一种是语言自身功能的实现，比如一些內建类型，内置的函数；另一种则是语言无关的基础功能，比如文件 IO，socket 等等。</p>
+<h2 id="运行时库的基本概念"><a href="#运行时库的基本概念" class="headerlink" title="运行时库的基本概念"></a>运行时库的基本概念</h2><p>以 C 语言为例，有非常多的操作最终都依赖于 <strong>glibc</strong> 这个动态链接库。包括但不限于字符串处理(<code>strlen</code>、<code>strcpy</code>)、信号处理、socket、线程、IO、动态内存分配(malloc)等等。这一点很好理解，如果回忆一下之前编译器的工作原理，我们会发现它仅仅是处理了语言的语法，比如变量定义，函数声明和调用等等。至于语言的功能， 比如内存管理，內建的类型，一些必要功能的实现等等。如果要对运行时库进行分类，大概有两类。一种是语言自身功能的实现，比如一些內建类型，内置的函数；另一种则是语言无关的基础功能，比如文件 IO，socket 等等。</p>
 <p>由于每个程序都依赖于运行时库，这些库一般都是动态链接的，比如 C 语言的 (g)libc。这样一来，运行时库可以存储在操作系统中，节省内存占用空间和应用程序大小。</p>
 <p>对于 Java 语言来说，它的垃圾回收功能，文件 IO 等都是在虚拟机中实现，并提供给 Java 层调用。从这个角度来看，虚拟机/解释器也可以被看做语言的运行时环境(库)。</p>
 <h2 id="swift-运行时库"><a href="#swift-运行时库" class="headerlink" title="swift 运行时库"></a>swift 运行时库</h2><p>经过这样的解释，相信 swift 的运行时库就很容易理解了。一方面，swift 是绝对的静态语言，另一方面，swift 毫无疑问的带有自己的运行时库。举个最简单的例子，如果阅读 swift 源码就会发现某些类型，比如字符串(String)，或者数组，再或者某些函数(print)都是用 swift 实现的，这些都是 swift 运行时库的一部分。按理说，运行时库应该内置于操作系统中并且和应用程序动态链接，然而坑爹的 Swift 在本文写作之时依然没有稳定 ABI，导致每个程序都必须自带运行时库，这也就是为什么目前 swift 开发的 app 普遍会增加几 Mb 包大小的原因。</p>
@@ -426,15 +426,15 @@
 
 	
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
   <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编译原理"><span class="toc-number">1.</span> <span class="toc-text">编译原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#词法分析"><span class="toc-number">1.1.</span> <span class="toc-text">词法分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语法分析"><span class="toc-number">1.2.</span> <span class="toc-text">语法分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成中间代码"><span class="toc-number">1.3.</span> <span class="toc-text">生成中间代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#语法树转高端-gimple"><span class="toc-number">1.3.1.</span> <span class="toc-text">语法树转高端 gimple</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高端-gimple-转低端-gimple"><span class="toc-number">1.3.2.</span> <span class="toc-text">高端 gimple 转低端 gimple</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#低端-gimple-经过-cfa-转-ssa-再转中间代码"><span class="toc-number">1.3.3.</span> <span class="toc-text">低端 gimple 经过 cfa 转 ssa 再转中间代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中间代码的意义"><span class="toc-number">1.3.4.</span> <span class="toc-text">中间代码的意义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成目标代码"><span class="toc-number">1.4.</span> <span class="toc-text">生成目标代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.5.</span> <span class="toc-text">汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-number">1.6.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预处理"><span class="toc-number">1.7.</span> <span class="toc-text">预处理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编译-VS-解释"><span class="toc-number">2.</span> <span class="toc-text">编译 VS 解释</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java"><span class="toc-number">2.1.</span> <span class="toc-text">Java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释型语言"><span class="toc-number">2.2.</span> <span class="toc-text">解释型语言</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自举"><span class="toc-number">3.</span> <span class="toc-text">自举</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运行时"><span class="toc-number">4.</span> <span class="toc-text">运行时</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时库的基本概念"><span class="toc-number">4.1.</span> <span class="toc-text">运行时库的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#swift-运行时库"><span class="toc-number">4.2.</span> <span class="toc-text">swift 运行时库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript-那些事"><span class="toc-number">5.</span> <span class="toc-text">JavaScript 那些事</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-是如何运行的"><span class="toc-number">5.1.</span> <span class="toc-text">JavaScript 是如何运行的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JIT-优化"><span class="toc-number">5.2.</span> <span class="toc-text">JIT 优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebAssembly"><span class="toc-number">5.3.</span> <span class="toc-text">WebAssembly</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#跨语言那些事儿"><span class="toc-number">6.</span> <span class="toc-text">跨语言那些事儿</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#直接语法转换"><span class="toc-number">6.1.</span> <span class="toc-text">直接语法转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#胶水语言-Python"><span class="toc-number">6.2.</span> <span class="toc-text">胶水语言 Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OCS"><span class="toc-number">6.3.</span> <span class="toc-text">OCS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   <div class="widget-wrap">
@@ -480,7 +480,7 @@
 
 
   <div class="rsspart">
-	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="linkslist">
