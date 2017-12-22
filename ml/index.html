@@ -1,0 +1,1185 @@
+
+<!DOCTYPE html><html>
+
+<head>
+<meta charset="utf-8">
+<title>[TOC]</title>
+<style>
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;}
+ol,ul{list-style:none}
+table{border-collapse:collapse;border-spacing:0;
+  margin-top: 0;
+  margin-bottom: 0.8em;
+}
+caption,th,td{text-align:left;font-weight:normal;vertical-align:middle}
+q,blockquote{quotes:none}
+q:before,q:after,blockquote:before,blockquote:after{content:"";content:none}
+a img{border:none}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{display:block}
+a{color:#1863a1;word-wrap: break-word; word-break: break-all;}
+a:visited{color:#751590}
+a:focus{color:#0181eb}
+a:hover{color:#0181eb}
+a:active{color:#01579f}
+aside.sidebar a{color:#222}
+aside.sidebar a:focus{color:#0181eb}
+aside.sidebar a:hover{color:#0181eb}
+aside.sidebar a:active{color:#01579f}
+a{-webkit-transition:color 0.3s;-moz-transition:color 0.3s;-o-transition:color 0.3s;transition:color 0.3s}
+
+body,h1,h2,h3,h4,h5,h6,footer{font-family:"PT Sans","Helvetica Neue","Optima","Hiragino Sans GB",sans-serif}
+body{line-height:1.5em;color:#222
+	-webkit-text-size-adjust:none;  min-width: 200px;
+  max-width: 760px;
+  margin: 0 auto; padding: 20px;}
+
+pre,code,tt,p code,li code{font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace}
+
+h1{font-size:2.2em;line-height:1.2em}
+
+h1,h2,h3,h4,h5,h6{text-rendering:optimizelegibility;margin-bottom:1em;font-weight:bold}
+h2,section h1{font-size:1.5em}
+h3,section h2,section section h1{font-size:1.3em}
+h4,section h3,section section h2,section section section h1{font-size:1em}
+h5,section h4,section section h3{font-size:.9em}
+h6,section h5,section section h4,section section section h3{font-size:.8em}
+h3,h4{ padding:20px 0 0px 0;}
+.markdown-body{padding: 0px 4px;}
+.markdown-body h1{position:relative;padding-top:1em;padding-bottom:0.2em;margin-bottom:1em;background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAABCAYAAACsXeyTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAFUlEQVQIHWNIS0sr/v//PwMMDzY+ADqMahlW4J91AAAAAElFTkSuQmCC') bottom left repeat-x}
+.markdown-body  h1 a{text-decoration:none}
+.markdown-body  h1 a:hover{text-decoration:underline}
+
+.markdown-body h2{padding-top:0.8em;padding-bottom:0.2em;background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAABCAYAAACsXeyTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAFUlEQVQIHWNIS0sr/v//PwMMDzY+ADqMahlW4J91AAAAAElFTkSuQmCC') bottom left repeat-x}
+.markdown-body h2:first-child,.markdown-body header+h2{padding-top:4px;}
+.markdown-body h2:first-child,.markdown-body header+h2{background:none}
+
+
+
+p,.markdown-body blockquote,ul,ol{margin-bottom:0.8em; margin-top:0.8em;}
+ul{list-style-type:disc}
+ul ul{list-style-type:circle;margin-bottom:0px}
+ul ul ul{list-style-type:square;margin-bottom:0px}
+ol{list-style-type:decimal}
+ol ol{list-style-type:lower-alpha;margin-bottom:0px}
+ol ol ol{list-style-type:lower-roman;margin-bottom:0px}
+ul,ul ul,ul ol,ol,ol ul,ol ol{margin-left:1.4em}
+ul ul,ul ol,ol ul,ol ol{margin-bottom:0em}
+
+strong{font-weight:bold}
+em{font-style:italic}
+sup,sub{font-size:0.75em;position:relative;display:inline-block;padding:0 .2em;line-height:.8em}
+sup{top:-.5em}
+sub{bottom:-.5em}
+a[rev='footnote']{font-size:.75em;padding:0 .3em;line-height:1}
+q{font-style:italic}
+q:before{content:"\201C"}
+q:after{content:"\201D"}
+em,dfn{font-style:italic}
+strong,dfn{font-weight:bold}
+del,s{text-decoration:line-through}
+abbr,acronym{border-bottom:1px dotted;cursor:help}
+small{font-size:.8em}
+big{font-size:1.2em}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body blockquote{font-style:italic;position:relative;font-size:1.2em;line-height:1.5em;padding-left:1em;border-left:4px solid rgba(170,170,170,0.5)}
+.markdown-body blockquote cite{font-style:italic}
+.markdown-body blockquote cite a{color:#aaa !important;word-wrap:break-word}
+.markdown-body blockquote cite:before{content:'\2014';padding-right:.3em;padding-left:.3em;color:#aaa}
+
+.markdown-body a{white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;white-space:pre-wrap;word-wrap:break-word}
+
+body>header{font-size:1em;padding-top:1.5em;padding-bottom:1.5em}
+.markdown-body{overflow:hidden}
+.markdown-body>div,.markdown-body>article{width:100%}
+aside.sidebar{float:none;padding:0 18px 1px;background-color:#f7f7f7;border-top:1px solid #e0e0e0}
+.flex-content,article img,article video,article .flash-video,aside.sidebar img{max-width:100%;height:auto}
+.basic-alignment.left,article img.left,article video.left,article .left.flash-video,aside.sidebar img.left{float:left;margin-right:1.5em}
+.basic-alignment.right,article img.right,article video.right,article .right.flash-video,aside.sidebar img.right{float:right;margin-left:1.5em}
+.basic-alignment.center,article img.center,article video.center,article .center.flash-video,aside.sidebar img.center{display:block;margin:0 auto 1.5em}
+.basic-alignment.left,article img.left,article video.left,article .left.flash-video,aside.sidebar img.left,.basic-alignment.right,article img.right,article video.right,article .right.flash-video,aside.sidebar img.right{margin-bottom:.8em}
+.toggle-sidebar,.no-sidebar .toggle-sidebar{display:none}
+
+
+.markdown-body img,.markdown-body video,.markdown-body .flash-video{ -webkit-border-radius:0.3em;-moz-border-radius:0.3em;-ms-border-radius:0.3em;-o-border-radius:0.3em;border-radius:0.3em;-webkit-box-shadow:rgba(0,0,0,0.15) 0 1px 4px;-moz-box-shadow:rgba(0,0,0,0.15) 0 1px 4px;box-shadow:rgba(0,0,0,0.15) 0 1px 4px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:#fff 0.5em solid;}
+
+.markdown-body img,.markdown-body video{max-width: 100%;}
+.markdown-body video,.markdown-body .flash-video{margin:0 auto 1.5em}
+.markdown-body video{display:block;width:100%}
+.markdown-body .flash-video>div{position:relative;display:block;padding-bottom:56.25%;padding-top:1px;height:0;overflow:hidden}
+.markdown-body .flash-video>div iframe,.markdown-body .flash-video>div object,.markdown-body .flash-video>div embed{position:absolute;top:0;left:0;width:100%;height:100%}
+.markdown-body>footer{padding-bottom:2.5em;margin-top:2em}
+.markdown-body>footer p.meta{margin-bottom:.8em;font-size:.85em;clear:both;overflow:hidden}
+
+
+body,pre{ background:#fdf6e3 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAQAAAAHUWYVAABFFUlEQVQYGbzBCeDVU/74/6fj9HIcx/FRHx9JCFmzMyGRURhLZIkUsoeRfUjS2FNDtr6WkMhO9sm+S8maJfu+Jcsg+/o/c+Z4z/t97/vezy3z+z8ekGlnYICG/o7gdk+wmSHZ1z4pJItqapjoKXWahm8NmV6eOTbWUOp6/6a/XIg6GQqmenJ2lDHyvCFZ2cBDbmtHA043VFhHwXxClWmeYAdLhV00Bd85go8VmaFCkbVkzlQENzfBDZ5gtN7HwF0KDrTwJ0dypSOzpaKCMwQHKTIreYIxlmhXTzTWkVm+LTynZhiSBT3RZQ7aGfjGEd3qyXQ1FDymqbKxpspERQN2MiRjNZlFFQXfCNFm9nM1zpAsoYjmtRTc5ajwuaXc5xrWskT97RaKzAGe5ARHhVUsDbjKklziiX5WROcJwSNCNI+9w1Jwv4Zb2r7lCMZ4oq5C0EdTx+2GzNuKpJ+iFf38JEWkHJn9DNF7mmBDITrWEg0VWL3pHU20tSZnuqWu+R3BtYa8XxV1HO7GyD32UkOpL/yDloINFTmvtId+nmAjxRw40VMwVKiwrKLE4bK5UOVntYwhOcSSXKrJHKPJedocpGjVz/ZMIbnYUPB10/eKCrs5apqpgVmWzBYWpmtKHecJPjaUuEgRDDaU0oZghCJ6zNMQ5ZhDYx05r5v2muQdM0EILtXUsaKiQX9WMEUotagQzFbUNN6NUPC2nm5pxEWGCjMc3GdJHjSU2kORLK/JGSrkfGEIjncU/CYUnOipoYemwj8tST9NsJmB7TUVXtbUtXATJVZXBMvYeTXJfobgJUPmGMP/yFaWonaa6BcFO3nqcIqCozSZoZoSr1g4zJOzuyGnxTEX3lUEJ7WcZgme8ddaWvWJo2AJR9DZU3CUIbhCSG6ybSwN6qtJVnCU2svDTP2ZInOw2cBTrqtQahtNZn9NcJ4l2NaSmSkkP1noZWnVwkLmdUPOwLZEwy2Z3S3R+4rIG9hcbpPXHFVWcQdZkn2FOta3cKWQnNRC5g1LsJah4GCzSVsKnCOY5OAFRTBekyyryeyilhFKva75r4Mc0aWanGEaThcy31s439KKxTzJYY5WTHPU1FtIHjQU3Oip4xlNzj/lBw23dYZVliQa7WAXf4shetcQfatI+jWRDBPmyNeW6A1P5kdDgyYJlba0BIM8BZu1JfrFwItyjcAMR3K0BWOIrtMEXyhyrlVEx3ui5dUBjmB/Q3CXW85R4mBD0s7B+4q5tKUjOlb9qqmhi5AZ6GFIC5HXtOobdYGlVdMVbNJ8toNTFcHxnoL+muBagcctjWnbNMuR00uI7nQESwg5q2qqrKWIfrNUmeQocY6HuyxJV02wj36w00yhpmUFenv4p6fUkZYqLyuinx2RGOjhCXYyJF84oiU00YMOOhhquNdfbOB7gU88pY4xJO8LVdp6/q2voeB4R04vIdhSE40xZObx1HGGJ/ja0LBthFInKaLPPFzuCaYaoj8JjPME8yoyxo6zlBqkiUZYgq00OYMswbWO5NGmq+xhipxHLRW29ARjNKXO0wRnear8XSg4XFPLKEPUS1GqvyLwiuBUoa7zpZ0l5xxFwWmWZC1H5h5FwU8eQ7K+g8UcVY6TMQreVQT/8uQ8Z+ALIXnSEa2pYZQneE9RZbSBNYXfWYJzW/h/4j4Dp1tYVcFIC5019Vyi4ThPqSFCzjGWaHQTBU8q6vrVwgxP9Lkm840imWKpcLCjYTtrKuwvsKSnrvHCXGkSMk9p6lhckfRpIeis+N2PiszT+mFLspyGleUhDwcLrZqmyeylxwjBcKHEapqkmyangyLZRVOijwOtCY5SsG5zL0OwlCJ4y5KznF3EUNDDrinwiyLZRzOXtlBbK5ITHFGLp8Q0R6ab6mS7enI2cFrxOyHvOCFaT1HThS1krjCwqWeurCkk+willhCC+RSZnRXBiZaC5RXRIZYKp2lyfrHwiKPKR0JDzrdU2EFgpidawlFDR6FgXUMNa+g1FY3bUQh2cLCwosRdnuQTS/S+JVrGLeWIvtQUvONJxlqSQYYKpwoN2kaocLjdVsis4Mk80ESF2YpSkzwldjHkjFCUutI/r+EHDU8oCs6yzL3PhWiEooZdFMkymlas4AcI3KmoMMNSQ3tHzjGWCrcJJdYyZC7QFGwjRL9p+MrRkAGWzIaWCn9W0F3TsK01c2ZvQw0byvxuQU0r1lM0qJO7wW0kRIMdDTtXEdzi4VIh+EoIHm0mWtAtpCixlabgn83fKTI7anJe9ST7WIK1DMGpQmYeA58ImV6ezOGOzK2Kgq01pd60cKWiUi9Lievb/0vIDPHQ05Kzt4ddPckQBQtoaurjyHnek/nKzpQLrVgKPjIkh2v4uyezpv+Xoo7fPFXaGFp1vaLKxQ4uUpQQS5VuQs7BCq4xRJv7fwpVvvFEB3j+620haOuocqMhWd6TTPAEx+mdFNGHdranFe95WrWmIvlY4F1Dle2ECgc6cto7SryuqGGGha0tFQ5V53migUKmg6XKAo4qS3mik+0OZpAhOLeZKicacgaYcyx5hypYQE02ZA4xi/pNhOQxR4klNKyqacj+mpxnLTnnGSo85++3ZCZq6lrZkXlGEX3o+C9FieccJbZWVFjC0Yo1FZnJhoYMFoI1hEZ9r6hwg75HwzBNhbZCdJEfJwTPGzJvaKImw1yYX1HDAmpXR+ZJQ/SmgqMNVQb5vgamGwLtt7VwvP7Qk1xpiM5x5Cyv93E06MZmgs0Nya2azIKOYKCGBQQW97RmhKNKF02JZqHEJ4o58qp7X5EcZmc56trXEqzjCBZ1MFGR87Ql2tSTs6CGxS05PTzRQorkbw7aKoKXFDXsYW42VJih/q+FP2BdTzDTwVqOYB13liM50vG7wy28qagyuIXMeQI/Oqq8bcn5wJI50xH00CRntyfpL1T4hydYpoXgNiFzoIUTDZnLNRzh4TBHwbYGDvZkxmlyJloyr6tRihpeUG94GnKtIznREF0tzJG/OOr73JBcrSh1k6WuTprgLU+mnSGnv6Zge0NNz+kTDdH8nuAuTdJDCNb21LCiIuqlYbqGzT3RAoZofQfjFazkqeNWdYaGvYTM001EW2oKPvVk1ldUGSgUtHFwjKM1h9jnFcmy5lChoLNaQMGGDsYbKixlaMBmmsx1QjCfflwTfO/gckW0ruZ3jugKR3R5W9hGUWqCgxuFgsuaCHorotGKzGaeZB9DMsaTnKCpMtwTvOzhYk0rdrArKCqcaWmVk1+F372ur1YkKxgatI8Qfe1gIX9wE9FgS8ESmuABIXnRUbCapcKe+nO7slClSZFzpV/LkLncEb1qiO42fS3R855Su2mCLh62t1SYZZYVmKwIHjREF2uihTzB20JOkz7dkxzYQnK0UOU494wh+VWRc6Un2kpTaVgLDFEkJ/uhzRcI0YKGgpGWOlocBU/a4fKoJ/pEaNV6jip3+Es9VXY078rGnmAdf7t9ylPXS34RBSuYPs1UecZTU78WanhBCHpZ5sAoTz0LGZKjPf9TRypqWEiTvOFglL1fCEY3wY/++rbk7C8bWebA6p6om6PgOL2kp44TFJlVNBXae2rqqdZztOJpT87GQsE9jqCPIe9VReZuQ/CIgacsyZdCpIScSYqcZk8r+nsyCzhyfhOqHGOIvrLknC8wTpFcaYiGC/RU1NRbUeUpocQOnkRpGOrIOcNRx+1uA0UrzhSSt+VyS3SJpnFWkzNDqOFGIWcfR86DnmARTQ1HKIL33ExPiemeOhYSSjzlSUZZuE4TveoJLnBUOFof6KiysCbnAEcZgcUNTDOwkqWu3RWtmGpZwlHhJENdZ3miGz0lJlsKnjbwqSHQjpxnFDlTLLwqJPMZMjd7KrzkSG7VsxXBZE+F8YZkb01Oe00yyRK9psh5SYh29ySPKBo2ylNht7ZkZnsKenjKNJu9PNEyZpaCHv4Kt6RQsLvAVp7M9kIimmCUwGeWqLMmGuIotYMmWNpSahkhZw9FqZsVnKJhsjAHvtHMsTM9fCI06Dx/u3vfUXCqfsKRc4oFY2jMsoo/7DJDwZ1CsIKnJu+J9ldkpmiCxQx1rWjI+T9FwcWWzOuaYH0Hj7klNRVWEQpmaqosakiGNTFHdjS/qnUdmf0NJW5xsL0HhimCCZZSRzmSPTXJQ4aaztAwtZnoabebJ+htCaZ7Cm535ByoqXKbX1WRc4Eh2MkRXWzImVc96Cj4VdOKVxR84VdQsIUM8Psoou2byVHyZFuq7O8otbSQ2UAoeEWTudATLGSpZzVLlXVkPU2Jc+27lsw2jmg5T5VhbeE3BT083K9WsTTkFU/Osi0rC5lRlpwRHUiesNS0sOvmqGML1aRbPAxTJD9ZKtxuob+hhl8cwYGWpJ8nub7t5p6coYbMovZ1BTdaKn1jYD6h4GFDNFyT/Kqe1XCXphXHOKLZmuRSRdBPEfVUXQzJm5YGPGGJdvAEr7hHNdGZnuBvrpciGmopOLf5N0uVMy0FfYToJk90uUCbJupaVpO53UJXR2bVpoU00V2KOo4zMFrBd0Jtz2pa0clT5Q5L8IpQ177mWQejPMEJhuQjS10ref6HHjdEhy1P1EYR7GtO0uSsKJQYLiTnG1rVScj5lyazpqWGl5uBbRWl7m6ixGOOnEsMJR7z8J0n6KMnCdxhiNYQCoZ6CmYLnO8omC3MkW3bktlPmEt/VQQHejL3+dOE5FlPdK/Mq8hZxxJtLyRrepLThYKbLZxkSb5W52vYxNOaOxUF0yxMUPwBTYqCzy01XayYK0sJyWBLqX0MwU5CzoymRzV0EjjeUeLgDpTo6ij42ZAzvD01dHUUTPLU96MdLbBME8nFBn7zJCMtJcZokn8YoqU0FS5WFKyniHobguMcmW8N0XkWZjkyN3hqOMtS08r+/xTBwpZSZ3qiVRX8SzMHHjfUNFjgHEPmY9PL3ykEzxkSre/1ZD6z/NuznuB0RcE1TWTm9zRgfUWVJiG6yrzgmWPXC8EAR4Wxhlad0ZbgQyEz3pG5RVEwwDJH2mgKpjcTiCOzn1lfUWANFbZ2BA8balnEweJC9J0iuaeZoI+ippFCztEKVvckR2iice1JvhVytrQwUAZpgsubCPaU7xUe9vWnaOpaSBEspalykhC9bUlOMpT42ZHca6hyrqKmw/wMR8H5ZmdFoBVJb03O4UL0tSNnvIeRmkrLWqrs78gcrEn2tpcboh0UPOW3UUR9PMk4T4nnNKWmCjlrefhCwxRNztfmIQVdDElvS4m1/WuOujoZCs5XVOjtKPGokJzsYCtFYoWonSPT21DheU/wWhM19FcElwqNGOsp9Q8N/cwXaiND1MmeL1Q5XROtYYgGeFq1aTMsoMmcrKjQrOFQTQ1fmBYhmW6o8Jkjc7iDJRTBIo5kgJD5yMEYA3srCg7VFKwiVJkmRCc5ohGOKhsYMn/XBLdo5taZjlb9YAlGWRimqbCsoY7HFAXLa5I1HPRxMMsQDHFkWtRNniqT9UEeNjcE7RUlrCJ4R2CSJuqlKHWvJXjAUNcITYkenuBRB84TbeepcqTj3zZyFJzgYQdHnqfgI0ddUwS6GqWpsKWhjq9cV0vBAEMN2znq+EBfIWT+pClYw5xsTlJU6GeIBsjGmmANTzJZiIYpgrM0Oa8ZMjd7NP87jxhqGOhJlnQtjuQpB+8aEE00wZFznSJPyHxgH3HkPOsJFvYk8zqCHzTs1BYOa4J3PFU+UVRZxlHDM4YavlNUuMoRveiZA2d7grMNc2g+RbSCEKzmgYsUmWmazFJyoiOZ4KnyhKOGRzWJa0+moyV4TVHDzn51Awtqaphfk/lRQ08FX1iiqxTB/kLwd0VynKfEvI6cd4XMV5bMhZ7gZUWVzYQ6Nm2BYzxJbw3bGthEUUMfgbGeorae6DxHtJoZ6alhZ0+ytiVoK1R4z5PTrOECT/SugseEOlb1MMNR4VRNcJy+V1Hg9ONClSZFZjdHlc6W6FBLdJja2MC5hhpu0DBYEY1TFGwiFAxRRCsYkiM9JRb0JNMVkW6CZYT/2EiTGWmo8k+h4FhDNE7BvppoTSFnmCV5xZKzvcCdDo7VVPnIU+I+Rc68juApC90MwcFCsJ5hDqxgScYKreruyQwTqrzoqDCmhWi4IbhB0Yrt3RGa6GfDv52rKXWhh28dyZaWUvcZeMTBaZoSGyiCtRU5J8iviioHaErs7Jkj61syVzTTgOcUOQ8buFBTYWdL5g3T4qlpe0+wvD63heAXRfCCIed9RbCsp2CiI7raUOYOTU13N8PNHvpaGvayo4a3LLT1lDrVEPT2zLUlheB1R+ZTRfKWJ+dcocLJfi11vyJ51lLqJ0WD7tRwryezjiV5W28uJO9qykzX8JDe2lHl/9oyBwa2UMfOngpXCixvKdXTk3wrsKmiVYdZIqsoWEERjbcUNDuiaQomGoIbFdEHmsyWnuR+IeriKDVLnlawlyNHKwKlSU631PKep8J4Q+ayjkSLKYLhalNHlYvttb6fHm0p6OApsZ4l2VfdqZkjuysy6ysKLlckf1KUutCTs39bmCgEyyoasIWlVaMF7mgmWtBT8Kol5xpH9IGllo8cJdopcvZ2sImlDmMIbtDk3KIpeNiS08lQw11NFPTwVFlPP6pJ2gvRfI7gQUfmNAtf6Gs0wQxDsKGlVBdF8rCa3jzdwMaGHOsItrZk7hAyOzpK9VS06j5F49b0VNGOOfKs3lDToMsMBe9ZWtHFEgxTJLs7qrygKZjUnmCYoeAqeU6jqWuLJup4WghOdvCYJnrSkSzoyRkm5M2StQwVltPkfCAk58tET/CSg+8MUecmotMEnhBKfWBIZsg2ihruMJQaoIm+tkTLKEqspMh00w95gvFCQRtDwTT1gVDDSEVdlwqZfxoQRbK0g+tbiBZxzKlpnpypejdDwTaeOvorMk/IJE10h9CqRe28hhLbe0pMsdSwv4ZbhKivo2BjDWfL8UKJgeavwlwb5KlwhyE4u4XkGE2ytZCznKLCDZZq42VzT8HLCrpruFbIfOIINmh/qCdZ1ZBc65kLHR1Bkyf5zn6pN3SvGKIlFNGplhrO9QSXanLOMQTLCa0YJCRrCZm/CZmrLTm7WzCK4GJDiWUdFeYx1LCFg3NMd0XmCuF3Y5rITLDUsYS9zoHVzwnJoYpSTQoObyEzr4cFBNqYTopoaU/wkyLZ2lPhX/5Y95ulxGTV7KjhWrOZgl8MyUUafjYraNjNU1N3IWcjT5WzWqjwtoarHSUObGYO3GCJZpsBlnJGPd6ZYLyl1GdCA2625IwwJDP8GUKymbzuyPlZlvTUsaUh5zFDhRWFzPKKZLAlWdcQbObgF9tOqOsmB1dqcqYJmWstFbZRRI9poolmqiLnU0POvxScpah2iSL5UJNzgScY5+AuIbpO0YD3NCW+dLMszFSdFCWGqG6eVq2uYVNDdICGD6W7EPRWZEY5gpsE9rUkS3mijzzJnm6UpUFXG1hCUeVoS5WfNcFpblELL2qqrCvMvRfd45oalvKU2tiQ6ePJOVMRXase9iTtLJztPxJKLWpo2CRDcJwn2sWSLKIO1WQWNTCvpVUvOZhgSC40JD0dOctaSqzkCRbXsKlb11Oip6PCJ0IwSJM31j3akRxlP7Rwn6aGaUL0qiLnJkvB3xWZ2+Q1TfCwpQH3G0o92UzmX4o/oJNQMMSQc547wVHhdk+VCw01DFYEnTxzZKAm74QmeNNR1w6WzEhNK15VJzuCdxQ53dRUDws5KvwgBMOEgpcVNe0hZI6RXT1Jd0cyj5nsaEAHgVmGaJIlWdsc5Ui2ElrRR6jrRAttNMEAIWrTDFubkZaok7/AkzfIwfuWVq0jHzuCK4QabtLUMVPB3kJ0oyHTSVFlqMALilJf2Rf8k5aaHtMfayocLBS8L89oKoxpJvnAkDPa0qp5DAUTHKWmCcnthlou8iCKaFFLHWcINd1nyIwXqrSxMNmSs6KmoL2QrKuWtlQ5V0120xQ5vRyZS1rgFkWwhiOwiuQbR0OOVhQM9iS3tiXp4RawRPMp5tDletOOBL95MpM01dZTBM9pkn5qF010rIeHFcFZhmSGpYpTsI6nwhqe5C9ynhlpp5ophuRb6WcJFldkVnVEwwxVfrVkvnWUuNLCg5bgboFHPDlDPDmnK7hUrWiIbjadDclujlZcaokOFup4Ri1kacV6jmrrK1hN9bGwpKEBQ4Q6DvIUXOmo6U5LqQM6EPyiKNjVkPnJkDPNEaxhiFay5ExW1NXVUGqcpYYdPcGiCq7z/TSlbhL4pplWXKd7NZO5QQFrefhRQW/NHOsqcIglc4UhWklR8K0QzbAw08CBDnpbgqXdeD/QUsM4RZXDFBW6WJKe/mFPdH0LtBgiq57wFLzlyQzz82qYx5D5WJP5yVJDW01BfyHnS6HKO/reZqId1WGa4Hkh2kWodJ8i6KoIPlAj2hPt76CzXsVR6koPRzWTfKqIentatYpQw2me4AA3y1Kind3SwoOKZDcFXTwl9tWU6mfgRk9d71sKtlNwrjnYw5tC5n5LdKiGry3JKNlHEd3oaMCFHrazBPMp/uNJ+V7IudcSbeOIdjUEdwl0VHCOZo5t6YluEuaC9mQeMgSfOyKnYGFHcIeQ84yQWbuJYJpZw5CzglDH7gKnWqqM9ZTaXcN0TeYhR84eQtJT76JJ1lREe7WnnvsMmRc9FQ7SBBM9mV3lCUdmHk/S2RAMt0QjFNFqQpWjDPQ01DXWUdDBkXziKPjGEP3VP+zIWU2t7im41FOloyWzn/L6dkUy3VLDaZ6appgDLHPjJEsyvJngWEPUyVBiAaHCTEXwrLvSEbV1e1gKJniicWorC1MUrVjB3uDhJE/wgSOzk1DXpk0k73qCM8xw2UvD5kJmDUfOomqMpWCkJRlvKXGmoeBm18USjVIk04SClxTB6YrgLAPLWYK9HLUt5cmc0vYES8GnTeRc6skZbQkWdxRsIcyBRzx1DbTk9FbU0caTPOgJHhJKnOGIVhQqvKmo0llRw9sabrZkDtdg3PqaKi9oatjY8B+G371paMg6+mZFNNtQ04mWBq3rYLOmtWWQp8KJnpy9DdFensyjdqZ+yY40VJlH8wcdLzC8PZnvHMFUTZUrDTkLyQaGus5X5LzpYAf3i+e/ZlhqGqWhh6Ou6xTR9Z6oi5AZZtp7Mj2EEm8oSpxiYZCHU/1fbGdNNNRRoZMhmilEb2gqHOEJDtXkHK/JnG6IrvbPCwV3NhONVdS1thBMs1T4QOBcTWa2IzhMk2nW5Kyn9tXUtpv9RsG2msxk+ZsQzRQacJncpgke0+T8y5Fzj8BiGo7XlJjaTIlpQs7KFjpqGnKuoyEPeIKnFMkZHvopgh81ySxNFWvJWcKRs70j2FOT012IllEEO1n4pD1513Yg2ssQPOThOkvyrqHUdEXOSEsihmBbTbKX1kLBPWqWkLOqJbjB3GBIZmoa8qWl4CG/iZ7oiA72ZL7TJNeZUY7kFQftDcHHluBzRbCegzMtrRjVQpX2lgoPKKLJAkcbMl01XK2p7yhL8pCBbQ3BN2avJgKvttcrWDK3CiUOVxQ8ZP+pqXKyIxnmBymCg5vJjNfkPK4+c8cIfK8ocVt7kmfd/I5SR1hKvCzUtb+lhgc00ZaO6CyhIQP1Uv4yIZjload72PXX0OIJvnFU+0Zf6MhsJwTfW0r0UwQfW4LNLZl5HK261JCZ4qnBaAreVAS3WrjV0LBnNDUNNDToCEeFfwgcb4gOEqLRhirWkexrCEYKVV711DLYEE1XBEsp5tpTGjorkomKYF9FDXv7fR3BGwbettSxnyL53MBPjsxDZjMh+VUW9NRxq1DhVk+FSxQcaGjV9Pawv6eGByw5qzoy7xk4RsOShqjJwWKe/1pEEfzkobeD/dQJmpqedcyBTy2sr4nGNRH0c0SPWTLrqAc0OQcb/gemKgqucQT7ySWKCn2EUotoCvpZct7RO2sy/QW0IWcXd7pQRQyZVwT2USRO87uhjioTLKV2brpMUcMQRbKH/N2T+UlTpaMls6cmc6CCNy3JdYYSUzzJQ4oSD3oKLncULOiJvjBEC2oqnCJkJluCYy2ZQ5so9YYlZ1VLlQU1mXEW1jZERwj/MUSRc24TdexlqLKfQBtDTScJUV8FszXBEY5ktpD5Ur9hYB4Nb1iikw3JoYpkKX+RodRKFt53MMuRnKSpY31PwYaGaILh3wxJGz9TkTPEETxoCWZrgvOlmyMzxFEwVJE5xZKzvyJ4WxEc16Gd4Xe3Weq4XH2jKRikqOkGQ87hQnC7wBmGYLAnesX3M+S87eFATauuN+Qcrh7xIxXJbUIdMw3JGE3ylCWzrieaqCn4zhGM19TQ3z1oH1AX+pWEqIc7wNGAkULBo/ZxRaV9NNyh4Br3rCHZzbzmSfawBL0dNRwpW1kK9mxPXR9povcdrGSZK9c2k0xwFGzjuniCtRSZCZ6ccZ7gaktmgAOtKbG/JnOkJrjcQTdFMsxRQ2cLY3WTIrlCw1eWKn8R6pvt4GFDso3QoL4a3nLk3G6JrtME3dSenpx7PNFTmga0EaJTLQ061sEeQoWXhSo9LTXsaSjoJQRXeZLtDclbCrYzfzHHeaKjHCVOUkQHO3JeEepr56mhiyaYYKjjNU+Fed1wS5VlhWSqI/hYUdDOkaxiKehoyOnrCV5yBHtbWFqTHCCwtpDcYolesVR5yUzTZBb3RNMd0d6WP+SvhuBmRcGxnuQzT95IC285cr41cLGQ6aJJhmi4TMGempxeimBRQw1tFKV+8jd6KuzoSTqqDxzRtpZkurvKEHxlqXKRIjjfUNNXQsNOsRScoWFLT+YeRZVD3GRN0MdQcKqQjHDMrdGGVu3iYJpQx3WGUvfbmxwFfR20WBq0oYY7LMFhhgYtr8jpaEnaOzjawWWaTP8mMr0t/EPDPoqcnxTBI5o58L7uoWnMrpoqPwgVrlAUWE+V+TQl9rawoyP6QGAlQw2TPRX+YSkxyBC8Z6jhHkXBgQL7WII3DVFnRfCrBfxewv9D6xsyjys4VkhWb9pUU627JllV0YDNHMku/ldNMMXDEo4aFnAkk4U6frNEU4XgZUPmEKHUl44KrzmYamjAbh0JFvGnaTLPu1s9jPCwjFpYiN7z1DTOk/nc07CfDFzmCf7i+bfNHXhDtLeBXzTBT5rkMvWOIxpl4EMh2LGJBu2syDnAEx2naEhHDWMMzPZEhygyS1mS5RTJr5ZkoKbEUoYqr2kqdDUE8ztK7OaIntJkFrIECwv8LJTaVx5XJE86go8dFeZ3FN3rjabCAYpoYEeC9zzJVULBbmZhDyd7ko09ydpNZ3nm2Kee4FPPXHnYEF1nqOFEC08LUVcDvYXkJHW8gTaKCk9YGOeIJhqiE4ToPEepdp7IWFjdwnWaufGMwJJCMtUTTBBK9BGCOy2tGGrJTHIwyEOzp6aPzNMOtlZkDvcEWpP5SVNhfkvDxhmSazTJXYrM9U1E0xwFVwqZQwzJxw6+kGGGUj2FglGGmnb1/G51udRSMNlTw6GGnCcUwVcOpmsqTHa06o72sw1RL02p9z0VbnMLOaIX3QKaYKSCFQzBKEUNHTSc48k53RH9wxGMtpQa5KjjW0W0n6XCCCG4yxNNdhQ4R4l1Ff+2sSd6UFHiIEOyqqFgT01mEUMD+joy75jPhOA+oVVLm309FR4yVOlp4RhLiScNmSmaYF5Pw0STrOIoWMSR2UkRXOMp+M4SHW8o8Zoi6OZgjKOaFar8zZDzkWzvKOjkKBjmCXby8JahhjXULY4KlzgKLvAwxVGhvyd4zxB1d9T0piazmKLCVZY5sKiD0y2ZSYrkUEPUbIk+dlQ4SJHTR50k1DPaUWIdTZW9NJwnJMOECgd7ou/MnppMJ02O1VT4Wsh85MnZzcFTngpXGKo84qmwgKbCL/orR/SzJ2crA+t6Mp94KvxJUeIbT3CQu1uIdlQEOzlKfS3UMcrTiFmOuroocrZrT2AcmamOKg8YomeEKm/rlT2sociMaybaUlFhuqHCM2qIJ+rg4EcDFymiDSxzaHdPcpE62pD5kyM5SBMoA1PaUtfIthS85ig1VPiPPYXgYEMNk4Qq7TXBgo7oT57gPUdwgCHzhIVFPFU6OYJzHAX9m5oNrVjeE61miDrqQ4VSa1oiURTsKHC0IfjNwU2WzK6eqK8jWln4g15TVBnqmDteCJ501PGAocJhhqjZdtBEB6lnhLreFJKxmlKbeGrqLiSThVIbCdGzloasa6lpMQXHCME2boLpJgT7yWaemu6wBONbqGNVRS0PKIL7LckbjmQtR7K8I5qtqel+T/ChJTNIKLjdUMNIRyvOEko9YYl2cwQveBikCNawJKcLBbc7+JM92mysNvd/Fqp8a0k6CNEe7cnZrxlW0wQXaXjaktnRwNOGZKYiONwS7a1JVheq3WgJHlQUGKHKmp4KAxXR/ULURcNgoa4zhKSLpZR3kxRRb0NmD0OFn+UCS7CzI1nbP6+o4x47QZE5xRCt3ZagnYcvmpYQktXdk5YKXTzBC57kKEe0VVuiSYqapssMS3C9p2CKkHOg8B8Pa8p5atrIw3qezIWanMGa5HRDNF6RM9wcacl0N+Q8Z8hsIkSnaIIdHRUOEebAPy1zbCkhM062FCJtif7PU+UtoVXzWKqM1PxXO8cfdruhFQ/a6x3JKYagvVDhQEtNiyiiSQ7OsuRsZUku0CRNDs4Sog6KKjsZgk2bYJqijgsEenoKeniinRXBn/U3lgpPdyDZynQx8IiioMnCep5Ky8mjGs6Wty0l1hUQTcNWswS3WRp2kCNZwJG8omG8JphPUaFbC8lEfabwP7VtM9yoaNCAjpR41VNhrD9LkbN722v0CoZMByFzhaW+MyzRYEWFDQwN2M4/JiT76PuljT3VU/A36eaIThb+R9oZGOAJ9tewkgGvqOMNRWYjT/Cwu99Q8LqDE4TgbLWxJ1jaDDAERsFOFrobgjUsBScaguXU8kKm2RL19tRypSHnHNlHiIZqgufs4opgQdVdwxBNNFBR6kVFqb8ogimOzB6a6HTzrlDHEpYaxjiiA4TMQobkDg2vejjfwJGWmnbVFAw3H3hq2NyQfG7hz4aC+w3BbwbesG0swYayvpAs6++Ri1Vfzx93mFChvyN5xVHTS+0p9aqCAxyZ6ZacZyw5+7uuQkFPR9DDk9NOiE7X1PCYJVjVUqq7JlrHwWALF5nfHNGjApdpqgzx5OwilDhCiDYTgnc9waGW4BdLNNUQvOtpzDOWHDH8D7TR/A/85KljEQu3NREc4Pl/6B1Hhc8Umb5CsKMmGC9EPcxoT2amwHNCmeOEnOPbklnMkbOgIvO5UMOpQrS9UGVdt6iH/fURjhI/WOpaW9OKLYRod6HCUEdOX000wpDZQ6hwg6LgZfOqo1RfT/CrJzjekXOGhpc1VW71ZLbXyyp+93ILbC1kPtIEYx0FIx1VDrLoVzXRKRYWk809yYlC9ImcrinxtabKnzRJk3lAU1OLEN1j2zrYzr2myHRXJFf4h4QKT1qSTzTB5+ZNTzTRkAxX8FcLV2uS8eoQQ2aAkFzvCM72sJIcJET3WPjRk5wi32uSS9rfZajpWEvj9hW42F4o5NytSXYy8IKHay10VYdrcl4SkqscrXpMwyGOgtkajheSxdQqmpxP1L3t4R5PqasFnrQEjytq6qgp9Y09Qx9o4S1FzhUCn1kyHSzBWLemoSGvOqLNhZyBjmCaAUYpMgt4Ck7wBBMMwWKWgjsUwTaGVsxWC1mYoKiyqqeGKYqonSIRQ3KIkHO0pmAxTdBHkbOvfllfr+AA+7gnc50huVKYK393FOyg7rbPO/izI7hE4CnHHHnJ0ogNPRUGeUpsrZZTBJcrovUcJe51BPsr6GkJdhCCsZ6aTtMEb2pqWkqeVtDXE/QVggsU/Nl86d9RMF3DxvZTA58agu810RWawCiSzzXBeU3MMW9oyJUedvNEvQyNu1f10BSMddR1vaLCYpYa/mGocLSiYDcLbQz8aMn5iyF4xBNMs1P0QEOV7o5gaWGuzSeLue4tt3ro7y4Tgm4G/mopdZgl6q0o6KzJWE3mMksNr3r+a6CbT8g5wZNzT9O7fi/zpaOmnz3BRoqos+tv9zMbdpxsqDBOEewtJLt7cg5wtKKbvldpSzRRCD43VFheCI7yZLppggMVBS/KMAdHODJvOwq2NQSbKKKPLdFWQs7Fqo+mpl01JXYRgq8dnGLhTiFzqmWsUMdpllZdbKlyvSdYxhI9YghOtxR8LgSLWHK62mGGVoxzBE8LNWzqH9CUesQzFy5RQzTc56mhi6fgXEWwpKfE5Z7M05ZgZUPmo6auiv8YKzDYwWBLMErIbKHJvOwIrvEdhOBcQ9JdU1NHQ7CXn2XIDFBKU2WAgcX9UAUzDXWd5alwuyJ41Z9rjKLCL4aCp4WarhPm2rH+SaHUYE001JDZ2ZAzXPjdMpZWvC9wmqIB2lLhQ01D5jO06hghWMndbM7yRJMsoCj1vYbnFQVrW9jak3OlEJ3s/96+p33dEPRV5GxiqaGjIthUU6FFEZyqCa5qJrpBdzSw95IUnOPIrCUUjRZQFrbw5PR0R1qiYx3cb6nrWUMrBmmiBQxVHtTew5ICP/ip6g4hed/Akob/32wvBHsIOX83cI8hGeNeNPCIkPmXe8fPKx84OMSRM1MTdXSwjCZ4S30jVGhvqTRak/OVhgGazHuOCud5onEO1lJr6ecVyaOK6H7zqlBlIaHE0oroCgfvGJIdPcmfLNGLjpz7hZwZQpUbFME0A1cIJa7VNORkgfsMBatbKgwwJM9bSvQXeNOvbIjelg6WWvo5kvbKaJJNHexkKNHL9xRyFlH8Ti2riB5wVPhUk7nGkJnoCe428LR/wRGdYIlmWebCyxou1rCk4g/ShugBDX0V0ZQWkh0dOVsagkM0yV6OoLd5ye+pRlsCr0n+KiQrGuq5yJDzrTAXHtLUMduTDBVKrSm3eHL+6ijxhFDX9Z5gVU/wliHYTMiMFpKLNMEywu80wd3meoFmt6VbRMPenhrOc6DVe4pgXU8DnnHakLOIIrlF4FZPIw6R+zxBP0dyq6OOZ4Q5sLKCcz084ok+VsMMyQhNZmmBgX5xIXOEJTmi7VsGTvMTNdHHhpzdbE8Du2oKxgvBqQKdDDnTFOylCFaxR1syz2iqrOI/FEpNc3C6f11/7+ASS6l2inq2ciTrCCzgyemrCL5SVPjQkdPZUmGy2c9Sw9FtR1sS30RmsKPCS4rkIC/2U0MduwucYolGaPjKEyhzmiPYXagyWbYz8LWBDdzRimAXzxx4z8K9hpzlhLq+NiQ97HuKorMUfK/OVvC2JfiHUPCQI/q7J2gjK+tTDNxkCc4TMssqCs4TGtLVwQihyoAWgj9bosU80XGW6Ac9TJGziaUh5+hnFcHOnlaM1iRn29NaqGENTTTSUHCH2tWTeV0osUhH6psuVLjRUmGWhm6OZEshGeNowABHcJ2Bpy2ZszRcKkRXd2QuKVEeXnbfaEq825FguqfgfE2whlChSRMdron+LATTPQ2Z369t4B9C5gs/ylzv+CMmepIDPclFQl13W0rspPd1JOcbghGOEutqCv5qacURQl3dDKyvyJlqKXGPgcM9FfawJAMVmdcspcYKOZc4GjDYkFlK05olNMHyHn4zFNykyOxt99RkHlfwmiHo60l2EKI+mhreEKp080Tbug08BVPcgoqC5zWt+NLDTZ7oNSF51N1qie7Va3uCCwyZbkINf/NED6jzOsBdZjFN8oqG3wxVunqCSYYKf3EdhJyf9YWGf7tRU2oH3VHgPr1fe5J9hOgHd7xQ0y7qBwXr23aGErP0cm64JVjZwsOGqL+mhNgZmhJLW2oY4UhedsyBgzrCKrq7BmcpNVhR6jBPq64Vgi+kn6XE68pp8J5/+0wRHGOpsKenQn9DZntPzjRLZpDAdD2fnSgkG9tmIXnUwQ6WVighs7Yi2MxQ0N3CqYaCXkJ0oyOztMDJjmSSpcpvlrk0RMMOjmArQ04PRV1DO1FwhCVaUVPpKUM03JK5SxPsIWRu8/CGHi8UHChiqGFDTbSRJWeYUDDcH6vJWUxR4k1FXbMUwV6e4AJFXS8oMqsZKqzvYQ9DDQdZckY4aGsIhtlubbd2r3j4QBMoTamdPZk7O/Bf62lacZwneNjQoGcdVU7zJOd7ghsUHOkosagic6cnWc8+4gg285R6zZP5s1/LUbCKIznTwK36PkdwlOrl4U1LwfdCCa+IrvFkmgw1PCAUXKWo0sURXWcI2muKJlgyFzhynCY4RBOsqCjoI1R5zREco0n2Vt09BQtYSizgKNHfUmUrQ5UOCh51BFcLmY7umhYqXKQomOop8bUnWNNQcIiBcYaC6xzMNOS8JQQfeqKBmmglB+97ok/lfk3ygaHSyZaCRTzRxQo6GzLfa2jWBPepw+UmT7SQEJyiyRkhBLMVOfcoMjcK0eZChfUNzFAUzCsEN5vP/X1uP/n/aoMX+K+nw/Hjr/9xOo7j7Pju61tLcgvJpTWXNbfN5jLpi6VfCOviTktKlFusQixdEKWmEBUKNaIpjZRSSOXSgzaaKLdabrm1/9nZ+/f+vd/vz/v9+Xy+zZ7PRorYoZqyLrCwQdEAixxVOEXNNnjX2nUSRlkqGmWowk8lxR50JPy9Bo6qJXaXwNvREBvnThPEPrewryLhcAnj5WE15Fqi8W7R1sAuEu86S4ENikItFN4xkv9Af4nXSnUVcLiA9xzesFpivRRVeFKtsMRaKBhuSbjOELnAUtlSQUpXgdfB4Z1oSbnFEetbQ0IrAe+Y+pqnDcEJFj6S8LDZzZHwY4e3XONNlARraomNEt2bkvGsosA3ioyHm+6jCMbI59wqt4eeara28IzEmyPgoRaUOEDhTVdEJhmCoTWfC0p8aNkCp0oYqih2iqGi4yXeMkOsn4LdLLnmKfh/YogjNsPebeFGR4m9BJHLzB61XQ3BtpISfS2FugsK9FAtLWX1dCRcrCnUp44CNzuCowUZmxSRgYaE6Za0W2u/E7CVXCiI/UOR8aAm1+OSyE3mOUcwyc1zBBeoX1kiKy0Zfxck1Gsyulti11i83QTBF5Kg3pDQThFMVHiPSlK+0cSedng/VaS8bOZbtsBcTcZAR8JP5KeqQ1OYKAi20njdNNRpgnsU//K+JnaXJaGTomr7aYIphoRn9aeShJWKEq9LcozSF7QleEfDI5LYm5bgVkFkRwVDBCVu0DDIkGupo8TZBq+/pMQURYErJQmPKGKjNDkWOLx7Jd5QizdUweIaKrlP7SwJDhZvONjLkOsBBX9UpGxnydhXkfBLQ8IxgojQbLFnJf81JytSljclYYyEFyx0kVBvKWOFJmONpshGAcsduQY5giVNCV51eOdJYo/pLhbvM0uDHSevNKRcrKZIqnCtJeEsO95RoqcgGK4ocZcho1tTYtcZvH41pNQ7vA0WrhIfOSraIIntIAi+NXWCErdbkvrWwjRLrt0NKUdL6KSOscTOdMSOUtBHwL6OLA0vNSdynaWQEnCpIvKaIrJJEbvHkmuNhn6OjM8VkSGSqn1uYJCGHnq9I3aLhNME3t6GjIkO7xrNFumpyTNX/NrwX7CrIRiqqWijI9JO4d1iieykyfiposQIQ8YjjsjlBh6oHWbwRjgYJQn2NgSnNycmJAk3NiXhx44Sxykihxm8ybUwT1OVKySc7vi3OXVkdBJ4AyXBeksDXG0IhgtYY0lY5ahCD0ehborIk5aUWRJviMA7Xt5kyRjonrXENkm8yYqgs8VzgrJmClK20uMM3jRJ0FiQICQF9hdETlLQWRIb5ki6WDfWRPobvO6a4GP5mcOrNzDFELtTkONLh9dXE8xypEg7z8A9jkhrQ6Fhjlg/QVktJXxt4WXzT/03Q8IaQWSqIuEvloQ2mqC9Jfi7wRul4RX3pSPlzpoVlmCtI2jvKHCFhjcM3sN6lqF6HxnKelLjXWbwrpR4xzuCrTUZx2qq9oAh8p6ixCUGr78g8oyjRAtB5CZFwi80VerVpI0h+IeBxa6Zg6kWvpDHaioYYuEsRbDC3eOmC2JvGYLeioxGknL2UATNJN6hmtj1DlpLvDVmocYbrGCVJKOrg4X6DgddLA203BKMFngdJJFtFd7vJLm6KEpc5yjQrkk7M80SGe34X24nSex1Ra5Omgb71JKyg8SrU3i/kARKwWpH0kOGhKkObyfd0ZGjvyXlAkVZ4xRbYJ2irFMkFY1SwyWxr2oo4zlNiV+7zmaweFpT4kR3kaDAFW6xpSqzJay05FtYR4HmZhc9UxKbbfF2V8RG1MBmSaE+kmC6JnaRXK9gsiXhJHl/U0qM0WTcbyhwkYIvFGwjSbjfwhiJt8ZSQU+Bd5+marPMOkVkD0muxYLIfEuhh60x/J92itguihJSEMySVPQnTewnEm+620rTQEMsOfo4/kP/0ARvWjitlpSX7GxBgcMEsd3EEeYWvdytd+Saawi6aCIj1CkGb6Aj9rwhx16Cf3vAwFy5pyLhVonXzy51FDpdEblbkdJbUcEPDEFzQ8qNmhzzLTmmKWKbFCXeEuRabp6rxbvAtLF442QjQ+wEA9eL1xSR7Q0JXzlSHjJ4exq89yR0laScJ/FW6z4a73pFMEfDiRZvuvijIt86RaSFOl01riV2mD1UEvxGk/Geg5aWwGki1zgKPG9J2U8PEg8qYvMsZeytiTRXBMslCU8JSlxi8EabjwUldlDNLfzTUmCgxWsjqWCOHavYAqsknKFIO0yQ61VL5AVFxk6WhEaCAkdJgt9aSkzXlKNX2jEa79waYuc7gq0N3GDJGCBhoiTXUEPsdknCUE1CK0fwsiaylSF2uiDyO4XX3pFhNd7R4itFGc0k/ElBZwWvq+GC6szVeEoS/MZ+qylwpKNKv9Z469UOjqCjwlusicyTxG6VpNxcQ8IncoR4RhLbR+NdpGGmJWOcIzJGUuKPGpQg8rrG21dOMqQssJQ4RxH5jaUqnZuQ0F4Q+cjxLwPtpZbIAk3QTJHQWBE5S1BokoVtDd6lhqr9UpHSUxMcIYl9pojsb8h4SBOsMQcqvOWC2E8EVehqiJ1hrrAEbQxeK0NGZ0Gkq+guSRgniM23bIHVkqwx4hiHd7smaOyglyIyQuM978j4VS08J/A2G1KeMBRo4fBaSNhKUEZfQewVQ/C1I+MgfbEleEzCUw7mKXI0M3hd1EESVji8x5uQ41nxs1q4RMJCCXs7Iq9acpxn22oSDnQ/sJTxsCbHIYZiLyhY05TY0ZLIOQrGaSJDDN4t8pVaIrsqqFdEegtizc1iTew5Q4ayBDMUsQMkXocaYkc0hZua412siZ1rSXlR460zRJ5SlHGe5j801RLMlJTxtaOM3Q1pvxJ45zUlWFD7rsAbpfEm1JHxG0eh8w2R7QQVzBUw28FhFp5QZzq8t2rx2joqulYTWSuJdTYfWwqMFMcovFmSyJPNyLhE4E10pHzYjOC3huArRa571ZsGajQpQx38SBP5pyZB6lMU3khDnp0MBV51BE9o2E+TY5Ml2E8S7C0o6w1xvCZjf0HkVEHCzFoyNmqC+9wdcqN+Tp7jSDheE9ws8Y5V0NJCn2bk2tqSY4okdrEhx1iDN8cSudwepWmAGXKcJXK65H9to8jYQRH7SBF01ESUJdd0TayVInaWhLkOjlXE5irKGOnI6GSWGCJa482zBI9rCr0jyTVcEuzriC1vcr6mwFGSiqy5zMwxBH/TJHwjSPhL8+01kaaSUuMFKTcLEvaUePcrSmwn8DZrgikWb7CGPxkSjhQwrRk57tctmxLsb9sZvL9LSlyuSLlWkqOjwduo8b6Uv1DkmudIeFF2dHCgxVtk8dpIvHpBxhEOdhKk7OLIUSdJ+cSRY57B+0DgGUUlNfpthTfGkauzxrvTsUUaCVhlKeteTXCoJDCa2NOKhOmC4G1H8JBd4OBZReSRGkqcb/CO1PyLJTLB4j1q8JYaIutEjSLX8YKM+a6phdMsdLFUoV5RTm9JSkuDN8WcIon0NZMNZWh1q8C7SJEwV5HxrmnnTrf3KoJBlmCYI2ilSLlfEvlE4011NNgjgthzEua0oKK7JLE7HZHlEl60BLMVFewg4EWNt0ThrVNEVkkiTwpKXSWJzdRENgvKGq4IhjsiezgSFtsfCUq8qki5S1LRQeYQQ4nemmCkImWMw3tFUoUBZk4NOeZYEp4XRKTGa6wJjrWNHBVJR4m3FCnbuD6aak2WsMTh3SZImGCIPKNgsDpVwnsa70K31lCFJZYcwwSMFcQulGTsZuEaSdBXkPGZhu0FsdUO73RHjq8MPGGIfaGIbVTk6iuI3GFgucHrIQkmWSJdBd7BBu+uOryWAhY7+Lki9rK5wtEQzWwvtbqGhIMFwWRJsElsY4m9IIg9L6lCX0VklaPAYkfkZEGDnOWowlBJjtMUkcGK4Lg6EtoZInMUBVYLgn0UsdmCyCz7gIGHFfk+k1QwTh5We7A9x+IdJ6CvIkEagms0hR50eH9UnTQJ+2oiKyVlLFUE+8gBGu8MQ3CppUHesnjTHN4QB/UGPhCTHLFPHMFrCqa73gqObUJGa03wgbhHkrCfpEpzNLE7JDS25FMKhlhKKWKfCgqstLCPu1zBXy0J2ztwjtixBu8UTRn9LVtkmCN2iyFhtME70JHRQ1KVZXqKI/KNIKYMCYs1GUMEKbM1bKOI9LDXC7zbHS+bt+1MTWS9odA9DtrYtpbImQJ2VHh/lisEwaHqUk1kjKTAKknkBEXkbkdMGwq0dnhzLJF3NJH3JVwrqOB4Sca2hti75nmJN0WzxS6UxDYoEpxpa4htVlRjkYE7DZGzJVU72uC9IyhQL4i8YfGWSYLLNcHXloyz7QhNifmKSE9JgfGmuyLhc403Xm9vqcp6gXe3xuuv8F6VJNxkyTHEkHG2g0aKXL0MsXc1bGfgas2//dCONXiNLCX+5mB7eZIl1kHh7ajwpikyzlUUWOVOsjSQlsS+M0R+pPje/dzBXRZGO0rMtgQrLLG9VSu9n6CMXS3BhwYmSoIBhsjNBmZbgusE9BCPCP5triU4VhNbJfE+swSP27aayE8tuTpYYjtrYjMVGZdp2NpS1s6aBnKSHDsbKuplKbHM4a0wMFd/5/DmGyKrJSUaW4IBrqUhx0vyfzTBBLPIUcnZdrAkNsKR0sWRspumSns6Ch0v/qqIbBYUWKvPU/CFoyrDJGwSNFhbA/MlzKqjrO80hRbpKx0Jewsi/STftwGSlKc1JZyAzx05dhLEdnfQvhZOqiHWWEAHC7+30FuRcZUgaO5gpaIK+xsiHRUsqaPElTV40xQZQ107Q9BZE1nryDVGU9ZSQ47bmhBpLcYpUt7S+xuK/FiT8qKjwXYw5ypS2iuCv7q1gtgjhuBuB8LCFY5cUuCNtsQOFcT+4Ih9JX+k8Ea6v0iCIRZOtCT0Et00JW5UeC85Cg0ScK0k411HcG1zKtre3SeITBRk7WfwDhEvaYLTHP9le0m8By0JDwn4TlLW/aJOvGHxdjYUes+ScZigCkYQdNdEOhkiezgShqkx8ueKjI8lDfK2oNiOFvrZH1hS+tk7NV7nOmLHicGWEgubkXKdwdtZknCLJXaCpkrjZBtLZFsDP9CdxWsSr05Sxl6CMmoFbCOgryX40uDtamB7SVmXW4Ihlgpmq+00tBKUUa83WbjLUNkzDmY7cow1JDygyPGlhgGKYKz4vcV7QBNbJIgM11TUqZaMdwTeSguH6rOaw1JRKzaaGyxVm2EJ/uCIrVWUcZUkcp2grMsEjK+DMwS59jQk3Kd6SEq1d0S6uVmO4Bc1lDXTUcHjluCXEq+1OlBDj1pi9zgiXxnKuE0SqTXwhqbETW6RggMEnGl/q49UT2iCzgJvRwVXS2K/d6+ZkyUl7jawSVLit46EwxVljDZwoSQ20sDBihztHfk2yA8NVZghiXwrYHQdfKAOtzsayjhY9bY0yE2CWEeJ9xfzO423xhL5syS2TFJofO2pboHob0nY4GiAgRrvGQEDa/FWSsoaaYl0syRsEt3kWoH3B01shCXhTUWe9w3Bt44SC9QCh3eShQctwbaK2ApLroGCMlZrYqvlY3qYhM0aXpFkPOuoqJ3Dm6fxXrGwVF9gCWZagjPqznfkuMKQ8DPTQRO8ZqG1hPGKEm9IgpGW4DZDgTNriTxvFiq+Lz+0cKfp4wj6OCK9JSnzNSn9LFU7UhKZZMnYwcJ8s8yRsECScK4j5UOB95HFO0CzhY4xJxuCix0lDlEUeMdS6EZBkTsUkZ4K74dugyTXS7aNgL8aqjDfkCE0ZbwkCXpaWCKhl8P7VD5jxykivSyxyZrYERbe168LYu9ZYh86IkscgVLE7tWPKmJv11CgoyJltMEbrohtVAQfO4ImltiHEroYEs7RxAarVpY8AwXMcMReFOTYWe5iiLRQxJ5Q8DtJ8LQhWOhIeFESPGsILhbNDRljNbHzNRlTFbk2S3L0NOS6V1KFJYKUbSTcIIhM0wQ/s2TM0SRMNcQmSap3jCH4yhJZKSkwyRHpYYgsFeQ4U7xoCB7VVOExhXepo9ABBsYbvGWKXPME3lyH95YioZ0gssQRWWbI+FaSMkXijZXwgiTlYdPdkNLaETxlyDVIwqeaEus0aTcYcg0RVOkpR3CSJqIddK+90JCxzsDVloyrFd5ZAr4TBKfaWa6boEA7C7s6EpYaeFPjveooY72mjIccLHJ9HUwVlDhKkmutJDJBwnp1rvulJZggKDRfbXAkvC/4l3ozQOG9a8lxjx0i7nV4jSXc7vhe3OwIxjgSHjdEhhsif9YkPGlus3iLFDnWOFhtCZbJg0UbQcIaR67JjthoCyMEZRwhiXWyxO5QxI6w5NhT4U1WsJvDO60J34fW9hwzwlKij6ZAW9ne4L0s8C6XeBMEkd/LQy1VucBRot6QMlbivaBhoBgjqGiCJNhsqVp/S2SsG6DIONCR0dXhvWbJ+MRRZJkkuEjgDXJjFQW6SSL7GXK8Z2CZg7cVsbWGoKmEpzQ5elpiy8Ryg7dMkLLUEauzeO86CuwlSOlgYLojZWeJ9xM3S1PWfEfKl5ISLQ0MEKR8YOB2QfCxJBjrKPCN4f9MkaSsqoVXJBmP7EpFZ9UQfOoOFwSzBN4MQ8LsGrymlipcJQhmy0GaQjPqCHaXRwuCZwRbqK2Fg9wlClZqYicrIgMdZfxTQ0c7TBIbrChxmuzoKG8XRaSrIhhiyNFJkrC7oIAWMEOQa5aBekPCRknCo4IKPrYkvCDI8aYmY7WFtprgekcJZ3oLIqssCSMtFbQTJKwXYy3BY5oCh2iKPCpJOE+zRdpYgi6O2KmOAgvVCYaU4ySRek1sgyFhJ403QFHiVEmJHwtybO1gs8Hr5+BETQX3War0qZngYGgtVZtoqd6vFSk/UwdZElYqyjrF4HXUeFspIi9IGKf4j92pKGAdCYMVsbcV3kRF0N+R8LUd5PCsIGWoxDtBkCI0nKofdJQxT+LtZflvuc8Q3CjwWkq8KwUpHzkK/NmSsclCL0nseQdj5FRH5CNHSgtLiW80Of5HU9Hhlsga9bnBq3fEVltKfO5IaSTmGjjc4J0otcP7QsJUSQM8pEj5/wCuUuC2DWz8AAAAAElFTkSuQmCC') top left;}
+body{ background-color: #f8f8f8;}
+pre{-webkit-border-radius:0.4em;-moz-border-radius:0.4em;-ms-border-radius:0.4em;-o-border-radius:0.4em;border-radius:0.4em;border:1px solid #e7dec3;line-height:1.45em;font-size:13px;margin-bottom:2.1em;padding:.8em 1em;color:#586e75;overflow:auto}
+.markdown-body code{background: none;}
+h3.filename+pre{-moz-border-radius-topleft:0px;-webkit-border-top-left-radius:0px;border-top-left-radius:0px;-moz-border-radius-topright:0px;-webkit-border-top-right-radius:0px;border-top-right-radius:0px}
+p code,li code{display:inline-block;white-space:no-wrap;background:#fff;font-size:.8em;line-height:1.5em;color:#555;border:1px solid #ddd;-webkit-border-radius:0.4em;-moz-border-radius:0.4em;-ms-border-radius:0.4em;-o-border-radius:0.4em;border-radius:0.4em;padding:0 .3em;margin:-1px 0}
+p pre code,li pre code{font-size:1em !important;background:none;border:none}
+table td{ word-wrap: break-word !important; word-break: break-all !important; }
+/*
+
+Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmail.com>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #fdf6e3;
+  color: #657b83;
+  -webkit-text-size-adjust: none;
+}
+
+.hljs-comment,
+.diff .hljs-header,
+.hljs-doctype,
+.hljs-pi,
+.lisp .hljs-string {
+  color: #93a1a1;
+}
+
+/* Solarized Green */
+.hljs-keyword,
+.hljs-winutils,
+.method,
+.hljs-addition,
+.css .hljs-tag,
+.hljs-request,
+.hljs-status,
+.nginx .hljs-title {
+  color: #859900;
+}
+
+/* Solarized Cyan */
+.hljs-number,
+.hljs-command,
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-rule .hljs-value,
+.hljs-doctag,
+.tex .hljs-formula,
+.hljs-regexp,
+.hljs-hexcolor,
+.hljs-link_url {
+  color: #2aa198;
+}
+
+/* Solarized Blue */
+.hljs-title,
+.hljs-localvars,
+.hljs-chunk,
+.hljs-decorator,
+.hljs-built_in,
+.hljs-identifier,
+.vhdl .hljs-literal,
+.hljs-id,
+.css .hljs-function,
+.hljs-name {
+  color: #268bd2;
+}
+
+/* Solarized Yellow */
+.hljs-attribute,
+.hljs-variable,
+.lisp .hljs-body,
+.smalltalk .hljs-number,
+.hljs-constant,
+.hljs-class .hljs-title,
+.hljs-parent,
+.hljs-type,
+.hljs-link_reference {
+  color: #b58900;
+}
+
+/* Solarized Orange */
+.hljs-preprocessor,
+.hljs-preprocessor .hljs-keyword,
+.hljs-pragma,
+.hljs-shebang,
+.hljs-symbol,
+.hljs-symbol .hljs-string,
+.diff .hljs-change,
+.hljs-special,
+.hljs-attr_selector,
+.hljs-subst,
+.hljs-cdata,
+.css .hljs-pseudo,
+.hljs-header {
+  color: #cb4b16;
+}
+
+/* Solarized Red */
+.hljs-deletion,
+.hljs-important {
+  color: #dc322f;
+}
+
+/* Solarized Violet */
+.hljs-link_label {
+  color: #6c71c4;
+}
+
+.tex .hljs-formula {
+  background: #eee8d5;
+}
+
+
+</style>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<style> @media print{ .hljs{overflow: visible; word-wrap: break-word !important;} }</style></head><body><div class="markdown-body">
+<ul>
+<li>
+<a href="#toc_0">序言</a>
+<ul>
+<li>
+<a href="#toc_1">机器学习的基本流程</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_2">基本概念</a>
+<ul>
+<li>
+<a href="#toc_3">误差函数</a>
+<ul>
+<li>
+<a href="#toc_4">最小二乘法</a>
+</li>
+<li>
+<a href="#toc_5">梯度下降</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_6">数据划分与评价</a>
+<ul>
+<li>
+<a href="#toc_7">划分策略</a>
+</li>
+<li>
+<a href="#toc_8">小结</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_9">超参数</a>
+</li>
+<li>
+<a href="#toc_10">特征</a>
+<ul>
+<li>
+<a href="#toc_11">特征搜索</a>
+</li>
+<li>
+<a href="#toc_12">信息熵</a>
+</li>
+<li>
+<a href="#toc_13">信息增益</a>
+</li>
+<li>
+<a href="#toc_14">特征权重</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_15">过拟合</a>
+</li>
+<li>
+<a href="#toc_16">小结</a>
+</li>
+<li>
+<a href="#toc_17">机器学习的分类</a>
+<ul>
+<li>
+<a href="#toc_18">分类性能衡量</a>
+</li>
+<li>
+<a href="#toc_19">PR 曲线</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_20">常见应用</a>
+<ul>
+<li>
+<a href="#toc_21">决策树</a>
+</li>
+<li>
+<a href="#toc_22">支持向量机</a>
+<ul>
+<li>
+<a href="#toc_23">超平面</a>
+</li>
+<li>
+<a href="#toc_24">支持向量与间隔</a>
+</li>
+<li>
+<a href="#toc_25">核函数</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_26">贝叶斯分类</a>
+<ul>
+<li>
+<a href="#toc_27">后验概率</a>
+</li>
+<li>
+<a href="#toc_28">贝叶斯公式</a>
+</li>
+<li>
+<a href="#toc_29">贝叶斯分类算法</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_30">聚类</a>
+<ul>
+<li>
+<a href="#toc_31">原型聚类</a>
+</li>
+<li>
+<a href="#toc_32">密度聚类</a>
+</li>
+<li>
+<a href="#toc_33">层次聚类</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_34">强化学习</a>
+<ul>
+<li>
+<a href="#toc_35">单步收益最大化</a>
+</li>
+<li>
+<a href="#toc_36">马尔科夫链</a>
+</li>
+<li>
+<a href="#toc_37">蒙特卡洛方法</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_38">神经网络</a>
+<ul>
+<li>
+<a href="#toc_39">前馈神经网络</a>
+</li>
+<li>
+<a href="#toc_40">误差逆传播</a>
+</li>
+<li>
+<a href="#toc_41">图像识别的概念</a>
+</li>
+<li>
+<a href="#toc_42">卷积</a>
+</li>
+<li>
+<a href="#toc_43">基本流程</a>
+</li>
+<li>
+<a href="#toc_44">激活图与池化</a>
+</li>
+<li>
+<a href="#toc_45">全连接</a>
+</li>
+<li>
+<a href="#toc_46">小结</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_47">尾声</a>
+<ul>
+<li>
+<a href="#toc_48">参考</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<blockquote>
+<p>本文由 <a href="https://github.com/bestswifter/machine-learning-startup/blob/master/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8-PPT.pdf" target="_blank" rel="external">我的分享 PPT</a> 整理而来，由于图片的表达能力更强，因此<strong>强烈建议</strong>结合 PPT 进行阅读。</p>
+</blockquote>
+
+<p>这是我根据自己短短两周的学习总结出来的文章，优点非常明显：<strong>我也是初学者，因此更能理解初学者的困惑，更能站在初学者的角度解释问题</strong>。但缺点也很明显，并不保证内容 100% 的准确，欢迎交流讨论。文章尽量不提公式，但出于表达的需要，难免会有一些。个人认为只要有简单的数学基础，都能读懂。如果实在读不懂，也不会影响阅读文章。</p>
+
+<h1 id="toc_0">序言</h1>
+
+<p>自从电脑诞生之日起，人类对人工智能的追求就没有停止过。电影里那种既有强大计算能力，又有人类情感的人工智能一般被称为<strong>强人工智能</strong>，遗憾的是当下并没有能力实现强人工智能，也就是基于统计学得出结论，只不过这个结论比较合理，看起来像人类的思考结果一样，这也被称为<strong>弱人工智能</strong>。</p>
+
+<p>机器学习是一种实现人工智能的方法， 本文的目的就是帮助毫无机器学习基础的读者了解最基本的名词和概念，掌握最基本的算法及其原理，以及最重要的——破除对机器学习的迷信，防止被忽悠。</p>
+
+<h2 id="toc_1">机器学习的基本流程</h2>
+
+<p>机器学习是一类算法的统称，比如这两年很火的深度学习(深度神经网络)，以及很早就出现的决策树、贝叶斯分类等。这类算法普遍具有一个特征，即:<strong>仿照人类的学习过程</strong>。</p>
+
+<p>再厉害的大神，一开始也是啥都不会的小白。经过做题，核对答案，改正错误，最后才能学会一个知识点。而考试则是对知识点掌握程度的考察，在考场上，学生根据已经掌握的知识回答题目。如果平时学得好，最后就能考满分。</p>
+
+<p>机器学习的过程也是类似的，首先需要收集大量的数据给机器训练，这个过程对应人类做题学知识的过程，训练以后得到的结果叫做“<strong>模型</strong>”，对应到人类世界就是学生掌握的知识。当接收到新的数据时，这个数据会输入到模型中，从而<strong>预测</strong>出结果。</p>
+
+<p>可以看到，从历史数据到训练出模型，以及利用模型预测新数据，这两件事是互相独立的。因此一种很常见的做法是服务端训练模型，下发并存储在客户端，当有新的数据时直接应用。这样做的好处是避免了上行数据的网络耗时，不过需要注意下模型在客户的占用的内存、增加的包大小，耗电量，以及最重要的:“<strong>模型的安全性</strong>”，模型是精心学习后的知识，如果泄露出去，就像是所有人都能和学神一样考试得满分。</p>
+
+<p>在接下来的文章里，我会简单介绍模型的训练和应用的过程，作为读者的你也会理解为什么模型训练可以放在服务端，而一台小小的手机就可以应用模型。</p>
+
+<h1 id="toc_2">基本概念</h1>
+
+<p>我们先从一个老生常谈的例子开始，假设房子面积和价格的关系如下表所示:</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: center">面积(平米)</th>
+<th style="text-align: center">价格(万)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">10</td>
+<td style="text-align: center">120</td>
+</tr>
+<tr>
+<td style="text-align: center">20</td>
+<td style="text-align: center">180</td>
+</tr>
+<tr>
+<td style="text-align: center">30</td>
+<td style="text-align: center">320</td>
+</tr>
+<tr>
+<td style="text-align: center">40</td>
+<td style="text-align: center">380</td>
+</tr>
+<tr>
+<td style="text-align: center">50</td>
+<td style="text-align: center">510</td>
+</tr>
+<tr>
+<td style="text-align: center">60</td>
+<td style="text-align: center">590</td>
+</tr>
+<tr>
+<td style="text-align: center">70</td>
+<td style="text-align: center">???</td>
+</tr>
+<tr>
+<td style="text-align: center">80</td>
+<td style="text-align: center">800</td>
+</tr>
+</tbody>
+</table>
+
+<p>那么 70 平的房子大约是多少钱呢？作为人类，我们很容易发现价格在面积的十倍上下浮动，所以最合理的预测是 70 平的房子价格大约是 700。同理，100 平的价格大约是 1000W……</p>
+
+<p>如果我们写一个 C 语言函数，输入参数 <code>n</code> 表示面积，输出 <code>n * 10</code> 表示价格，一个最简单的人工智能程序就写完了。它满足我们之前的定义: <strong>基于统计学得出符合人类逻辑的结论</strong>，上面的表格就是数据，<code>n * 10</code> 是我们的模型，70 平是新的输入，700W 则是基于模型的预测结果。</p>
+
+<p>这里先抛出几个问题供读者思考，问题虽然简单，但问题背后的逻辑却一点都不简单。</p>
+
+<ol>
+<li>凭什么就预测价格是 700W 呢，如果我就是喜欢抬杠，我偏说价格是 750W 你们服不服？</li>
+<li>为什么我们从直觉上就觉得房价和面积是线性的关系，为什么不去猜一个二次函数？</li>
+<li>怎么证明这个预测结果是合理的？</li>
+</ol>
+
+<h2 id="toc_3">误差函数</h2>
+
+<p>假设我们有多条数据，第 \(i\) 条数据记为 \((x_i, y_i)\)，其中 \(x_i\) 是输入数据，它可以是单个变量，比如上面例子中的面积，也可以是由一组变量构成的向量。\(y_i\) 则是对数据的标记，比如上面例子中的房价。</p>
+
+<p>我们的模型其实是一个函数 \(f(x)\)，对于每一个输入 \(x_i\)，都会产出一个预测结果 \(f(x_i)\)。虽然我们希望预测结果和真实的标记尽可能一致，也就是 \(f(x_i) = y_i\)，但终究还是存在误差的，为了量化这个误差，假设有如下函数：</p>
+
+<p>\[<br>
+\frac 1 m\sum_{x=1}^m(f(x_i) - y_i)^2<br>
+\]</p>
+
+<p>它其实就是对真实值和预测值的平方和求平均数，我们称之为<strong>误差函数</strong>。误差函数不是随便写的，比如直接对误差求和就不行，因为正负误差会互相抵消。我们暂时不考虑这个函数是怎么得出的，因为它涉及到统计学的模型，不过常用的误差函数就那么多，可以枚举出来，并不是无穷无尽的，不同场景下会选择不同的误差函数，主要看它能不能合理的评价误差。</p>
+
+<p>我们假设房价和面积成正比，也就是说误差函数可以具体化为：</p>
+
+<p>\[<br>
+\sum_{x=1}^m(kx_i + b - y_i)^2<br>
+\]</p>
+
+<p>现在公式看上去比较复杂了，有很多变量，一会儿 \(k\)、\(b\)，一会儿 \(x\), \(y\)，但理解公式最重要的一点就是搞清哪些是变量，哪些是已知量。比如上面式子中只有 \(k\) 和 \(b\) 是变量，其它字母都是已有的数据，比如 m 的值是 7，\((x_i, y_i)\) 的值都列在表中。</p>
+
+<p>现在误差已经被精确地量化了，我们只要找到一组 \((k, b)\) 让上面的公式取得最小值就可以了。这种寻找一条曲线去尽量靠近各个点的做法叫做 <strong>拟合</strong>。最简单的方式就是分别对 \(k\) 和 \(b\) 求导，导数为 0 的地方会取得极值。但这种做法并不具备普适性，对于复杂的模型，我们可以考虑一些最小二乘法和梯度下降法。</p>
+
+<h3 id="toc_4">最小二乘法</h3>
+
+<p>我们假设有 \(m\) 组数据，每组数据都有 \(d\)  个维度，每个维度对应一个参数 \(w\)，以及一个常数 \(b\)，因此预测结果可以表达为：</p>
+
+<p>\[<br>
+Xw = <br>
+\begin{Bmatrix}<br>
+   x_{11} &amp; x_{12} &amp; x_{13}&amp; \cdots &amp;x_{1d} &amp; 1 \\<br>
+   x_{21} &amp; x_{22} &amp; x_{23}&amp; \cdots &amp;x_{2d} &amp; 1 \\<br>
+   \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; 1\\<br>
+   x_{m1} &amp; x_{m2} &amp; x_{m3}&amp; \cdots &amp;x_{md} &amp; 1 \\<br>
+\end{Bmatrix}<br>
+  ·<br>
+\begin{Bmatrix}<br>
+   w_1 \\<br>
+   w_2 \\<br>
+   \vdots \\<br>
+   w_1d \\<br>
+   b \\<br>
+ \end{Bmatrix}<br>
+\]</p>
+
+<p>矩阵 \(X\) 的最后一列都是 1，这样的好处是和矩阵 \(w\) 相乘时参数 \(b\) 能起作用。上面式子的结果是一个 \(m\) 列的的矩阵，每一列都是一个预测值，套用一下之前的误差函数，要让误差最小，也就是要使得这个式子取最小值：</p>
+
+<p>\[min(Y-Xw)^T(Y-Xw)\]</p>
+
+<p>对矩阵 \(w\) 求导可以得到导数为零的值为：</p>
+
+<p>\[<br>
+w^* = (X^TX)^{-1}X^TY<br>
+\]</p>
+
+<p>虽然公式很简单，但是矩阵求逆并不简单，它的复杂度是 \(O(n^3)\)，比较难以接受。这是因为最小二乘法本质上还是一种数学方法，利用公式得出的结论或许很优雅，但并不一定利于计算。</p>
+
+<h3 id="toc_5">梯度下降</h3>
+
+<p>考虑一座山的高度是位置的函数，即 \(h = f(x, y)\)，找到一组 \((x, y)\) 使得 \(h\) 取最小值，实际上就是找到山谷处的坐标。为了简化计算量，我们希望能尽快的找到这个位置，否则把所有的 \((x, y)\) 可能的取值都遍历一遍，肯定能找到最小值，但这种做法毫无意义。假设我们站在山顶上，尽快找到山谷实际上就要求我们以最快的方式下山，我们都知道，选择最陡峭的路下山是最快的，如图所示：</p>
+
+<p><img src="http://images.bestswifter.com/c64d982d-82af-44e2-a2aa-85858137f247.png" alt="梯度下降"></p>
+
+<p><strong>陡峭</strong>是生活中对事物的形容，而数学中对应的概念则是梯度。梯度是函数最陡峭的方向，所以沿着负梯度的方向下降就是最快的。因此只要设好步长，每次沿着负梯度方向前进这个步长，再重新计算梯度、重新移动即可。经过一段时间的移动，就会走到山谷，如上图中黑色折线所示。</p>
+
+<p>梯度下降的效果受到很多因素的影响，比如步长太小时下降速度太慢，补偿太大又会导致不够精确，错过最小值。再比如出发点的选择对最终结果也会有影响，比如上图中如果从右侧最高峰开始下降，极大概率会走到右侧淡蓝色的谷底。这是局部最小值，却不是全剧最小值。因此梯度下降在实际应用中会根据问题的特点略作一些调整，但总体思路是不变的。</p>
+
+<h2 id="toc_6">数据划分与评价</h2>
+
+<p>就像学生既要学习，也要考试一样，在实际机器学习的过程中，不仅需要通过学习大量数据来得出模型，还需要一些数据来检验模型的好坏。我们把用于训练的那部分数据统称为训练集，用来验证的那部分数据则称为测试集。</p>
+
+<p>有些无良老师在自己的辅导班里泄漏考试题目，导致交钱上过辅导班的学生考试成绩好，没上辅导班的学生成绩相对不好，正好成为老师威逼利诱他们上辅导班的理由。这种情况在机器学习中要避免发生，因此一般来说，一条数据不能既用来训练模型，又用来检测模型，否则根据这个数据训练出来的模型，必然在验证时取得比较好的成绩。</p>
+
+<h3 id="toc_7">划分策略</h3>
+
+<p>一种常见的划分思路就是把原始数据按照一定的比例划分为训练集和测试集。比如一共有 100 条数据，80条用于训练，20 条用于验证。注意训练集不能过大，否则测试集太小会导致结果不准确。就像一个考卷一般都是 100 分一样，如果就一条选择题，偶然性就会非常高。但训练集也不能太小，否则模型并不一定训练充分，就像一个学生不能只做十道题就去期末考试一样。这个比例一般选择在75% - 80% 会比较合适。</p>
+
+<p>另一种思路是把数据均匀的分成 \(n\) 份，每次都用 \(n-1\) 份训练，剩下的 1 份测试。这样做的好处是在数据不够的情况下提高了利用率。</p>
+
+<p>还有一种思路是把每条数据想象成一个球，每次都有放回的取出一条数据作为测试集，有多少条数据就重复多少次。这样有的数据会被选中多次，也有的数据一次都不被选中，这也是一种比较公平、随机的方法。</p>
+
+<h3 id="toc_8">小结</h3>
+
+<p>至此，我们解答了第一个问题，<strong>为什么 700W 这个预测更合理</strong>，这是因为我们根据误差函数的定义，找到了使误差函数取最小值的参数。基于这些参数得出了具体的模型，并将这个模型应用于新的数据上，得出了合理的结论。而模型的好坏则是通过训练集来验证的，避免了自问自答的不准确性。</p>
+
+<h2 id="toc_9">超参数</h2>
+
+<p>模型由模型中的参数决定，一旦参数都确定下来，模型也就确定了。而确定参数的过程就是学习的过程，也是把误差函数最小化的过程。这个过程通常也有参数控制，比如梯度下降法中的步长和初始值。对于不同的步长和初始值，得到的模型肯定是不一样的。所以像步长和初始值这样的参数，其实是最终参数的参数，我们叫它超参数。</p>
+
+<p>对于一个复杂的模型来说，参数的个数可以非常多。少的有成千上万，像一些大公司的核心产品，参数上亿也不是什么稀奇的事。但超参数的个数一定是有限的，因为超参数往往意味着人工调整。</p>
+
+<p>理解了超参数，就可以回答第二个问题，<strong>为什么模型是线性的</strong>。实际上，线性模型可以是基于常识得出的，也可以是学习出来的。我们完全可以假设房价和面积是一个 \(n\) 次多项式的关系，这样就需要多引入一些参数。只要数据足够，利用梯度下降总是可以学习出各个参数的值的。有极大的概率会发现高次项的系数都是 0，只有一次项系数和常数项不为零，这样模型就退化成了线性的。</p>
+
+<h2 id="toc_10">特征</h2>
+
+<p>如果某个变量会影响问题的结果，我们就把这个变量称为问题的一个特征。比如对于房价来说，面积显然就是一个特征。对于彩票的开奖结果来说，日期肯定不是特征。</p>
+
+<p>在解决一个现实中的机器学习问题时，肯定不像通过面积预测房价那么简单。很多时候第一步要做的就是从纷繁复杂的因素中找到问题的特征。这涉及到两个步骤，一是要确定特征的提取方式，而是判断某个因素到底有没有资格算得上特征。</p>
+
+<p>在之前介绍梯度下降算法时，我们用函数的梯度来刻画<strong>陡峭程度</strong>，这种用数学公式来描述现实特性的做法在机器学习中非常常见，也非常重要。比如本节就会介绍如何使用简单优雅的函数来判断一个因素算不算特征，甚至是有多算特征。</p>
+
+<h3 id="toc_11">特征搜索</h3>
+
+<p>提取特征时有几种常见的思路：</p>
+
+<ol>
+<li>前向搜索：指的是从诸多因素中提取特征</li>
+<li>后向搜索：指的是从诸多因素中排除特征</li>
+<li>双向搜索：混合了前两者策略，既提取大概率是特征的因素，也排除小概率是特征的因素</li>
+</ol>
+
+<p>需要注意的是，无论哪种策略都是贪心的，也就是说只能找到局部最优而不是全局最优。比如我们首先提取特征 \(t_1\)，接下来发现 \(t2\) 比 \(t_3\) 更像是特征。我们当然会选择 \(t2\)，但也许 \(t1, t3, t4\) 才是真正的全局最优特征。但没有开启上帝视角的我们，在选择第二个特征时，是不可能知道这一点的。</p>
+
+<h3 id="toc_12">信息熵</h3>
+
+<p>在判断一个因素是不是特征之前，我们需要掌握 <strong>信息熵</strong> 这个背景知识。我们都知道熵是用来表示混乱程度的，信息熵表示的就是信息的混乱程度。对于某个集合，不同元素出现的次数各不一样，它的信息熵定义如下：</p>
+
+<p>\[Ent(D) = \sum_{k=1}^{|Y|}p_klog_2 \frac 1 {p_k}\]</p>
+
+<p>这个公式的含义是计算每个元素出现的概率 \(p_k\)，和概率的倒数的对数，然后对所有的乘积求和。这样解释依然不够直观，我们举个例子来看。</p>
+
+<p>假设一袋球里面有 5 个红球，5 个黄球，那它们出现的概率都是 0.5，根据公式，这袋球的信息熵是 \(0.5log_22 + 0.5log_22\)，刚好是 \(1\)。</p>
+
+<p>假设另一袋球也有十个，不过是 9 个红球和 1 个黄球。根据公式，这袋球的信息熵是 \(0.1 log_2 10 + 0.9log_2 1.1111\)。我们知道 2 的四次方是 16，所以 \(log_210 &lt; 4\)，以及 \(2^{0.5} = 1.414...\)，所以 \(log_21.11111 &lt; 0.5\)，简单的计算就会发现这个式子的结果小于 \(0.1*4+ 0.9*0.5 = 0.85\)</p>
+
+<p>可见九个红球一个黄球的信息熵更小。实际上，集合内元素分布得越平均，集合的信息熵就越大；元素分布越单一，信息熵就越小，如果集合内元素完全相同，则信息熵为 0。</p>
+
+<h3 id="toc_13">信息增益</h3>
+
+<p>当一个集合拆成若干个子集后，子集的信息熵的平均是可能是降低的。这就像我们收拾物品，都会分门别类的摆放，摆放好以后房间就变得整齐了，这实际上就是利用划分子集来降低信息熵。</p>
+
+<p>在某种划分方式下，集合的信息熵和子集的平均信息熵之间的差值被称为：<strong>这种划分方式下的信息增益</strong>，也就是这种划分方式能把信息熵降低多少，用公式来表达就是：</p>
+
+<p>\[G(A) = Ent(D) - \sum_{v=1}^V \frac {|D^V|} {|D|} Ent(D^V)\]</p>
+
+<p>这里的 \(G(A)\) 表示集合 \(D\) 在划分方式 \(A\) 下的信息增益，\(|D|\) 表示集合 \(D\) 中的元素个数，因此减号右边的式子其实就是子集信息熵的加权平均数。</p>
+
+<p>显然信息增益越大的划分方式越好，如果以某个因素为划分方式带来的信息增益最大，那么这个因素最有可能是一个特征。</p>
+
+<h3 id="toc_14">特征权重</h3>
+
+<p>我们都知道，如果同类的数据都具备某个特点，这类数据的特征权重就非常高。比如大房子都贵，小房子都便宜，那么 <strong>面积</strong> 这个特征的权重就高。但晴天买彩票可能中奖，雨天买彩票也会中奖，因此天气就是彩票中奖的一个权重非常小的特征，因为它无法有效的区分是否中奖。因此，如果不同类的数据都具备某个特点，这类数据的特征权重就非常低。</p>
+
+<p>我们假设 \(x_i^j\) 是第 \(i\) 组数据的第 \(j\) 个特征，\(x_{i, nh}^j\) 表示和 \(x_i\) 最近的某个同类数据。如果 \(x_i^j\) 和 \(x_{i, nh}^j\) 的第 \(j\) 个特征相同，\(same(x_i^j, x_{i, nh}^j)\) 函数取 1，否则取 0。类似的，\(x_{i, nm}^j\) 表示和 \(x_i\) 最近的某个<strong>不同类</strong>数据。基于上述定义，第 \(j\) 个特征的权重可以表达为</p>
+
+<p>\[W_j = \sum_i same(x_i^j, x_{i, nh}^j)^2 - same(x_i^j, x_{i, nm}^j)^2\]</p>
+
+<p>可以看到，如果同类数据的特征类似，减号前面的表达式值就大，特征权重就高。如果不同类数据的特征都类似，减号后面的表达式值就大，特征权重就低。计算出特征权重后，可以划一个阈值，所有高于阈值的特征都采纳，或者所有低于阈值的特征都抛弃，亦或者只采纳权重最高的前 \(n\) 个特征。</p>
+
+<h2 id="toc_15">过拟合</h2>
+
+<p>如果之前预测房价时，我们用的数据不是面积，而是买房者的年龄，还能不能得出模型呢？从直觉上讲，肯定不行，因为常识告诉我们房价和买房年龄没有关系，有年轻的富二代一掷千金买豪宅别墅，也有辛苦了一辈子的无产阶级掏出毕生积蓄买一套蜗居。对应到图形上来说，如果横轴换成买房者年龄，纵轴还是房价，数据所对应的点应该是均匀的分布在平面内的，不会成一条明显的直线。</p>
+
+<p>但如果我们用机器学习的算法去学习，<strong>必然会得到答案</strong>，这是因为用大量的数据去拟合一条低维曲线非常容易。虽然均匀分布的点无法用直线去拟合，但逐渐增加维度，一次的直线不行就用二次的抛物线，抛物线不行就用三次、四次……函数，随着维度的增加，曲线会越来越曲折、不平滑，但对数据的拟合效果是在增加的。如下图最右所示：</p>
+
+<p><img src="http://images.bestswifter.com/14cc8432807691d4239e4feea97e97a6763c372c.png" alt=""></p>
+
+<p>但这种拟合是没有意义的，因为尽管它对训练数据的拟合效果非常好，如果我们用 <code>switch ... case</code> 去写甚至能做到 100% 的准确率，但在测试集的表现是非常糟糕的，因为它完全没有学习到影响房价的特征。这样的拟合被称为<strong>过拟合</strong>。</p>
+
+<p>需要注意的是，过拟合不仅仅在选择了错误的特征时会出现，正确的特征如果不对学习过程做一些控制和干预，也会过拟合。比如我们用白色的天鹅图片去训练模型，最终模型很可能认为天鹅都是白的，导致不认识黑色的天鹅。总的来说，过拟合通常由于<strong>学习到与问题无关的噪音特征</strong>导致。</p>
+
+<h2 id="toc_16">小结</h2>
+
+<p>为了解释开篇提到的三个问题，我们介绍了很多概念和公式。至此，这三个问题应该已经有比较明确的概念了，如果下面的解释你觉得难以理解，恐怕得回去找到对应的章节再阅读一遍了，因为这些都是最基本的概念。</p>
+
+<ol>
+<li><p>凭什么就预测价格是 700W 呢，如果我就是喜欢抬杠，我偏说价格是 750W 你们服不服？<br>
+首先，我们让误差函数最小化，得出了模型，并且利用模型计算出了 70 平这个新数据的预测结果，而且这个模型的优劣可以用训练集数据来验证。这样得出的结论显然比随口报的数更准确，更有说服力。</p></li>
+<li><p>为什么我们从直觉上就觉得房价和面积是线性的关系，为什么不去猜一个二次函数？<br>
+尽管是从直觉上猜测，但也可以假设不是线性的关系，只需要把模型的参数设计的复杂一些就可以。最终都会学习出相似的结果。</p></li>
+<li><p>怎么证明这个预测结果是合理的？<br>
+我们从正反两方面解释了结果的合理性。首先通过信息增益和特征权重的概念证明了面积是房价的特征，只要找到问题的特征就可以基于统计学去学习。其次，过拟合的例子解释了为什么对不是特征的因素进行学习是没有意义的。</p></li>
+</ol>
+
+<p>因此，<strong>如果这篇文章只能让你记住一句话，我希望是下面这句</strong>：</p>
+
+<blockquote>
+<p>机器学习只能从数据中提取客观存在的规律，不能凭空创造规律。</p>
+</blockquote>
+
+<p>这就是为什么机器学习可以预测房价，但不能用历史开奖结果去预测下一次中奖号码。</p>
+
+<h2 id="toc_17">机器学习的分类</h2>
+
+<p>在通过面积预测房价这个例子中，我们把房价称为<strong>标记</strong>，它类似于学生做题时的参考答案。标记用来和预测结果做比对，从而驱使我们优化模型。但并不是所有机器学习都需要标记，比如我给出一千篇文章，需要对它们做分类。计算机可能会把他们分为体育类、财经类、时政类……，但这并不要求计算机知道体育、财经的具体含义，它只需要知道某些文章是属于同一类的即可，至于这个类型是否具备人类可理解的含义，这并不重要。</p>
+
+<p>如果训练数据是有标记的，我们把对它的学习称为 <strong>有监督学习</strong>，反之则是 <strong>无监督学习</strong>。就像学生做题需要比对参考答案一样，<strong>无监督学习</strong> 一般比 <strong>有监督学习</strong>更难一些。无监督学习主要涉及聚类算法，在后面的章节中我会简单介绍一些。</p>
+
+<p>还是在预测房价这个例子中，我们用连续的曲线去拟合离散的点，这种做法叫做回归。监督学习还有一类常见的问题是分类问题，比如给一些西瓜的数据和标记，问一个青绿色、薄皮、敲击声音响的西瓜是不是好瓜？</p>
+
+<p>可见如果预测结果是连续的，这就是<strong>回归问题</strong>；如果预测结果是离散的，这就是<strong>分类问题</strong>，分类问题和回归问题一般是可以互相转化的， 比如求某个西瓜是好瓜的比例，这就成了回归问题。</p>
+
+<p>回归模型的好坏可以用误差函数来评价，分类问题也有类似的评价方式，比较常用的是<strong>查全率</strong> 和 <strong>查准率</strong> 的概念。</p>
+
+<h3 id="toc_18">分类性能衡量</h3>
+
+<p>我们简化一下问题的模型，假设某个数据需要预测真假。当然，它实际上一定是真的或者假的。这样就会出现四种可能的情况：</p>
+
+<ol>
+<li>模型预测是真的，实际上也是真的，记为 A</li>
+<li>模型预测是假的，实际上确是真的，记为 B</li>
+<li>模型预测是真的，实际上确是假的，记为 C</li>
+<li>模型预测是假的，实际上也是假的，记为 D</li>
+</ol>
+
+<p>在实际预测时，会出现两类问题。比如明明某个数据是真的，但被模型预测成了假的，这对应第 2 种情况。为了衡量我们的模型查找有多全面，也就是所有真的结果中有多少被找出来了，可以定义查全率 R(Recall):</p>
+
+<p>\[R=\frac A {A+B}\]</p>
+
+<p>还有时候，明明某个数据是假的，但被模型预测成了真的，这对应第 3 种情况。为了衡量我们的模型正确率有多高，也就是找出来的结果中有多少是正确的，可以定义查准率 P(Percision)：</p>
+
+<p>\[P = \frac {A} {A+C}\]</p>
+
+<h3 id="toc_19">PR 曲线</h3>
+
+<p>一般来说，查全率和查准率是互相矛盾的，对一者的提高往往意味着降低另外一者。这很好理解，俗话说做得多错的多，啥都不做就肯定不会犯错。为了衡量某个模型的好坏，我们需要综合考虑查全率和查准率，于是就有了 PR 图：</p>
+
+<p><img src="http://images.bestswifter.com/7d1747a5-6304-4f3e-a7be-e0be14f3057b.png" alt="Alt text"></p>
+
+<p>图中的 A、B、C 三条曲线分别对应了三种模型，一般来说如果某个模型（比如图中的 A）的 PR 曲线完全包围了另一个模型（比如图中的 C）的 PR 曲线，我们就称这个模型（A）好于另一个模型 （C）。这是因为在查全率相同的情况下 A 的查准率高于 C，在查准率相同的情况下 A 的查全率也高于 C。</p>
+
+<p>但模型 A 和 B 就属于各有千秋，不是很容易比较了。这时候我们可以选择两种最简单的策略。一种是计算曲线和 XY 轴围成的区域的面积（AUC：Area Under Curve），也就是对 PR 曲线求积分，谁的积分大谁就更优。另一种策略是计算平衡点的坐标，平衡点是指 \(P = R\) 的点，也就是 \(y = x\) 这条直线和 PR 曲线的交点，交点更靠外的模型被认为更优秀。</p>
+
+<p>当然，在实际工作中，查全率和查准率的权重并不总是相同的。比如推荐系统，更看重查准率，也就是说推荐得东西少了不要紧，但一定要是用户感兴趣的，否则体验就很差。但对于图像识别逃犯的系统来说，查准率并不重要，因为可以人工排查，但漏过了犯罪分子就是不可接受的。所以我们还会基于查全率和查准率，定义更复杂的公式来衡量模型的好坏。</p>
+
+<h1 id="toc_20">常见应用</h1>
+
+<p>对机器学习名词和概念的介绍就到此为止了，为了避免纸上谈兵，也为了让读者对实际的机器学习过程有更直接的感受，下面介绍一些常见的机器学习算法及其应用场景。</p>
+
+<h2 id="toc_21">决策树</h2>
+
+<p>作为有着二十多年吃瓜经验的专业吃瓜群众，假设我们去买西瓜。可能上来就先敲一敲，声音响亮的是好瓜的概率比较大， 然后再看颜色，最后看形状。这种挑选西瓜的过程可以用决策树来表示，根节点是对敲击声音的判断，第二层判断颜色，第三层看形状，最后得到多个叶子节点，标记了瓜的好坏。</p>
+
+<p>但这种做法有两个小问题：</p>
+
+<ol>
+<li>凭什么先听敲击声音而不是看颜色或者形状？</li>
+<li>上述决策树很简单，但如果影响西瓜好坏的因素比较多，叶子节点的数量是以指数形式增加的。而且我们上面的决策树其实是枚举了所有的可能性，只是一种 <code>switch ... case</code>，貌似和机器学习没啥关系。 </li>
+</ol>
+
+<p>第一个问题很好回答，从直觉上讲，敲击声能更好、更有效的判断西瓜的好坏。这种直觉用数学公式来衡量就是上文提到过的信息增益，往往决策树越上层的分类，带来的信息增益越高。</p>
+
+<p>随着决策树的向下延伸，信息增益减少意味着区分度不是很高，此时我们可以考虑用剪枝来简化树的结构，减少复杂度，同时还能避免过拟合。剪枝策略分为两种，一种叫<strong>预剪枝</strong>，另一种则是<strong>后剪枝</strong>。</p>
+
+<p>假设西瓜已经分为了敲击声响亮和沉闷两种类型，我们接着对敲击声响亮的西瓜根据颜色来分类。首先可以假设敲击声响亮的西瓜都是好瓜，当然，这种假设肯定是不准确的，经过测试集的验证可以得出一个准确率 \(p_1\)。接下来我们根据颜色来把西瓜分为若干类并给每类假设一个结果，好瓜或者坏瓜。这种假设当然也是不完全准确的，甚至可能比之前更不准确。我们用测试集再验证一次，得出概率 \(p_2\)，如果细分后得出的准确率  \(p_2\) 并不高于不细分时的概率 \(p_1\)，就说明细分的意义不大，分支可以被减掉。或者准确的说，没必要生成。这就是<strong>预剪枝</strong>。</p>
+
+<p>我们还可以先根据已有数据生成决策树，然后自底部向顶部遍历，对比每一颗子树减掉前后的概率。如果概率能提高，就进行剪枝。这就是<strong>后剪枝</strong>。</p>
+
+<p>如果剪枝前后的概率一致，预剪枝更倾向于剪枝，而后剪枝更倾向于保留。所以预剪枝一般比较快，剪枝结果比较简单，但容易欠拟合，缺少分支条件。而后剪枝则恰好相反，速度慢，结果比较复杂全面，容易过拟合。</p>
+
+<h2 id="toc_22">支持向量机</h2>
+
+<p>考虑下图中用正负号标记的两组数据，如果要选择一条直线把他们划分开</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171218-212524@2x.png" alt=""></p>
+
+<p>显然虚线范围内的任何一条线都满足要求。但这两条虚线并不是最好的划分方式，因为他们的泛化能力很弱，或者说<strong>鲁棒性不够好</strong>，也许来了一个新的数据就不能正确划分了。</p>
+
+<p>为了描述划分方式的泛化能力，我们计算样本到直线的距离，并想办法让距离最大。因为距离越大，意味着容错能力越强，正确处理新数据的几率也就越高。最好的划分方式如下图所示：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171218-213625@2x.png" alt=""></p>
+
+<h3 id="toc_23">超平面</h3>
+
+<p>我们把这条直线称为二维数据的<strong>超平面</strong>。对于二维的数据来说，它的超平面是一维的直线。三维空间里的超平面则是二维的平面，拓展到 \(n\) 维空间，它的超平面是一个 \(n-1\) 维的空间，把原来 \(n\) 维的空间刚好分成两部分。</p>
+
+<h3 id="toc_24">支持向量与间隔</h3>
+
+<p>上图中虽然两类数据各有很多个，但是绝大多数远离直线的数据并不会对直线的选择产生任何影响。只有少数几个靠近直线的数据才会起作用，比如图中标红的点，我们把它叫做 <strong>支持向量</strong></p>
+
+<p>支持向量到超平面的距离被称为间隔，或者严格来说，叫<strong>硬间隔</strong>，硬间隔一个很大的问题是对噪声特别敏感。试想一下，假设我们新增一条数据，位置靠近白色实线，此时重新计算超平面，位置一定会发生较大幅度的变化。</p>
+
+<p>但实际上，偶尔一两条数据位置比较奇怪的数据可以被当做噪声忽略掉，不需要影响到最终的结果。如果我们允许一定比例的数据落在间隔以内，这样的间隔就被称为 <strong>软间隔</strong>。</p>
+
+<h3 id="toc_25">核函数</h3>
+
+<p>超平面希望能够把数据所在的空间一分为二，但有时候是做不到的。比如异或，它的数据分布就无法用一条直线来分割。此时我们可以考虑找一种映射关系，把低维不可分的数据转换为高维可分的数据，如下图所示：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171218-215015@2x.png" alt=""></p>
+
+<p>这种转化方式被称为 <strong>核函数</strong>（严格意义上的核函数并不是映射关系，而是经过处理和计算后的某个表达式，但这并不重要）。</p>
+
+<h2 id="toc_26">贝叶斯分类</h2>
+
+<p>如果说决策树和支持向量机还比较抽象，那么希望读者能认真理解贝叶斯分类算法，因为它既通俗易懂，也容易实现。</p>
+
+<h3 id="toc_27">后验概率</h3>
+
+<p>很多教程上都会提到<strong>后验概率</strong>这个名词，和它相对的就是<strong>先验概率</strong>。先验概率非常好理解，比如我扔出一个色子，六点朝上的概率就是 \(\frac 1 6\)，有时候天气预报说明天下雨的概率是 \(50\%\)，这些都是先验概率。</p>
+
+<p><strong>先验概率</strong>指的是根据经验或者已有的数据观察出的概率，而<strong>后验概率</strong>则是指当某件事发生后，求可能影响结果的某个因素的发生概率。比如袋子里有 3 个红球和 2 个白球，每次摸出一个球并且不放回。已知第二次摸到的是红球，请问第一次也是红球的概率。这就是后验概率。</p>
+
+<p>我们首先感性的认识一下后验概率的意义，也就是为什么第二次拿出求的颜色会影响第一次拿出红球的概率呢？实际上，第一次取出的球有 5 种可能，每一种情况下第二次取球又有 4 种可能，所以样本容量是 20。如果只考虑第一次取出红球的概率，那么第二次取出的颜色不重要，也就是说第一次取出的各种可能，权重是相同的，因此取出红球的概率是 \(\frac 3 5\)。但如果限制了第二次取出的是红球，样本空间的大小就不是 20 了，简单的计算一下发现满足要求的样本一共有 12 个，其中六个样本第一次取出的是红球，因此概率变成了 \(\frac 1 2\)。</p>
+
+<p>好吧，我知道你已经晕了，这很正常。举这个例子是为了说明：<strong>后验概率既不好理解，也不好计算</strong>，这就更加体现出贝叶斯公式的价值了。</p>
+
+<h3 id="toc_28">贝叶斯公式</h3>
+
+<p>我们知道 \(P(A|B)\) 表示在事件 B 发生的前提下，事件 A 发生的概率，以及 \(P(AB)\) 表示事件 A 和 B  同时发生的概率，所以以下公式是显然的：</p>
+
+<p>\[P(A|B)P(B) = P(AB) = P(B|A)P(A)\]</p>
+
+<p>把中间的 \(P(AB)\) 去掉，然后两边同时除以 \(P(A)\)，下面这个式子也是显然的：</p>
+
+<p>\[P(B|A) = \frac {P(A|B)P(B)} {P(A)}\]</p>
+
+<p>这就是著名的 <strong>贝叶斯公式</strong>了，公式很简单，但我们注意到 \(P(A|B)\) 和 \(P(B|A)\) 互为先后验概率。因此贝叶斯公式告诉我们，只要知道 \(P(A)\) 和 \(P(B)\)，计算后验概率就可以轻松的转化成计算先验概率。</p>
+
+<p>考虑一个实际问题：假设一种癌症，得了这个癌症的人被检测出为阳性的几率为 \(90\%\)，未得这种癌症的人被检测出阴性的几率为 \(90\%\)，而人群中得这种癌症的几率为 \(1\%\)，一个人被检测出阳性，问这个人得癌症的几率为多少？</p>
+
+<p>要计算阳性得癌率，可以通过它的先验概率，也就是得癌阳性率计算出，这个数据已经有了，是 \(90\%\)，此外我们还需要知道人群中的得癌率和阳性率。前者也是已知的，阳性率可以通过得癌阳性率和未得癌阳性率累加得出：</p>
+
+<p>\[P(癌|阳性) = \frac {P(阳性|癌)P(癌)}{P(阳性)} = \frac {0.9 * 0.01}{0.9 * 0.01 + 0.1 * 0.99 } = \frac {0.009} {0.108} = 0.083 \]</p>
+
+<p>也就说即使检查结果是阳性，也只有不到 \(9\%\) 的概率真的是癌症，大可不必担心。</p>
+
+<h3 id="toc_29">贝叶斯分类算法</h3>
+
+<p>还是从简单的问题开始说，假设街上迎面走来一个黑人（无歧视，仅为举例），请问你觉得他是亚洲人、欧洲人还是非洲人呢？我想正常人都会觉得他是非洲人，因为他是非洲人的概率大。</p>
+
+<p>用贝叶斯公式可以很简单的计算他是非洲人的几率，因为 \(P(非洲|黑人)\) 这个后验概率不好算，但 \(P(黑人|非洲)\) 这个先验概率是可以统计出结果的。因此我们得到公式：</p>
+
+<p>\[P(某洲|黑人) = \frac {P(某洲)P(黑人|某洲)} {P(黑人)}\]</p>
+
+<p>从之前的题目中我们知道，分母的计算有时候比较麻烦。但贝叶斯分类并不要求计算分母，因为我们只要找到概率最大的那个洲即可，大家的分母都是一致的，所以只要比较分子即可。在上述公式中，分子的两个概率都是可以通过统计学计算的，因此不存在任何难度。</p>
+
+<p>这里的肤色是一个特征，而且是一维的特征。在实际问题中，特征可能是多维的，比如垃圾邮件的识别，关键词如果只选一个，很容易误判。因此我们通常选择出现频率最高的 \(n\) 个词语来判断邮件是否是垃圾邮件，我们用 \(w_1, w_2,……w_n\) 来表示这些词语</p>
+
+<p>\[P(垃圾邮件|w_1, w_2,…w_n) = \frac {P(w_1, w_2,……w_n|垃圾邮件)P(垃圾邮件)} {P(w_1, w_2,……w_n)}\]</p>
+
+<p>显然 \(P(垃圾邮件)\) 和 \(P(w_1, w_2,……w_n)\) 都非常容易计算，\(P(w_1, w_2,……w_n|垃圾邮件)\) 也只要展开就可以：</p>
+
+<p>\[P(w_1, w_2,……w_n|垃圾邮件) = P(w_1|垃圾邮件)P(w_2|垃圾邮件)…P(w_n|垃圾邮件)\]</p>
+
+<p>至此，我们完成了看似高大上的垃圾邮件识别，用贝叶斯分类去识别垃圾邮件，简单到不可思议。</p>
+
+<h2 id="toc_30">聚类</h2>
+
+<p>聚类算法是一种非监督学习，我们只需要根据 <strong>物以类聚</strong> 的思想，把数据正确的分类即可。</p>
+
+<h3 id="toc_31">原型聚类</h3>
+
+<p>原型聚类主要是通过刻画数据的<strong>相似程度</strong>来分类，刻画相似程度的方式有很多种，这里只介绍最简单的 k-平均算法。</p>
+
+<p>假设有 n 个点需要进行分类，分成 \(k\) 类，这里为了演示，假设 \(k = 3\)，策略是：</p>
+
+<ol>
+<li>首先随机找 \(3\) 个点作为初始<strong>锚点</strong></li>
+<li>到某个锚点最近的所有点构成一个集合，共 \(3\) 个集合</li>
+<li>这 \(3\) 个集合各自的平均点作为新的锚点</li>
+<li>重复步骤 2、3，直到集合内的元素不再变化为止</li>
+</ol>
+
+<p>用几张图片来演示上述过程，下图中列出了一些数据，红色的点是在第一轮中被随机选中作为锚点的数据：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171219-212447@2x.png" alt="第一轮"></p>
+
+<p>对于任何一个点，计算它到锚点的距离，并且选择距离最短的锚点，把它划到那一类中。划分方式如下图所示：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171219-212655@2x.png" alt="划分"></p>
+
+<p>在这三块区域内，我们计算所有点的平均横坐标和平均纵坐标，作为新的锚点。如下图所示，锚点的位置发生了变动：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171219-212810@2x.png" alt="第二轮"></p>
+
+<p>再重新计算到锚点的距离并分类，如图所示：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171219-215307@2x.png" alt="第二次分类"></p>
+
+<p>然后再更新锚点，重新分类，第三轮分类后的效果如图示：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171219-215455@2x.png" alt="第三次分类"></p>
+
+<p>后面还有第四次、第五次，过程就不赘述了。最终我们发现第五次的分类结果和第四次一致，说明可以停止了，最终机器给出的分类方案如下图，如果由人类自己来画，可能不一定能得出这样的结论。</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171219-215645@2x.png" alt="最终效果"></p>
+
+<h3 id="toc_32">密度聚类</h3>
+
+<p>但并不是所有时候我们都要根据特征来分类。比如我们是空军指挥官，想把炸弹投到人口最密集的地方，此时应该根据数据分布的密集度来分类，找到最密集、次密集的区域。密度聚类的效果如图所示：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171219-215843@2x.png" alt="密度聚类"></p>
+
+<h3 id="toc_33">层次聚类</h3>
+
+<p>层次聚类的思想和归并算法很类似，一开始我们认为所有数据自成一类。然后计算两两之间的距离，把距离最近的两个集合合并。在计算集合距离时，可以计算元素到元素的最近距离，最远距离和平均距离。不同的距离计算方式会对应不同的应用场景。</p>
+
+<p>聚类的过程如下图所示：</p>
+
+<p><img src="http://images.bestswifter.com/4d598b1f9933f31048ff60d793f5ed2ef7c2117b.png" alt="层次聚类"></p>
+
+<p>层次聚类的特点是，我们可以很轻松的把样本分成任意多类而不用重新计算。比如我想把上述样本分成三类，只要找到第二高的横线（大概在图中 0.4 到 0.5 之间）。这个横线左右两棵子树，以及它右侧的兄弟树，一共三棵树就构成了 3 类的划分。其他的划分方式如下图所示：</p>
+
+<p><img src="http://images.bestswifter.com/1aa5074b0ed1bddbd32affe6e270b97c01e092b6.png" alt=""></p>
+
+<h2 id="toc_34">强化学习</h2>
+
+<p>假设现在有一个应届生在求职，他该选择大公司还是创业公司呢。在大公司，可能因为架构臃肿而损失效率，丧失斗志，但也因此收获了稳定。在创业公司，上市以后期权变现是很大一笔收入，但公司也随时有可能倒闭。作为创业者该如何选择呢，恐怕只有去了以后才知道。</p>
+
+<p>这就是<strong>强化学习</strong>，它和监督学习有些类似，因为数据是有标记的。但不同点在于，强化学习问题中，数据的标记是延迟的，一个人的职业选择到底是好是坏，恐怕要在三五年，甚至十年、二十年以后才会有定论。也就是说数据的标记是延迟给出的。</p>
+
+<h3 id="toc_35">单步收益最大化</h3>
+
+<p>我们先考虑最简单的情况。古人云：“今朝有酒今朝醉，明日愁来明日愁”。想要职业生涯收益最大化很难计算， 但计算第一年的收益还是比较容易的，也就是我们只考虑当下的第一步，并让这一步的收益最大化。</p>
+
+<p>当然，对于个人来说，花有重开日，人无再少年，我们不可能反复重试自己的职业生涯。假设这么做是可以的，或者干脆假设我们是学校的就业指导部门，每年都会迎来几百名应届生。一种朴素的思路是先统计大公司的平均收益，，再统计创业公司的平均收益，然后鼓励学生选择收益较高的那一种。</p>
+
+<p>我们把计算平均收益的过程叫做<strong>探索</strong>，把比较平均收益后选择收益较高的行为称作<strong>利用</strong>。因此，上述思路实际上就是先探索，再利用的过程。很明显，探索和利用是互相矛盾的。<strong>探索</strong>是为了得出结论，但它的收益不一定高。<strong>利用</strong> 是直接使用探索时得到的结论并且将收益最大化，但它依赖先前的探索。</p>
+
+<p>一种简单的算法叫 <strong>p-贪心</strong> 算法，即每次以 \(p\) 的概率探索，\(1-p\) 的概率利用。随着探索次数的增加，结论越来越完善，重心会逐渐向利用方向便宜，也就是说 \(p\) 是一个随时间的增加而减少的变量。</p>
+
+<h3 id="toc_36">马尔科夫链</h3>
+
+<p>如果一系列状态中构成的链条中，某一个状态只取决于前 n 个状态（比如前一个），和再之前的状态无关，这样的状态链就被称为马尔科夫链。比如下图就是一个马尔科夫链：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171221-121257@2x.png" alt=""></p>
+
+<p>因为技术的成长是线性的，成为大牛有必经之路，不可能从一白状态一夜就顿悟。状态的转移之间有一些比较关键的变量，比如动态（action），概率（possibility）和奖励（reward）。我们可以看到：</p>
+
+<ol>
+<li>在小白阶段，通过学习，有 0.69 的概率能成为初级工程师，假设奖励是 10</li>
+<li>如果学习不得法，技术不会有任何进步，奖励自然就是零，这个概率是 0.3</li>
+<li>如果学习过于投入，可能影响身体健康，导致猝死，这个奖励是负的，而且绝对值非常大，同时猝死状态无法转移回别的状态。</li>
+<li>如果选择打篮球，不存在技术成长的可能性，奖励为 0</li>
+<li>打篮球对身体有好处，因此猝死的概率会非常低。</li>
+</ol>
+
+<p>马尔科夫链中有可见的状态，比如上图中的技术水平。但隐藏在可见状态的背后，还有一些不可见的操作会影响可见的状态，比如一个人是选择打篮球还是学习。我们称之为隐马尔科夫链。很多时候马尔科夫链用于根据可见状态的改变来计算不可见动作的发生概率。</p>
+
+<p>在强化学习中，如果模型中存在明确的马尔科夫链，我们就不再需要最大化单步收益，问题将转化成动态规划。可惜绝大多数时候马尔科夫链并不存在，比如下围棋。</p>
+
+<h3 id="toc_37">蒙特卡洛方法</h3>
+
+<p>当客观模型并不存在的时候，我们可以通过观察的方式来拟合概率。举个例子，假设我不知道扔色子正面朝上的概率是 \(50\%\)，但这不重要，只要我扔一万次色子，发现有 5000 次正面朝上，依然可以推测说正面朝上的概率是 \(50\%\)。</p>
+
+<p>举个实际的例子，我们想要计算圆周率 π，可以假设圆的直径为 2，再用一个边长为 2 的正方形把圆刚好包住。这样圆和正方形的面积比为 \(\frac π 4\)。我们知道如果在正方形里随机选择一个点，落在圆形里的概率也是这个面积比。</p>
+
+<p>所以，简单的粗暴的方式就是模拟尽量多的点，假设它落在圆形里的概率是 \(p\)，那么 π 的近似值就是 \(4p\)。</p>
+
+<p>我们把这一类方法叫做<strong>蒙特卡洛</strong>方法。注意，蒙特卡洛不是某种特定的方法，而是一类方法的统称。这类方法的特点是用大量的观察去模拟真实的概率，精髓在于观察，或者准确的说如何观察。比如上面估算 π 的例子中，重点在于采样的方式，必须是在正方形内平均采样，如果沿着对角线采样，计算结果就不准了。</p>
+
+<p>考虑一个更复杂些的例子，假设我们要计算一个积分：</p>
+
+<p>\[\int_a^b h(x)\,dx\]</p>
+
+<p>如果 \(h(x)\) 的积分很难算，但满足 \(h(x)=p(x)f(x)\)，上面的式子就变成了</p>
+
+<p>\[\int_a^b p(x)f(x)\,dx\]</p>
+
+<p>我们只要在区间 \([a, b]\) 内按照概率密度函数 \(p(x)\) 对 \(x\) 取样，然后计算平均数就可以了。然后采样以后的关键很简单，关键就在于如何采样：</p>
+
+<p>\[\int_a^b h(x)\,dx = \frac 1 n \sum_{i=1}^nf(x_i)\]</p>
+
+<p>在强化学习中，我们也可以借鉴蒙特卡洛方法的思想，找到合理的采样方式，通过观察总结出模型的概率。</p>
+
+<h2 id="toc_38">神经网络</h2>
+
+<p>最后我们来聊一聊最近很火的神经网络，它模拟了人类神经元的概念。在神经网络中，一个神经元的结构如下图所示：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171221-134640@2x.png" alt=""></p>
+
+<p>一个神经元接受 \(x_1, x_2, …x_n\) 这 n 个输入，每个输入的权重依次为 \(w_1, w_2, …w_n\)，它的阈值是 \(θ\)，因此输出是：</p>
+
+<p>\[y = (\sum_{i=1}^nw_ix_i) -θ\]</p>
+
+<p>激活函数会对输出结果做一个映射，最简单的就是如果 \(y &gt;= 0\)，映射为 1，否则映射为 0。不过这样的激活函数不连续、不光滑，数学特性不太好，所以经常使用 Sigmoid 函数：</p>
+
+<p>\[sigmoid(x) = \frac 1 {1 + e^{-x}}\]</p>
+
+<p>因此，这个神经元最终的输出实际上是：</p>
+
+<p>\[y = sigmoid(\sum_{i=1}^nw_ix_i - θ)\]</p>
+
+<h3 id="toc_39">前馈神经网络</h3>
+
+<p>单个神经网络能够线性的处理输入值，但无法进行类似异或这样的计算。通常我们会构造多层的神经网络，每层神经元与下一层完全连接，并且没有同层或者跨层的连接。具备这样结构的网络也被称为<strong>前馈神经网络</strong>。如下图所示：</p>
+
+<p><img src="http://images.bestswifter.com/QQ20171222-073250@2x.png" alt=""></p>
+
+<p>下表则是 \(x1, x2\) 的取值和 \(y\) 的关系：</p>
+
+<p>|x1|x2|y|<br>
+|--|--|--|<br>
+|1|1|0|<br>
+|1|0|1|<br>
+|0|1|1|<br>
+|0|0|0|</p>
+
+<p>感兴趣的读者可以自行验证。</p>
+
+<p>借助前馈神经网络，我们能够实现非线性的计算。<strong>否则无论神经网络有多深，都只能处理线性变换，这样的神经网络并不具备太大的意义。</strong></p>
+
+<h3 id="toc_40">误差逆传播</h3>
+
+<p>一个实际的神经网络可能是比较复杂的，除了输入层和输出层，中间还有很多隐藏的计算层，我们称之为<strong>隐层</strong>。在最初的回归问题中，我们通常会定义误差函数，并且调整参数让误差最小化。神经网络也是类似的， 误差函数非常容易定义，假设输入第 \(k\) 组数据 \((x_k, y_k)\)，我们知道统计输出层中 \(y\) 有多个分量，只要计算每个分量的差值的平方，再求和即可：</p>
+
+<p>\[E_k = \frac 1 2 \sum_{j=1}^l ({\mathop{y}^*}_j^k - y_j^k)^2 \]</p>
+
+<p>上面的公式中，\(E_k\) 表示第 \(k\) 组输入的误差，\({\mathop{y}^*}_j^k\) 表示 \(y\) 的第 \(j\) 个分量的<strong>计算</strong>值，\(y_j^k\) 表示第 \(j\) 个分量的<strong>真实</strong>值。</p>
+
+<p>和回归问题不同的是，神经网络的参数是有多组的，每一层都有自己的权重和阈值，因此每次调整都需要这些层同时调整，我们把这种从输出层开始调整参数，逐渐向后影响到输入层参数的调参过程，称为误差逆传播。</p>
+
+<h3 id="toc_41">图像识别的概念</h3>
+
+<p>神经元、前馈神经网络和误差逆传播的概念比较枯燥，但它们是阅读更深层次文章所必须具备的基础知识。接下来，我会介绍一些比较轻松愉快的话题，也是本文最后一个知识点，利用卷积神经网络（CNN）来处理图像识别问题。</p>
+
+<p>在了解处理过程之前，我们首先要明确两个基本思想：</p>
+
+<ol>
+<li>图像识别并不关心某个东西客观上是什么，它只关心在人类的认知中，这个东西像什么。也就是同一个客观存在的物体可以有多种表现形式，比如动物眼中的世界和人类不一样，但如果某个识别算法，只能识别苍蝇视角中的物体，无论它准确率都高，都不会有人认可。</li>
+<li>即使是同一张画面，在不同的人看来，也会有不同的结果。很多视觉错觉图正是依赖这个原理，因此最终学习出的算法还会和数据的标记有关。</li>
+</ol>
+
+<p>好了，这两个思想其实也没有多重要，不理解也没关系。我们先假设有一张宠物的照片需要人类识别，人是如何看出来图片里的动物是不是猫呢。</p>
+
+<p>从直觉上讲， 我们会看猫头，猫身体，猫尾巴等等特征。而猫头又可以细分成眼睛、鼻子、嘴巴等等。总的来说，图像识别的核心是特征的识别，这可以使用卷积操作来完成。</p>
+
+<h3 id="toc_42">卷积</h3>
+
+<p>最初，卷积是数学上的概念，比如扔出两个色子，和为 4 的概率是：</p>
+
+<p>\[f(1)g(3) + f(2)g(2) + f(3)g(1) = \sum_{i=1}^3f(i)g(4-i)\]</p>
+
+<p>这个函数的特点是，当函数 \(f(x)\) 的自变量 \(x\) 不断增大时，另一个函数 \(g(x)\) 的自变量 \(4-x\) 是在减少的。而且两者之和固定为 \(4\)。再举个连续函数的例子，丧心病狂的蓄水池管理员小明，一边将池子里的脏水倒出，一边倒入干净的水，假设倒水速度是 \(f(x)\)，净水的保留率是 \(g(x)\)，一段时间内倒入的净水量其实是：</p>
+
+<p>\[\int_a^b f(x)g(n-x)\,dx\]</p>
+
+<p>我们知道点 \((x, n-x)\) 都分布在 \(y = n - x\)这条直线上，在求和的过程中，就好像点从直线的两端向中间卷起来。再加上这是求乘积的运算，所以被叫做卷积。</p>
+
+<p>卷积的数学意义是对函数做加权求和，但在物理上，尤其是图像识别中，它可以起到滤波器的作用。所谓的滤波器，其实是一种专门的探测器，只对特定的特征有很明显的反应，对别的特征则毫无反应，可以把它想象成金属探测器或者扫雷的机器。</p>
+
+<p>下图就是一个滤波器的典型例子，我们先用数字把图像表示出来，黑色的地方数值大，白色的地方都是 0：</p>
+
+<p><img src="http://images.bestswifter.com/b2a0fcfb03b6284b9009b00cc9e3930f55d83bd8.png" alt=""></p>
+
+<p>然后用这个矩阵把图像扫一遍：</p>
+
+<p><img src="http://images.bestswifter.com/9316ae5c6147a7e34ca9fd023f55caf83c9ffd83.png" alt=""></p>
+
+<p>很有意思的事情发生了，我们看到在小鼠的后背那块区域，也就是和滤波器形状类似的地方，矩阵得到了很高的值：</p>
+
+<p><img src="http://images.bestswifter.com/83cde611bc4874040f94733d6ce2917fbb9ae05f.png" alt=""></p>
+
+<p>但在其他地方，得到的值则是 0：</p>
+
+<p><img src="http://images.bestswifter.com/a602d145c18c8e82743a04b33a6fed6b8814a7ad.png" alt=""></p>
+
+<p>所以，我们把上述用来进行卷积的矩阵叫做<strong>卷积核</strong>，有了卷积核以后，我们就可以量化的描述特征 <strong>像不像，有多像</strong> 的问题了，剩下的问题就是如何设计卷积核（也就是滤波器）。</p>
+
+<h3 id="toc_43">基本流程</h3>
+
+<p>早些年，图像识别一直得不到较好的突破，主要是因为图像的特征是人类专家手动设计的，因此工作量大，效果不一定好，而且不具备大规模使用的可能。</p>
+
+<p>但机器学习似乎天然的适合图像处理，还记得开篇就提到过的机器学习的特征么，再复习一遍：</p>
+
+<blockquote>
+<p>机器学习只能从数据中提取客观存在的规律，不能凭空创造规律。</p>
+</blockquote>
+
+<p>也就是说只要图像是存在特征的，比如猫头，肯定有自己的特征。这个特征人类可能说不清道不明，但让机器来学就比较简单粗暴了。<strong>它根本不关心这个特征有没有什么物理含义，反正只要具备统计学规律就可以了。</strong></p>
+
+<p>图像识别一般有以下几个步骤：</p>
+
+<ol>
+<li>用某个卷积核对图像做一次卷积，得到激活图</li>
+<li>对激活图做池化，降低参数</li>
+<li>重复步骤 1、2</li>
+<li>参数足够少时，用全连接得出结论</li>
+</ol>
+
+<h3 id="toc_44">激活图与池化</h3>
+
+<p>假设图像的大小是 \(30 * 30\)，我们用一个 \(5 * 5\) 的卷积核对它做卷积，可以理解为用一个筛子把原来的图像扫一遍，筛子每停留在一个位置，都会把卷积核应用在那个位置上 \(5 * 5\) 大小的像素上，得到计算后的结果。当卷积核把图像全部扫一遍后，把所有的计算后结果组合起来，会得到一张全新的矩阵，这个矩阵被称为激活图。</p>
+
+<p>根据上文的解释，我们知道激活图中的值在特定的位置很大，其他位置很小。激活图中值大的地方表示这里满足特征。因此，一张激活图，其实就是一个卷积核的特征分布图，描述了原始图片在什么位置满足卷积核的特征。</p>
+
+<p>如果我们只有激活图，图像的大小就不会明显减少，计算复杂度也就无法降低。所以池化的作用是帮助我们降低参数，其实池化非常简单，假设有一个 \(3 * 3\) 的矩阵，我们找到其中最大的值，并用这个值代替原来的矩阵，一下子就把参数数量降低到原来的 \(11\%\)。这种池化方式叫做最大池化，类似的还有最小池化、平均池化，也非常容易理解。</p>
+
+<p>池化虽然简单，但效果却非常理想，下图描述了图片在池化前后的变化，可以看到基本不会丢失特征：</p>
+
+<p><img src="http://images.bestswifter.com/5a14e62d3a953d9a0dd2597b6e2ef723f6cb7cf0.png" alt=""></p>
+
+<h3 id="toc_45">全连接</h3>
+
+<p>一般来说，一张图片不会只有一个卷积核。因为一个卷积核意味着一个特征，我们可以同时学习多个特征（猫头、猫身体、猫尾巴）。所以，对于一个 \(128 * 128\) 像素的图片来说，它经过多个卷积核的处理后，可能得到了 5 个 \(64 * 64\) 的激活图（池化以后）。然后每个激活图又有多个卷积核，不断循环下去……。可以看到图像的大小退化得很快，激活图的数量会不断增加，最终可能会生成几百个 \(1* 1\) 的激活图。当然，此时的激活图已经不具备图像的价值了。它可以理解为用来标记图像是否具备某个特征，这个特征是机器学出来的，人类可能无法直接理解。</p>
+
+<p>最终我们需要一个全连接层，把这些特征映射到输出空间里。举个例子，我们要识别数字，原始图片经过卷积和池化，像素不断减少，最终退化为 \(1*1\)，但激活图的数量不断增加，最终假设有 100 个。那么这 100 个特征各自具有一个权重，共同决定了图像是不是数字1，数字 2……。</p>
+
+<p>这个例子中，输出空间就是从 0 到 9 的十个数字。不同的数字，利用特征的方式各不一样，其实就是给各个特征设置的权重不同，可以用一个 100 行的权重矩阵表示。每给定一个 100 列的向量，我们把它和数字 1 的权重矩阵相乘，就会得到图片表示数字 1 的概率。类似的，可以得到图片是数字 2、3…… 9、0的概率，然后我们选择概率最大的那一个数字就可以了。当然，每个数字的权重</p>
+
+<p>完全的流程如下图所示，全连接指的是从 hidden4 到 output 的过程：</p>
+
+<p><img src="http://images.bestswifter.com/5afd3829ccafe05a60abda63226688dc279c2617.png" alt=""></p>
+
+<h3 id="toc_46">小结</h3>
+
+<p>总结一下图像识别的过程。它的核心是利用卷积核提取特征，这个卷积核是机器学习的，前期可以随便设一个值，当然误差肯定很大。我们可以用误差逆传播的算法来调整卷积核。这个特征不一定可以被人类理解，但它恰好是机器适合做的事：从大量数据中提取客观存在的规律。</p>
+
+<p>由于卷积、池化的过程会重复很多遍，不同层的卷积核各不一样，总的来说越靠近原始图像，卷积核识别的特征就越抽象，比如一开始我们识别猫头、猫尾巴。越接近底层数据，卷积核识别的特征就越具体，比如识别点、像素、直线等。</p>
+
+<p>下面几张图列出了卷积核的反激活效果（也就是什么样的图片具备这个卷积核所描述的特征），注意，这个流程是从底层到顶层的，和上图的处理流程刚好相反。</p>
+
+<p>第一层：只能识别直线</p>
+
+<p><img src="http://images.bestswifter.com/945471be4f12074d09f2f0ba5fe4bf9e7d88208d.png" alt=""></p>
+
+<p>第二层：能够识别弯曲复杂的线</p>
+
+<p><img src="http://images.bestswifter.com/4a927c41cd53d0378bfcd77fb6299326909aef11.png" alt=""></p>
+
+<p>第三层：能够识别线条的组合</p>
+
+<p><img src="http://images.bestswifter.com/06db1742da66e866b6fddaff732da467f54a301f.png" alt=""></p>
+
+<p>第四层：能够识别简单的物体</p>
+
+<p><img src="http://images.bestswifter.com/7ea4ddd4f0ce37cbfabfd4c9936b93143e98e9a5.png" alt=""></p>
+
+<p>还有一些更复杂的图片，出于篇幅的考虑就不放出了，希望这几张反激活图能帮助读者理解特征核是如何从抽象到具体，从复杂到简单的。</p>
+
+<h1 id="toc_47">尾声</h1>
+
+<p>作为对全文的总结，只想强调三点：</p>
+
+<ol>
+<li>还是那句话，机器学习只解决具有规律的，原本可以解决的问题</li>
+<li>机器学习的本质是用函数量化人们口口相传的经验，用算法计算出结论，并且用数学公式证明这么做的合理性</li>
+<li>机器学习的核心是找到合适的性能评价指标，借助计算机强大的计算能力，计算出合适的参数，使计算结果和真实数据的误差最小化。</li>
+</ol>
+
+<h2 id="toc_48">参考</h2>
+
+<ol>
+<li>周志华：《机器学习》</li>
+<li><a href="http://blog.csdn.net/xiazdong/article/details/7950084" target="_blank" rel="external">机器学习入门：线性回归及梯度下降</a></li>
+<li><a href="https://ctmakro.github.io/site/on_learning/gd.html" target="_blank" rel="external">Gradient Descent 梯度下降法</a></li>
+<li><a href="http://blog.csdn.net/walilk/article/details/50978864" target="_blank" rel="external">ML重要概念：梯度（Gradient）与梯度下降法（Gradient Descent）</a></li>
+<li><a href="https://www.zhihu.com/question/39022858" target="_blank" rel="external">卷积神经网络工作原理直观的解释？</a></li>
+<li><a href="https://www.cnblogs.com/leoo2sk/archive/2010/09/17/naive-bayesian-classifier.html" target="_blank" rel="external">算法杂货铺——分类算法之朴素贝叶斯分类(Naive Bayesian classification)</a></li>
+</ol>
+
+</div></body>
+
+</html>
