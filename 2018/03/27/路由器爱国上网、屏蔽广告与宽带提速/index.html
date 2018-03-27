@@ -1,0 +1,413 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <script>
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('http://images.bestswifter.com/sw.js')
+  }
+  </script>
+  
+    <title>路由器爱国上网、屏蔽广告与宽带提速 | 全栈养成计划</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Fullstack">
+    
+    <meta name="description" content="路由器爱国上网、屏蔽广告与宽带提速在路由器中开启代理的好处很明显，最明显的就是连在这个路由器上的所有终端都不用考虑爱国上网的问题了。不管是 GMail 还是 Dropbox 这种服务都可以毫无顾忌的用起来了。
+即使是在电脑的浏览器上有 SwitchyOmega 这样的神器，但终端和 APP 的爱国上">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="全栈养成计划" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+(function() {
+ var hm = document.createElement("script");
+ hm.src = "https://hm.baidu.com/hm.js?8b8cc550e083bb800d2b0d350318e611";
+ var s = document.getElementsByTagName("script")[0]; 
+ s.parentNode.insertBefore(hm, s);
+
+ })();
+</script>
+
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="全栈养成计划" title="全栈养成计划"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
+				<h2 class="blog-motto">每天学点新知识~</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/categories">categories</a></li>
+					
+						<li><a href="/tags">tags</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:fullstack.blog">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/03/27/路由器爱国上网、屏蔽广告与宽带提速/" title="路由器爱国上网、屏蔽广告与宽带提速" itemprop="url">路由器爱国上网、屏蔽广告与宽带提速</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://fullstack.blog" title="Fullstack">Fullstack</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2018-03-27T14:57:37.000Z" itemprop="datePublished">2018-03-27</time>
+    Updated:<time datetime="2018-03-27T14:58:17.994Z" itemprop="dateModified">2018-03-27</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#路由器爱国上网、屏蔽广告与宽带提速"><span class="toc-number">1.</span> <span class="toc-text">路由器爱国上网、屏蔽广告与宽带提速</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#硬件选择"><span class="toc-number">1.1.</span> <span class="toc-text">硬件选择</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作流程"><span class="toc-number">2.</span> <span class="toc-text">操作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#开启-SSH"><span class="toc-number">2.1.</span> <span class="toc-text">开启 SSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启-SSH-1"><span class="toc-number">2.2.</span> <span class="toc-text">开启 SSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷入-Breed-启动引导"><span class="toc-number">2.3.</span> <span class="toc-text">刷入 Breed 启动引导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷入-Padavan-控件"><span class="toc-number">2.4.</span> <span class="toc-text">刷入 Padavan 控件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置代理和去广告"><span class="toc-number">2.5.</span> <span class="toc-text">配置代理和去广告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#宽带提速"><span class="toc-number">2.6.</span> <span class="toc-text">宽带提速</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TODO"><span class="toc-number">2.7.</span> <span class="toc-text">TODO</span></a></li></ol></li></ol>
+		</div>
+		
+		<h1 id="路由器爱国上网、屏蔽广告与宽带提速"><a href="#路由器爱国上网、屏蔽广告与宽带提速" class="headerlink" title="路由器爱国上网、屏蔽广告与宽带提速"></a>路由器爱国上网、屏蔽广告与宽带提速</h1><p>在路由器中开启代理的好处很明显，最明显的就是连在这个路由器上的所有终端都不用考虑爱国上网的问题了。不管是 GMail 还是 Dropbox 这种服务都可以毫无顾忌的用起来了。</p>
+<p>即使是在电脑的浏览器上有 <a href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif?utm_source=chrome-ntp-icon" target="_blank" rel="external">SwitchyOmega</a> 这样的神器，但终端和 APP 的爱国上网依然对很多人来说是个问题，比如经常出问题的 <code>npm instal</code> 和 Telegram、Dropbox 这类的桌面应用。</p>
+<p>虽然很多路由器都自带 VPN，但恕我直言，VPN 是垃圾到无法使用的技术。因为它不支持透明代理，所谓的透明代理是指对于用户而言，无法察觉到自己被代理了。</p>
+<p>以访问淘宝为例，如果是用 VPN 这种全局代理，就会被重定向到国际版的淘宝，导致速度大幅度降低。而如果是使用 shadowsocks 这类透明代理，会自动把淘宝、百度这类国内网站设置为不用代理，只有在访问谷歌等网站时才走代理。这个规则列表已经有人整理出来了，叫做 GFWList。</p>
+<p>以上基本信息在我的上一篇文章：<a href="https://github.com/bestswifter/blog/blob/master/articles/fq.md" target="_blank" rel="external">全自动科学上网方案分享</a> 里面都有说过，就不多废话了。</p>
+<p>文末会有宽带提速的教程，如果你还在用 20M 甚至 10M 的网络，那么每月只要十几块钱，就可以享受 100M 网络了，效果非常明显。</p>
+<h2 id="硬件选择"><a href="#硬件选择" class="headerlink" title="硬件选择"></a>硬件选择</h2><p>第一件事是要选择路由器，因为开启代理需要运行 shadowsocks 客户端，既然是软件，就一定要跑在操作系统上，自然会对硬件有一些要求。因此四五年前的硬件基本上就别想了。</p>
+<p>这里我比较推荐 <a href="http://union-click.jd.com/jdc?e=0&amp;p=AyIHZRprEQISDlQbXCVGTV8LRGtMR1dGXgVFTUdGW0pADgpQTFtLH1sVCxMHUgQCUF5PNxBGHFd5elsuexhJRkYDVBsAfmNiBBMXV3sBEwdcB1oXHhEDRBtZHgIUDFESaxQyEgZUGl8TAhMAUCtrFQIiUTsbWhQDEwZQG1gXMhIEVhpZEAsVAlIrWxEBEg9RH1oTCxEDVitcJVlHaVMbXkcBFQNUGw9BBBQ3ZR9bFQsTB1IrayUyEjdW&amp;t=W1dCFBBFC1pXUwkEAEAdQFkJBV8VAhsGVRxETEdOWg%3D%3D" target="_blank" rel="external">小米路由 3G</a>，理由是价格便宜，两百出头一点，硬件性能足够（主要就是看 CPU、内存和闪存大小），两个 LAN 口和一个 WAN 口都是千兆的，在可预见的未来不会拖累网速。</p>
+<h1 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h1><p>整个流程可以分为以下几步：</p>
+<ol>
+<li>刷开发版系统</li>
+<li>开启 SSH</li>
+<li>刷入 breed 启动引导</li>
+<li>刷入 Padavan 固件</li>
+<li>配置透明代理和去广告</li>
+<li>宽带提速</li>
+</ol>
+<h2 id="开启-SSH"><a href="#开启-SSH" class="headerlink" title="开启 SSH"></a>开启 SSH</h2><p>前文说了，路由器就是一个小型的 Linux 操作系统，第一步自然就是要打开 SSH，这样才能在命令行里操作路由器。</p>
+<blockquote>
+<p><strong>注意下文所有固件均针对小米路由器 3G，请勿乱用，变成砖概不负责</strong></p>
+</blockquote>
+<p>首先进入<a href="http://www.miwifi.com/miwifi_download.html" target="_blank" rel="external">小米路由器官网</a>，在 ROM 列表里找到找到 <strong>ROM for R3G 开发版</strong>，下载下来后拷贝到 FAT/FAT32 格式的 U盘中并重命名为 <strong>miwifi.bin</strong></p>
+<p>接下来先拔掉路由器电源线，再插入 U盘，然后找一根牙签或掏耳勺的柄戳住 Reset 键（在 U盘旁边的小洞里）。</p>
+<p>最后接通电源，过大概 15 秒后路由器指示灯会变成黄灯并且一闪一闪的，此时松开 reset 键，等几分钟路由器就会重装好。</p>
+<p>一般来说这一步没有风险。</p>
+<h2 id="开启-SSH-1"><a href="#开启-SSH-1" class="headerlink" title="开启 SSH"></a>开启 SSH</h2><p>打开 <a href="https://d.miwifi.com/rom/ssh" target="_blank" rel="external">https://d.miwifi.com/rom/ssh</a>，下载工具包，放入 U盘中并重命名为 <strong>miwifi_ssh.bin</strong>。这个页面还会告诉你 Root 用户的密码，待会儿要用到。</p>
+<p>然后重复之前的安装步骤（断电、插 U盘、按住 Rest、通电等黄灯闪烁、松开 Reset 等安装完成）。</p>
+<p>路由器重启后，在终端输入 <code>ssh root@192.168.31.31</code>，然后输入之前记下的 Root 密码应该就连上了。</p>
+<p>这一步基本也没有风险。</p>
+<h2 id="刷入-Breed-启动引导"><a href="#刷入-Breed-启动引导" class="headerlink" title="刷入 Breed 启动引导"></a>刷入 Breed 启动引导</h2><p>理论上来说这一步是可选的，我们可以直接刷 Padavan 固件，但存在刷坏的风险。Breed 是社区开发的引导工具，用于替换系统的引导工具。</p>
+<p>这样做的好处相当于是增加了一个中间层，只要刷入成功，后续就是在 Breed 里面搞事情了，不会影响系统，自然就不会变砖了。不管是更新固件还是切换回小米原装的固件，都非常容易。</p>
+<p>这一步很容易，没有硬件操作，只要在连上 SSH 后输入以下命令就行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd /tmp</div><div class="line">wget https://breed.hackpascal.net/breed-mt7621-xiaomi-r3g.bin</div><div class="line">mtd -r write breed-mt7621-xiaomi-r3g.bin Bootloader</div></pre></td></tr></table></figure>
+<p>耐心等待路由器重启即可。</p>
+<p>这一步风险较高，如果操作失误可能会导致路由器变砖。好在步骤比较简单，只要不作死，复制上面的命令来执行就不会出问题。</p>
+<h2 id="刷入-Padavan-控件"><a href="#刷入-Padavan-控件" class="headerlink" title="刷入 Padavan 控件"></a>刷入 Padavan 控件</h2><p>首先下载控件：<a href="https://pan.baidu.com/s/1cweGGY" target="_blank" rel="external">https://pan.baidu.com/s/1cweGGY</a>，如果地址失效就自行搜索，注意文件名是：<strong>MI-R3G_3.4.3.9-099.trx</strong>。</p>
+<p>接下来我们需要进入刷机模式：断开电源，拔下 U盘，按住 Reset 键，插回电源，过几秒后指示灯开始闪烁，松开 Reset 键即可。</p>
+<p>这一步和之前刷 ROM 和开启 SSH 的步骤类似，但注意不要插入 U盘。</p>
+<p>然后在浏览器访问 192.168.1.1 就可以进入 Breed 的控制台。如果家里的路由器连在上级光猫路由器上，192.168.1.1 可能会被占用，此时拔掉小米路由器的 WAN 口网线即可。</p>
+<p>最后在 Breed Web 控制台依次选择：固件更新 -&gt; 常规固件 -&gt; 勾选固件复选框 -&gt; 浏览，选择刚刚下载好的 Padavan 固件上传，刷入搞定！</p>
+<h2 id="配置代理和去广告"><a href="#配置代理和去广告" class="headerlink" title="配置代理和去广告"></a>配置代理和去广告</h2><p>重启之后通过 192.168.123.1 进入 Padavan 控制台，在左侧拓展功能中找到 Shadowsocks，填写 VPS 的信息，如果没有的话可以去 <a href="https://bwh1.net/aff.php?aff=19860&amp;pid=55" target="_blank" rel="external">搬瓦工</a> 购买年费 39 刀，每月 2000G 中国直连流量的套餐。工作模式建议选择 GFWList 并自动更新，这样可以获取最新的爱国上网地址列表，实现透明代理。</p>
+<p>同样是在左侧，找到 <strong>广告屏蔽功能</strong>，比较推荐用 koolproxy 来过滤广告。注意如果广告使用 HTTPS 是无法屏蔽的，因为插件无法判断某个请求是不是广告，这时候你有两种选择：</p>
+<ol>
+<li>按照 koolproxy 提供的根证书，存在一定的安全风险，但可以彻底屏蔽广告</li>
+<li>不用根证书，保证绝对安全，忍受 HTTPS 广告。</li>
+</ol>
+<p>这里笔者不做推荐，用户自行评价</p>
+<h2 id="宽带提速"><a href="#宽带提速" class="headerlink" title="宽带提速"></a>宽带提速</h2><p>在左侧拓展功能-&gt;配置拓展环境中，打开迅雷快鸟，输入开通了迅雷快鸟的迅雷账号和密码即可。</p>
+<p>笔者使用的是 50M 的北京联通宽带，实测开启后网速接近 100M，原理是迅雷与网络服务商达成了协议，授权迅雷接触网络运营商的网速限制。</p>
+<p>由于不是所有用户通用，建议先自行测试下提速比例，合适再买。</p>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><p>其实还有些小遗憾，主要是小米路由器 3G 自带的 USB3.0 接口没有被我有效利用起来，后续还可以添加远程迅雷下载和硬盘 FTP 共享的功能。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://fullstack.blog/2018/03/27/路由器爱国上网、屏蔽广告与宽带提速/" data-title="路由器爱国上网、屏蔽广告与宽带提速 | 全栈养成计划" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/09/26/全自动科学上网方案分享/"  title="全自动科学上网方案分享">
+ <strong>NEXT:</strong><br/> 
+ <span>全自动科学上网方案分享
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#路由器爱国上网、屏蔽广告与宽带提速"><span class="toc-number">1.</span> <span class="toc-text">路由器爱国上网、屏蔽广告与宽带提速</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#硬件选择"><span class="toc-number">1.1.</span> <span class="toc-text">硬件选择</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作流程"><span class="toc-number">2.</span> <span class="toc-text">操作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#开启-SSH"><span class="toc-number">2.1.</span> <span class="toc-text">开启 SSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启-SSH-1"><span class="toc-number">2.2.</span> <span class="toc-text">开启 SSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷入-Breed-启动引导"><span class="toc-number">2.3.</span> <span class="toc-text">刷入 Breed 启动引导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷入-Padavan-控件"><span class="toc-number">2.4.</span> <span class="toc-text">刷入 Padavan 控件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置代理和去广告"><span class="toc-number">2.5.</span> <span class="toc-text">配置代理和去广告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#宽带提速"><span class="toc-number">2.6.</span> <span class="toc-text">宽带提速</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TODO"><span class="toc-number">2.7.</span> <span class="toc-text">TODO</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">扫码关注我的公众号，从大前端的角度聊聊 iOS，安卓和前端开发</h3>
+  <div class="widget">
+    <img src="/img/weixin_qr.jpg" style="width: 100%">
+  </div>
+</div>
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Android/" title="Android">Android<sup>3</sup></a></li>
+		
+			<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Promise/" title="Promise">Promise<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+		
+			<li><a href="/tags/zen/" title="zen">zen<sup>1</sup></a></li>
+		
+			<li><a href="/tags/前端/" title="前端">前端<sup>3</sup></a></li>
+		
+			<li><a href="/tags/总结分享/" title="总结分享">总结分享<sup>1</sup></a></li>
+		
+			<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		
+			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+		
+			<li><a href="/tags/计算机基础知识/" title="计算机基础知识">计算机基础知识<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="https://bestswifter.com" target="_blank" title="Bestswifter">Bestswifter 的博客</a></li>
+    </ul>
+</div>
+
+
+  <div class="linkslist">
+   <p class="asidetitle">微博关注</p>
+     <ul>
+       <li><iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5678670890&verifier=53247bfc&dpc=1"></iframe></li>
+     </ul>
+ </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2018 
+		
+		<a href="http://fullstack.blog" target="_blank" title="Fullstack">Fullstack</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
+
+<a href="https://github.com/bestswifter"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>

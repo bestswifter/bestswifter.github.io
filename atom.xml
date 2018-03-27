@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://fullstack.blog/"/>
-  <updated>2017-06-25T15:36:47.000Z</updated>
+  <updated>2018-03-27T14:58:17.994Z</updated>
   <id>http://fullstack.blog/</id>
   
   <author>
@@ -16,11 +16,331 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>路由器爱国上网、屏蔽广告与宽带提速</title>
+    <link href="http://fullstack.blog/2018/03/27/%E8%B7%AF%E7%94%B1%E5%99%A8%E7%88%B1%E5%9B%BD%E4%B8%8A%E7%BD%91%E3%80%81%E5%B1%8F%E8%94%BD%E5%B9%BF%E5%91%8A%E4%B8%8E%E5%AE%BD%E5%B8%A6%E6%8F%90%E9%80%9F/"/>
+    <id>http://fullstack.blog/2018/03/27/路由器爱国上网、屏蔽广告与宽带提速/</id>
+    <published>2018-03-27T14:57:37.000Z</published>
+    <updated>2018-03-27T14:58:17.994Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="路由器爱国上网、屏蔽广告与宽带提速"><a href="#路由器爱国上网、屏蔽广告与宽带提速" class="headerlink" title="路由器爱国上网、屏蔽广告与宽带提速"></a>路由器爱国上网、屏蔽广告与宽带提速</h1><p>在路由器中开启代理的好处很明显，最明显的就是连在这个路由器上的所有终端都不用考虑爱国上网的问题了。不管是 GMail 还是 Dropbox 这种服务都可以毫无顾忌的用起来了。</p>
+<p>即使是在电脑的浏览器上有 <a href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif?utm_source=chrome-ntp-icon" target="_blank" rel="external">SwitchyOmega</a> 这样的神器，但终端和 APP 的爱国上网依然对很多人来说是个问题，比如经常出问题的 <code>npm instal</code> 和 Telegram、Dropbox 这类的桌面应用。</p>
+<p>虽然很多路由器都自带 VPN，但恕我直言，VPN 是垃圾到无法使用的技术。因为它不支持透明代理，所谓的透明代理是指对于用户而言，无法察觉到自己被代理了。</p>
+<p>以访问淘宝为例，如果是用 VPN 这种全局代理，就会被重定向到国际版的淘宝，导致速度大幅度降低。而如果是使用 shadowsocks 这类透明代理，会自动把淘宝、百度这类国内网站设置为不用代理，只有在访问谷歌等网站时才走代理。这个规则列表已经有人整理出来了，叫做 GFWList。</p>
+<p>以上基本信息在我的上一篇文章：<a href="https://github.com/bestswifter/blog/blob/master/articles/fq.md" target="_blank" rel="external">全自动科学上网方案分享</a> 里面都有说过，就不多废话了。</p>
+<p>文末会有宽带提速的教程，如果你还在用 20M 甚至 10M 的网络，那么每月只要十几块钱，就可以享受 100M 网络了，效果非常明显。</p>
+<h2 id="硬件选择"><a href="#硬件选择" class="headerlink" title="硬件选择"></a>硬件选择</h2><p>第一件事是要选择路由器，因为开启代理需要运行 shadowsocks 客户端，既然是软件，就一定要跑在操作系统上，自然会对硬件有一些要求。因此四五年前的硬件基本上就别想了。</p>
+<p>这里我比较推荐 <a href="http://union-click.jd.com/jdc?e=0&amp;p=AyIHZRprEQISDlQbXCVGTV8LRGtMR1dGXgVFTUdGW0pADgpQTFtLH1sVCxMHUgQCUF5PNxBGHFd5elsuexhJRkYDVBsAfmNiBBMXV3sBEwdcB1oXHhEDRBtZHgIUDFESaxQyEgZUGl8TAhMAUCtrFQIiUTsbWhQDEwZQG1gXMhIEVhpZEAsVAlIrWxEBEg9RH1oTCxEDVitcJVlHaVMbXkcBFQNUGw9BBBQ3ZR9bFQsTB1IrayUyEjdW&amp;t=W1dCFBBFC1pXUwkEAEAdQFkJBV8VAhsGVRxETEdOWg%3D%3D" target="_blank" rel="external">小米路由 3G</a>，理由是价格便宜，两百出头一点，硬件性能足够（主要就是看 CPU、内存和闪存大小），两个 LAN 口和一个 WAN 口都是千兆的，在可预见的未来不会拖累网速。</p>
+<h1 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h1><p>整个流程可以分为以下几步：</p>
+<ol>
+<li>刷开发版系统</li>
+<li>开启 SSH</li>
+<li>刷入 breed 启动引导</li>
+<li>刷入 Padavan 固件</li>
+<li>配置透明代理和去广告</li>
+<li>宽带提速</li>
+</ol>
+<h2 id="开启-SSH"><a href="#开启-SSH" class="headerlink" title="开启 SSH"></a>开启 SSH</h2><p>前文说了，路由器就是一个小型的 Linux 操作系统，第一步自然就是要打开 SSH，这样才能在命令行里操作路由器。</p>
+<blockquote>
+<p><strong>注意下文所有固件均针对小米路由器 3G，请勿乱用，变成砖概不负责</strong></p>
+</blockquote>
+<p>首先进入<a href="http://www.miwifi.com/miwifi_download.html" target="_blank" rel="external">小米路由器官网</a>，在 ROM 列表里找到找到 <strong>ROM for R3G 开发版</strong>，下载下来后拷贝到 FAT/FAT32 格式的 U盘中并重命名为 <strong>miwifi.bin</strong></p>
+<p>接下来先拔掉路由器电源线，再插入 U盘，然后找一根牙签或掏耳勺的柄戳住 Reset 键（在 U盘旁边的小洞里）。</p>
+<p>最后接通电源，过大概 15 秒后路由器指示灯会变成黄灯并且一闪一闪的，此时松开 reset 键，等几分钟路由器就会重装好。</p>
+<p>一般来说这一步没有风险。</p>
+<h2 id="开启-SSH-1"><a href="#开启-SSH-1" class="headerlink" title="开启 SSH"></a>开启 SSH</h2><p>打开 <a href="https://d.miwifi.com/rom/ssh" target="_blank" rel="external">https://d.miwifi.com/rom/ssh</a>，下载工具包，放入 U盘中并重命名为 <strong>miwifi_ssh.bin</strong>。这个页面还会告诉你 Root 用户的密码，待会儿要用到。</p>
+<p>然后重复之前的安装步骤（断电、插 U盘、按住 Rest、通电等黄灯闪烁、松开 Reset 等安装完成）。</p>
+<p>路由器重启后，在终端输入 <code>ssh root@192.168.31.31</code>，然后输入之前记下的 Root 密码应该就连上了。</p>
+<p>这一步基本也没有风险。</p>
+<h2 id="刷入-Breed-启动引导"><a href="#刷入-Breed-启动引导" class="headerlink" title="刷入 Breed 启动引导"></a>刷入 Breed 启动引导</h2><p>理论上来说这一步是可选的，我们可以直接刷 Padavan 固件，但存在刷坏的风险。Breed 是社区开发的引导工具，用于替换系统的引导工具。</p>
+<p>这样做的好处相当于是增加了一个中间层，只要刷入成功，后续就是在 Breed 里面搞事情了，不会影响系统，自然就不会变砖了。不管是更新固件还是切换回小米原装的固件，都非常容易。</p>
+<p>这一步很容易，没有硬件操作，只要在连上 SSH 后输入以下命令就行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd /tmp</div><div class="line">wget https://breed.hackpascal.net/breed-mt7621-xiaomi-r3g.bin</div><div class="line">mtd -r write breed-mt7621-xiaomi-r3g.bin Bootloader</div></pre></td></tr></table></figure>
+<p>耐心等待路由器重启即可。</p>
+<p>这一步风险较高，如果操作失误可能会导致路由器变砖。好在步骤比较简单，只要不作死，复制上面的命令来执行就不会出问题。</p>
+<h2 id="刷入-Padavan-控件"><a href="#刷入-Padavan-控件" class="headerlink" title="刷入 Padavan 控件"></a>刷入 Padavan 控件</h2><p>首先下载控件：<a href="https://pan.baidu.com/s/1cweGGY" target="_blank" rel="external">https://pan.baidu.com/s/1cweGGY</a>，如果地址失效就自行搜索，注意文件名是：<strong>MI-R3G_3.4.3.9-099.trx</strong>。</p>
+<p>接下来我们需要进入刷机模式：断开电源，拔下 U盘，按住 Reset 键，插回电源，过几秒后指示灯开始闪烁，松开 Reset 键即可。</p>
+<p>这一步和之前刷 ROM 和开启 SSH 的步骤类似，但注意不要插入 U盘。</p>
+<p>然后在浏览器访问 192.168.1.1 就可以进入 Breed 的控制台。如果家里的路由器连在上级光猫路由器上，192.168.1.1 可能会被占用，此时拔掉小米路由器的 WAN 口网线即可。</p>
+<p>最后在 Breed Web 控制台依次选择：固件更新 -&gt; 常规固件 -&gt; 勾选固件复选框 -&gt; 浏览，选择刚刚下载好的 Padavan 固件上传，刷入搞定！</p>
+<h2 id="配置代理和去广告"><a href="#配置代理和去广告" class="headerlink" title="配置代理和去广告"></a>配置代理和去广告</h2><p>重启之后通过 192.168.123.1 进入 Padavan 控制台，在左侧拓展功能中找到 Shadowsocks，填写 VPS 的信息，如果没有的话可以去 <a href="https://bwh1.net/aff.php?aff=19860&amp;pid=55" target="_blank" rel="external">搬瓦工</a> 购买年费 39 刀，每月 2000G 中国直连流量的套餐。工作模式建议选择 GFWList 并自动更新，这样可以获取最新的爱国上网地址列表，实现透明代理。</p>
+<p>同样是在左侧，找到 <strong>广告屏蔽功能</strong>，比较推荐用 koolproxy 来过滤广告。注意如果广告使用 HTTPS 是无法屏蔽的，因为插件无法判断某个请求是不是广告，这时候你有两种选择：</p>
+<ol>
+<li>按照 koolproxy 提供的根证书，存在一定的安全风险，但可以彻底屏蔽广告</li>
+<li>不用根证书，保证绝对安全，忍受 HTTPS 广告。</li>
+</ol>
+<p>这里笔者不做推荐，用户自行评价</p>
+<h2 id="宽带提速"><a href="#宽带提速" class="headerlink" title="宽带提速"></a>宽带提速</h2><p>在左侧拓展功能-&gt;配置拓展环境中，打开迅雷快鸟，输入开通了迅雷快鸟的迅雷账号和密码即可。</p>
+<p>笔者使用的是 50M 的北京联通宽带，实测开启后网速接近 100M，原理是迅雷与网络服务商达成了协议，授权迅雷接触网络运营商的网速限制。</p>
+<p>由于不是所有用户通用，建议先自行测试下提速比例，合适再买。</p>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><p>其实还有些小遗憾，主要是小米路由器 3G 自带的 USB3.0 接口没有被我有效利用起来，后续还可以添加远程迅雷下载和硬盘 FTP 共享的功能。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;路由器爱国上网、屏蔽广告与宽带提速&quot;&gt;&lt;a href=&quot;#路由器爱国上网、屏蔽广告与宽带提速&quot; class=&quot;headerlink&quot; title=&quot;路由器爱国上网、屏蔽广告与宽带提速&quot;&gt;&lt;/a&gt;路由器爱国上网、屏蔽广告与宽带提速&lt;/h1&gt;&lt;p&gt;在路由器中开启代理的
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>全自动科学上网方案分享</title>
+    <link href="http://fullstack.blog/2017/09/26/%E5%85%A8%E8%87%AA%E5%8A%A8%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/"/>
+    <id>http://fullstack.blog/2017/09/26/全自动科学上网方案分享/</id>
+    <published>2017-09-26T07:45:13.000Z</published>
+    <updated>2018-01-19T11:32:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在开始方案介绍之前，请确保自己有一个国外的服务器，比较常用的有以下几个：</p>
+<ol>
+<li><a href="https://m.do.co/c/0b258b3eea48" target="_blank" rel="external">Digital Ocean</a>：最低价格是 $5/月，每月 1000G 流量。现在注册有 $10 优惠券，GitHub 学生认证以后可以免费领取 $50 优惠券</li>
+<li><a href="https://www.vultr.com/?ref=7220709" target="_blank" rel="external">Vultr</a>：最低每月 $2.5，500G 流量也足够用，目前没有优惠</li>
+<li><a href="https://bandwagonhost.com/aff.php?aff=19860" target="_blank" rel="external">搬瓦工</a>：年付 $19，500G 流量，硬盘只有 10G，基本上只能用来科学上网，网上有各种优惠码，大约可以优惠 5% 左右。</li>
+</ol>
+<p>如果读者还没有自己的 VPS，可以根据自己的消费能力和使用场景（单纯科学上网还是部署服务）来选购，从上面的链接购买，我也会有奖励。</p>
+<p>Shadowsocks 的配置非常简单，参考<a href="https://github.com/nkwsqyyzx/.sys.config/blob/master/init.scripts/install-centos" target="_blank" rel="external">这个脚本</a>，只要一行命令，指定端口和密码即可。</p>
+<h2 id="常见痛点-amp-需求："><a href="#常见痛点-amp-需求：" class="headerlink" title="常见痛点 &amp; 需求："></a>常见痛点 &amp; 需求：</h2><p>最优秀的配置就是在使用时感觉不到配置的存在，然而复杂的应用场景决定了我们需要多种代理配置。虽然最终的目的是摆脱繁琐的配置切换，但在此之前，我们有必要梳理一下日常使用中常见的痛点。</p>
+<h3 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h3><ol>
+<li>模拟器需要连代理，因此电脑必须设置 HTTP/HTTPS 代理</li>
+<li>终端无法使用 SS 代理，即使设置了全局代理也不行</li>
+<li>某些应用，比如 Telegram，需要科学上网</li>
+</ol>
+<h3 id="Mobile"><a href="#Mobile" class="headerlink" title="Mobile"></a>Mobile</h3><ol>
+<li>在公司联调时需要手动输入 Mac 的  IP 地址，过程繁琐</li>
+<li>如果想科学上网，需要连接 VPN，这与 HTTP 代理冲突</li>
+<li>某些网站或应用会对客户端证书做校验， 比如 iTunes、微信支付、公司内网服务等对安全要求较高的场景，导致挂着代理无法访问</li>
+</ol>
+<h3 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h3><ol>
+<li>访问墙外网站需要连 VPS，墙内网站不需要连接，代理会让国内网站访问速度降低</li>
+</ol>
+<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><p>复杂的需求导致了代理场景的多样化，一般来说有三种：</p>
+<ol>
+<li>Charles 的 HTTP(s) 代理</li>
+<li>VPS 的 socks5 代理或 PAC</li>
+<li>直接连接</li>
+</ol>
+<p>上述问题的本质都来源于这三种代理是互斥的，而且切换起来比较麻烦。在 Mac 上有脚本可以切换，但有时依然无法人工区分改用哪种代理，在 iOS 上，就连设置代理都会非常耗时。</p>
+<h2 id="目标与解决思路"><a href="#目标与解决思路" class="headerlink" title="目标与解决思路"></a>目标与解决思路</h2><p>明确了问题与问题背后的复杂度以后，我们需要确定一个目标，以目标为导向，来指导自己的行动。</p>
+<p>目标其实非常简单：</p>
+<blockquote>
+<p><strong>经过有限次的配置，彻底避免切换代理</strong></p>
+</blockquote>
+<p>换句话说，就是希望代理的切换时自动进行的，全程不再需要人工干预。</p>
+<p>这似乎有悖于目前的工作模式，不过没关系，既然系统代理不方便，我们就需要一个全局代理，起到 <strong>路由</strong> 作用，根据一定的规则把请求转发到合适的代理上去。这样就把代理的切换简化成了规则的配置，切换永远存在，但配置只要不断维护完善就行。</p>
+<h2 id="Mac-配置"><a href="#Mac-配置" class="headerlink" title="Mac 配置"></a>Mac 配置</h2><p>Mac 上用到四个工具：</p>
+<ol>
+<li>Proxifier： 全局控制工具，负责应用层面的请求转发</li>
+<li>Charles：一种代理，负责处理那些需要被抓包的请求</li>
+<li>GoAgentX：一种代理，负责处理那些需要走 Shadowsocks 协议的请求</li>
+<li>SwitchyOmega：Chrome 拓展工具，负责对 Chrome 中的网页进行智能代理选择</li>
+</ol>
+<h3 id="GoAgentX"><a href="#GoAgentX" class="headerlink" title="GoAgentX"></a>GoAgentX</h3><p>这个软件的作用是帮助我们在本地的某个端口（比如 1234）上运行 Shadowsocks 服务，如果某个应用需要科学上网，只要把流量用 socks5 协议代理到 1234 这个端口上即可。</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/1efa16cd2a1701771179f22af014b7e2e07b836b" alt="图片"></p>
+<p>有三个比较常用的模式：</p>
+<ol>
+<li>全局代理模式：会把系统的 SOCKS 代理设置为 127.0.0.1：1234，这样系统的所有流量都会走 socks 代理</li>
+<li>自动代理配置模式（PAC）：这种模式会自动分析 URL，根据 URL 的特点来决定走哪种代理，也就是达到了按需翻墙的目的</li>
+<li>独立模式：这种模式下仅仅会在本地的 1234 端口上运行 Shadowsocks 服务，不会更改系统的代理方式，也就是说单独使用无法进行翻墙，需要配合其它的软件来使用，这里我们选择第三种模式。</li>
+</ol>
+<h3 id="Proxifier"><a href="#Proxifier" class="headerlink" title="Proxifier"></a>Proxifier</h3><p><a href="https://www.proxifier.com/" target="_blank" rel="external">Proxifer</a> 是一个控制 app 代理方式的软件，有了它，我们就可以控制某个 app，比如 Telegram 使用哪种代理。</p>
+<p>首先在 Proxifier 中建立一个 Shadowsocks 代理：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/ba5025c6036eaa102b2995b867aed89a945eb005" alt="图片"></p>
+<p>依次选择 Proxies、Add 并填写本机的端口。</p>
+<p>接下来就可以把某些特定应用的流量转到代理上了：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/8dd329807fce048f888a618874cf743d7d55ec71" alt="图片"></p>
+<p>依次选择 Rules、Add、➕，然后选择需要修改的软件以及使用哪种代理。比如这里可以选择强制 Telegram 使用 Shadowsocs 代理，就可以翻墙了。</p>
+<h3 id="隐藏图标"><a href="#隐藏图标" class="headerlink" title="隐藏图标"></a>隐藏图标</h3><p>对于 Proxifier 这类应用来说，他们具有以下特点：</p>
+<ol>
+<li>需要开机启动</li>
+<li>开机后不会关闭，可以后台运行，并且基本上不再需要人工干预</li>
+</ol>
+<p>一般在应用设置（Command + 逗号）中可以设置开机启动，以及隐藏 Menu Bar 中的图标，如果无法设置开机启动，我们可以手动添加：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/6686f99b8ea4d6a250d1db282da1b11420e437b2" alt="图片"></p>
+<p>除了隐藏 Menu Bar 中的图标外，我们还希望把它在 Dock 中的图标也隐藏掉，这需要设置 <code>Application is agent</code> 项，以 Proxifier 为例，需要修改 <code>/Applications/Proxifier.app/Contents</code> 和该路径下 <code>/Applications/Proxifier.app/Contents/Info.plist</code> 这个文件的权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chmod 777 /Applications/Proxifier.app/Contents</div><div class="line">chmod 777 /Applications/Proxifier.app/Contents/Info.plist</div></pre></td></tr></table></figure>
+<p>然后编辑 plist 文件，新增一个布尔类型的选项 <strong>Application is agent (UIElement)</strong>，值为 YES：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/7a068ff6d96be20ac0681d86b6fc5c1213d6dda1" alt="图片"></p>
+<p>这样 Proxifier 就不会在 Dock 中显示，基本上做到了全局无感知。</p>
+<h3 id="终端科学上网"><a href="#终端科学上网" class="headerlink" title="终端科学上网"></a>终端科学上网</h3><p>有些时候，安装一些软件包会非常慢，这是因为数据源存在国外的服务器上，但终端默认不会走代理，即使设置了全局代理也无效。</p>
+<p><a href="http://droidyue.com/blog/2016/04/04/set-shadowsocks-proxy-for-terminal/" target="_blank" rel="external">为终端设置Shadowsocks代理</a> 这篇文章介绍了一个工具来解决上述问题：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">brew install polipo</div><div class="line">ln -sfv /usr/<span class="built_in">local</span>/opt/polipo/*.plist ~/Library/LaunchAgents</div><div class="line">vim /usr/<span class="built_in">local</span>/opt/polipo/homebrew.mxcl.polipo.plist</div></pre></td></tr></table></figure>
+<p>添加一行 <strong><string>socksParentProxy=localhost:1234</string></strong>，记得把  1234 改成自己的 Shadowsocks 端口号：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/polipo/bin/polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>socksParentProxy=localhost:1234<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- Set `ulimit -n 20480`. The default OS X limit is 256, that's</span></div><div class="line">         not enough for Polipo (displays 'too many files open' errors).</div><div class="line">         It seems like you have no reason to lower this limit</div><div class="line">         (and unlikely will want to raise it). --&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>SoftResourceLimits<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">key</span>&gt;</span>NumberOfFiles<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">integer</span>&gt;</span>20480<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>接下来向 .zshrc 中加入一个函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">pt</span></span>() &#123;</div><div class="line">    launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist</div><div class="line">    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist</div><div class="line">    <span class="built_in">export</span> http_proxy=http://localhost:8123</div><div class="line">    <span class="built_in">export</span> https_proxy=http://localhost:8123</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>至此，所有的配置就结束了。如果某个终端窗口需要科学上网，只要先执行 <code>pt</code> 函数就行。如果你希望自己的终端永远使用 Shadowsocks 代理，只要将 <code>pt</code> 函数中的内容提出来，直接写进 <code>.zshrc</code> 文件中即可。</p>
+<p>为了测试是否成功的使用了代理，我们可以尝试访问下 Google 或者检测自己的 IP 地址：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/4b43710762224a8e5345eae45dcf35a148fe0187" alt="图片"></p>
+<h3 id="Charles"><a href="#Charles" class="headerlink" title="Charles"></a>Charles</h3><p>Charles 作为一个大名鼎鼎的抓包工具，具体使用方法就不用我细说了，可以参考巧哥的这篇文章：<a href="http://blog.devtang.com/2013/12/11/network-tool-charles-intr/" target="_blank" rel="external">iOS开发工具-网络封包分析工具Charles</a>。</p>
+<p>虽然 Charles 的抓包功能足够强大，但美中不足的是，它的数据处理能力极为孱弱。虽然有 Map Local/Remote 和 Rewrite 功能，但终究不是图灵完备的语言， 灵活性和可拓展性还不够强大，比如如果数据是使用 protobuf 的形式传输，Charles 就无能为力了。</p>
+<p>通常情况下，为了搭建一个多端统一、长期可维护的测试环境，我们需要一个中间人服务器，经过一段时间的尝试和技术选型，最终我们选择了 MITM，详细内容可以参考我的这篇博客：<a href="http://www.jianshu.com/p/23f77b603748" target="_blank" rel="external">HTTP 代理服务器技术选型之旅</a>。</p>
+<p>有了 MITM 工具以后，iOS 模拟器的调试问题就迎刃而解了。注意，此时不要直接修改系统的代理，因为来回切换代理比较麻烦，Charles 提供了一个非常好用的功能，叫 External Proxy。顾名思义，Charles 可以把自己视为一个中转站，把经过自己的数据发送到下一个代理服务器上去。</p>
+<p>因此，日常工作中，我采用的方案是系统代理长期设置为 Charles，且 Charles 长期将外部代理设置为 MITM，两者要么同时生效，要么同时失效，经过 Charles 数据一定会经过 MITM 。</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/ba67ad53ef4a996c029fcdea86f9cdbaec0faa38" alt="图片"><br><img src="http://bos.nj.bpc.baidu.com/v1/agroup/8885cd21d760c8a8f6a3373613338e9512c35446" alt="图片"></p>
+<h3 id="快速切换系统代理"><a href="#快速切换系统代理" class="headerlink" title="快速切换系统代理"></a>快速切换系统代理</h3><p>上述配置虽然大部分时候都能 work，但万一出现 Proxifier 不能指定代理，而且这个网络流量又不能走代理服务器时，我们还需要一个终极方案——快速把系统代理还原为默认。虽然我至今只在某次更新 App Store 时遇到过上述问题，但做好技术储备还是没有坏处的。</p>
+<p>使用 <code>networksetup</code> 配合各种参数即可实现上述需求，我写了一个可以自动切换 Charles 和 GoAgentX 代理的脚本，在<a href="https://github.com/bestswifter/macbootstrap/blob/master/zsh-config/platform.mac.sh#L8-#L74" target="_blank" rel="external">这里</a> 可以下载并根据自己的需求自行修改。</p>
+<p>效果如图所示：</p>
+<p><img src="https://o8ouygf5v.qnssl.com/1506333678.png" alt=""></p>
+<h3 id="SwitchyOmega"><a href="#SwitchyOmega" class="headerlink" title="SwitchyOmega"></a>SwitchyOmega</h3><p>最后一个要用到的工具是 Chrome 的一个插件：<a href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif" target="_blank" rel="external">SwitchyOmega</a>，它可以给不同的 URL 配置不同的访问策略。</p>
+<p>首先我们新建一个情景，用来处理需要科学上网的网站。</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/0477acb8a3718187b023c7931c1eced70435b380" alt="图片"></p>
+<p>如果是前端开发，那些需要抓包调试的网站可以代理到 Charles 上，过程类似就不赘述了。</p>
+<p>然后需要配置下 <strong>auto switch</strong> 场景，在绝大多数时候，我们都将使用这个场景：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/e880e213a3f727d1c3f055387be1dc118f53b37a" alt="图片"></p>
+<p>第一个区域内是一些自己制定的规则，如果自动配置中某些网站的访问方式不符合我们的要求，可以单独列在这里。第二个区域表示如果命中规则列表，则使用 socks 代理，否则就直接连接。第三个区域则使用了一个开源的网址列表，列出了那些需要科学上网的网站。</p>
+<p>有了这样的配置，我们就可以实现 百度、淘宝、京东等网站直接连接，YouTube、Google、草榴等网站科学上网了。</p>
+<h3 id="Mac-配置小结"><a href="#Mac-配置小结" class="headerlink" title="Mac 配置小结"></a>Mac 配置小结</h3><p>Mac 上需要用到的软件较多，但每个软件的使用都不太复杂，回忆一下之前的几个痛点：</p>
+<ol>
+<li>模拟器需要连代理，因此电脑必须设置 HTTP/HTTPS 代理。这一点我们确实是通过长期设置代理为 Charles -&gt; MITM 实现的，并且利用脚本来快速切换代理。</li>
+<li>终端无法使用 SS 代理，即使是全局代理也不行。这个问题通过 <code>polipo</code> 工具解决，并且编写了脚本。</li>
+<li>某些应用，比如 Telegram，需要科学上网。这个问题通过 Proxifier 来设置某个 app 使用的代理方式。</li>
+<li>按需代理，只有需要科学上网的网站才用代理。这个需求通过 Chrome 的插件 SwitchyOmega 完成。</li>
+</ol>
+<h2 id="iOS-配置"><a href="#iOS-配置" class="headerlink" title="iOS 配置"></a>iOS 配置</h2><p>对于预算并不充裕的同学来说，小火箭 Shadowrocket 无疑是最佳工具了。这类应用已经在国内的 App Store 下架，需要使用美国账号购买，如果团队内的其它小伙伴也需要，可以把 ipa 用开发者证书或者企业证书重签名下，来实现团队内部分享的目的。</p>
+<p>打开 shadowrocket 以后，在首页点击右上角的加号，可以新建一个节点，也就是我们的代理服务器：</p>
+<p> <img src="http://bos.nj.bpc.baidu.com/v1/agroup/e39526b4e13e4dd99ced278a4799e841f0354538" alt="图片"></p>
+<p>这里强烈建议给节点添加备注，原因稍后会讲。</p>
+<h3 id="自动选择代理"><a href="#自动选择代理" class="headerlink" title="自动选择代理"></a>自动选择代理</h3><p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/dc956533d21907d2dd7dc7bbb4eafd3c1d76b3fb" alt="图片"></p>
+<p>接下来，我们需要选择路由模式，一共有四种。直连的意思很好理解，就是不走任何代理，相当于没用上 shadowrocket，可以理解为一种回滚方案。全局则表示 app 所有网络流量都走代理服务器，相当于使用了系统的 VPN。这两者功能都太单一，基本上不会使用。 </p>
+<p>配置模式和上文说过的 <strong>auto switch</strong> 差不多，都是实现了黑名单 + 广告屏蔽的功能：</p>
+<ol>
+<li>广告屏蔽：对于某些特定的、专门用于投放广告的域名，直接屏蔽掉网络请求，从而起到去除广告的效果。</li>
+<li>黑名单：列出需要科学上网的网址，走代理服务器。</li>
+<li>其它：默认是直接连接。</li>
+</ol>
+<p>我使用的是这份配置：<a href="https://raw.githubusercontent.com/lhie1/Surge/master/Shadowrocket.conf" target="_blank" rel="external">https://raw.githubusercontent.com/lhie1/Surge/master/Shadowrocket.conf</a></p>
+<p>它的主体结构可以分为三部分：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 屏蔽广告</span></div><div class="line"></div><div class="line"><span class="comment">// 爱奇艺</span></div><div class="line">DOMAIN-SUFFIX,ad.m.iqiyi.com,REJECT</div><div class="line">DOMAIN-SUFFIX,afp.iqiyi.com,REJECT</div><div class="line">DOMAIN-SUFFIX,api.cupid.iqiyi.com,REJECT</div><div class="line">.......</div><div class="line"></div><div class="line"><span class="comment">// 优酷</span></div><div class="line">......</div><div class="line"></div><div class="line"><span class="comment">// 科学上网</span></div><div class="line"></div><div class="line"><span class="comment">// 以 gmail.com 结尾的网址要求走代理，并且要求代理服务器做 DNS 解析</span></div><div class="line">DOMAIN-SUFFIX,gmail.com,PROXY,force-remote-dns</div><div class="line"></div><div class="line"><span class="comment">// 直连</span></div><div class="line"></div><div class="line"><span class="comment">// BAT 等首页直连</span></div><div class="line">DOMAIN-SUFFIX,baidu.com,DIRECT</div><div class="line">DOMAIN-SUFFIX,qq.com,DIRECT</div><div class="line">DOMAIN-SUFFIX,alipay.com,DIRECT</div></pre></td></tr></table></figure>
+<p>这套配置绝大多数情况下足够使用了，奈何客户端开发者经常需要对 APP 抓包，以前是通过修改系统代理实现的，现在直接修改配置文件就行了。</p>
+<h3 id="自定义配置"><a href="#自定义配置" class="headerlink" title="自定义配置"></a>自定义配置</h3><p>现在我们的需求变成了：</p>
+<ol>
+<li>检查是否是广告，如果是广告则拒绝连接</li>
+<li>检查是否需要科学上网，如果需要的话，走代理服务器</li>
+<li>检查是否需要抓包，如果需要的话，走 Mac 的  Charles 代理代理代理</li>
+<li>剩下的请求默认直连</li>
+</ol>
+<p>其中第三四步的逻辑可以颠倒，也就是说可以默认走抓包模式，只有那些不能抓包的连接才直连。然而这种模式问题比较多，因为很多对安全性比较高的 app 或者网页，比如支付模块等等，都会检查客户端证书， 这种情况下通过 Charles 代理就无法访问了。访问了。</p>
+<p>这种需求是无法使用默认的配置模式实现的， 因为它只能选择代理 or 直连，而我们的需求实际上是有两种代理，即 Shadowsocks 代理和 Charles 代理，这需要我们对配置文件做一些手动编辑。</p>
+<p>注意到之前的每一条配置都是三段式：</p>
+<blockquote>
+<p>规则类型》 &gt; 规则类型》 &gt; 规则类型》 &gt; 规则类型,规则特征,连接方式</p>
+</blockquote>
+<p>其中连接方式可以是 DIRECT（直连）、PROXY（代理）和    REJECT（拒绝），实际上这里还可以填写前文所说的节点标签。比如我把 VPS 的标签设置为 DigitalOcean，这里就可以改成 DigitalOcean，效果，效果，效果，效果和 PROXY 一致。</p>
+<p>有了这个大前提，我们可以新建一个 HTTP 代理，，，，标记为 Mac，然后把需要抓包的连接的代理方式设置为 Mac 即可：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/92e2056e5d6fd321fa051e1a30fdc5bd5b9bf2d8" alt="图片"></p>
+<p>配置文件更新为：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 需要抓包的地址走 Charles 代理</span></div><div class="line">DOMAIN-SUFFIX,api<span class="selector-class">.example</span><span class="selector-class">.com</span>,MAC PRO</div><div class="line"></div><div class="line"><span class="comment">// 屏蔽广告</span></div><div class="line">DOMAIN-SUFFIX,ad<span class="selector-class">.m</span><span class="selector-class">.iqiyi</span><span class="selector-class">.com</span>,REJECT</div><div class="line"></div><div class="line"><span class="comment">// 以 gmail.com 结尾的网址要求走代理，并且要求代理服务器做 DNS 解析</span></div><div class="line">DOMAIN-SUFFIX,gmail<span class="selector-class">.com</span>,PROXY,force-remote-dns</div><div class="line"></div><div class="line"><span class="comment">// BAT 等首页直连</span></div><div class="line">DOMAIN-SUFFIX,baidu<span class="selector-class">.com</span>,DIRECT</div></pre></td></tr></table></figure>
+<h3 id="场景模式-与-Widget"><a href="#场景模式-与-Widget" class="headerlink" title="场景模式 与 Widget"></a>场景模式 与 Widget</h3><p>真正让我下定决心使用 shadowrocket 而不是其它应用的原因是它的场景模式。有时候，在 WiFi 模式和 4G 模式，甚至是不同的 WiFi 下，我们使用的配置文件并不相同。比如我在家的 WiFi 和外出 4G 模式下，并不需要抓包。一个场景就是一种数据接入方式和配置文件的集合，最神奇的是，场景可以自动切换。</p>
+<p>比如我创建了三个场景，分别表示 4G、家庭 WiFi 和公司 WiFi，每个场景有自己的配置文件，通过 WiFi 名称来区分：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/a49681daab457fcec22dded470c79a6cb7687b51" alt="图片"></p>
+<p>这样当我回家以后，shadowrocket 切换场景，自然也就会切换配置文件，从而避免了手动切换。</p>
+<h3 id="iOS-配置总结"><a href="#iOS-配置总结" class="headerlink" title="iOS 配置总结"></a>iOS 配置总结</h3><p>在 iOS 平台上，我们也遵循了不用系统代理，利用全局代理软件来控制代理的原则，通过 shadowrocket 提供的配置文件和规则实现了需求。同时 Widget、场景模式、iCloud 备份与二维码导出提高了软件的使用效率。另一个好用的工具就是 Widget，除了全局开关以外，可以快速在场景、代理、直连、配置四种路由方式中快速选择，这个相当于之前我们编写的切换系统代理的脚本。虽然用到的场景不多，但作为一种备用方案，还是不可或缺的。</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/b2b48b033800ba57c5ca8a01d5204baa2041c3ac" alt="图片"></p>
+<p>除此以外，shadowrocket 导入导出配置也很容易，默认使用 iCloud 同步数据，自己的节点和配置还可以用二维码的方式分享给别人，别人在使用时只要扫码即可导入。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在 iOS 平台上，我们也遵循了不用系统代理，利用全局代理软件来控制代理的原则，通过 shadowrocket 提供的配置文件和规则实现了需求。同时 Widget、场景模式、iCloud 备份与二维码导出提高了软件的使用效率。</p>
+<p>有了这些配置以后，各个软件的存在感反而不强了，因为几乎都会保持打开状态，交给配置文件去决定代理方式，大大提升了工作效率。</p>
+<p>由于我没有使用安卓手机，所以暂时没有安卓平台的教程，读者可以自行搜索类似的代理软件并进行配置。</p>
+<h2 id="VPS-配置"><a href="#VPS-配置" class="headerlink" title="VPS 配置"></a>VPS 配置</h2><p>可以利用<a href="https://github.com/nkwsqyyzx/.sys.config/blob/master/init.scripts/install-centos" target="_blank" rel="external">这个脚本</a>快速配置 VPS 环境</p>
+<p>给 VPS 开启 BBR 加速后，可以显著加快网络连接速度，我测试的效果是提高了 6 倍</p>
+<p>如果使用 Digital Ocean，请参考<a href="http://w3cboy.com/post/2017/08/digital-ocean-bbr/" target="_blank" rel="external">这个教程</a>，其它厂商也类似</p>
+<p>BBR 是谷歌研发的新的 TCP 拥塞控制算法，能够在有一定丢包率的网络链路上充分利用带宽，感兴趣的同学可以学习这篇文章：</p>
+<p><a href="https://www.zhihu.com/question/53559433" target="_blank" rel="external">Linux Kernel 4.9 中的 BBR 算法与之前的 TCP 拥塞控制相比有什么优势？</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在开始方案介绍之前，请确保自己有一个国外的服务器，比较常用的有以下几个：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://m.do.co/c/0b258b3eea48&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Digital Ocean&lt;/
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>字符串编码入门科普</title>
+    <link href="http://fullstack.blog/2017/09/19/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%96%E7%A0%81%E5%85%A5%E9%97%A8%E7%A7%91%E6%99%AE/"/>
+    <id>http://fullstack.blog/2017/09/19/字符串编码入门科普/</id>
+    <published>2017-09-19T00:39:40.000Z</published>
+    <updated>2018-01-19T11:32:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对于单纯做前端或者后端的同学来说，一般很难接触到编码问题，因为在同一个平台上，一般都是使用同一种编码方式，自然问题不大。但对于写爬虫的同学来说，编码很可能是遇到的第一个坑。这是因为字符串无法直接通过网络被传输(也不能直接被存储)，需要先转换成二进制格式，再被还原。因此凡是涉及到通过网络传输字符的地方，通常都容易遇到编码问题。</p>
+<h2 id="概念定义"><a href="#概念定义" class="headerlink" title="概念定义"></a>概念定义</h2><p>为了方便解释，我们首先来定义一些概念。每个开发者都知道字符串，它是一些字符的集合， 比如  <code>hello world</code> 就是一个最常见的字符串。相对来说，<strong>字符</strong> 比较难定义一些。从语义上来讲，它是组成字符串的最基本单位，比如这里的字母、空格，以及标点、特定语言(中文、日文)、emoji 符号等等。</p>
+<p>字符是语言中的概念，但是计算机只认识 0 和 1 这两个数字。因此要想让计算机存储、处理字符串，就必须把字符串用二进制表示出来。在 ASCII 码中，每个英文字母都有自己对应的数字。我们通常把 ASCII 码称为<strong>字符集</strong>，也就是字符的集合。了解 ASCII 码的同学应该都知道小写字母 a 可以用 97 来表示，97 也被称为字符 <code>a</code> 在 ASCII 字符集中的<strong>码位</strong>。</p>
+<p>如果要设计一种密码，最简单的方式就是把字母转换成它在 ASCII 码中的码位再发送，接受者则查找 ASCII 码表，还原字符。可见把字符转换成码位的过程类似于加密(encrypt)，我们称之为<strong>编码</strong>(encode)，反则则类似于解密，我们称之为<strong>解码</strong>(decode)</p>
+<p><img src="http://images.bestswifter.com/ascii-encode.png" alt="图片"></p>
+<h2 id="编码方式"><a href="#编码方式" class="headerlink" title="编码方式"></a>编码方式</h2><p>字符转换成码位的过程是<strong>编码</strong>，这个过程有无数种实现方式。比如 <code>a -&gt; 97</code>、<code>b -&gt; 98</code> 这种就是 ASCII 编码，因为 255 = 2 ^ 8，所以所有 ASCII 编码下的码位恰好都可以由一个字节表示。</p>
+<p>ASCII 比较诞生得比较早，随着越来越多的国家开始使用计算机，0-255 这么点码位肯定不够用了。比如中国人为了展示汉字，发明了 GB2312 编码。GB2312编码完全向下兼容 ASCII 编码，也就是说 <strong>所有 ASCII 字符集中的字符，它在 GB2312 编码下的码位与 ASCII 编码下的码位完全一致</strong>，而中文则由两个字节表示，这也就是为什么早期我们一般认为一个中文等于两个英文的原因。</p>
+<h2 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h2><p>除了中国人自己的编码方式，各个地区的人也都根据自己的语言拓展了相应的编码方式。那么问题就来了， 给你一个码位 <code>0xEE 0xDD</code>，它到底表示什么字符，取决于它是用哪种编码方式编码的。这就好比你拿到了密文，但没有密码表一样。因此，要想正确显示一种语言，就必须携带这个语言的编码规范，要想正确显示世界上所有的语言，看起来就比较困难了。</p>
+<p>因此 Unicode 实际上是一种统一的字符集规范，每一个 Unicode 字符由 6 个十六进制数字表示，因此理论上可以表示出 <code>16 ^ 6 = 16777216</code> 个字符，显然是绰绰有余了。</p>
+<h2 id="Unicode-编码怎么样"><a href="#Unicode-编码怎么样" class="headerlink" title="Unicode 编码怎么样"></a>Unicode 编码怎么样</h2><p>看起来 Unicode 就是一种很棒的编码方式。诚然，Unicode 可以表示所有的字符，但过于全面带来的缺点就是过于庞大。对于字符 <code>a</code> 来说，如果使用 ASCII 编码，可以表示为 0x61，只要一个字节就能存下，但它的 Unicode 码位是 0x000061，需要三个字节。因此采用 Unicode 编码的英文内容，会比 ASCII 编码大三倍。这大大增加了文件本地存储时占用的空间以及传输时的体积。</p>
+<p>因此，我们有了对 Unicode 字符再次编码的编码方式，常见的有 utf-8，utf-16 等。UTF 表示 Unicode Transfer Format，因此是针对 Unicode 字符集的一系列编码方式。utf-8 是一种变长编码，也就是说不同的 Unicode 字符在 utf-8 编码下的码位长度可能不同，如下表所示:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Unicode 编码(16进制)</th>
+<th style="text-align:left">utf-8 码位(二进制)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">000000-00007F</td>
+<td style="text-align:left">0xxxxxxx</td>
+</tr>
+<tr>
+<td style="text-align:center">000080-0007FF</td>
+<td style="text-align:left">110xxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td style="text-align:center">000800-00FFFF</td>
+<td style="text-align:left">1110xxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td style="text-align:center">010000-1FFFFF</td>
+<td style="text-align:left">11110xxx10xxxxxx10xxxxxx10xxxxxx</td>
+</tr>
+</tbody>
+</table>
+<p>这个表有两点值得注意。一个是 ASCII 字符集中的所有字符，它们的 utf-8 码位依然占用一个字节，因此 utf-8 编码下的英文字符不会向 Unicode 一样增加大小。另一个则是所有中文的 utf-8 码位都占用 3 个字节，大于 GBK 编码的 2 字节。因此如果存在明确的业务需要，是可以用 GBK 编码取代 utf-8 编码的。</p>
+<p><img src="http://images.bestswifter.com/Unicode.png" alt="图片"></p>
+<p>尽管 utf-8 非常常用，但它可变长度的特点不仅会导致某些场景下内容过大，也为索引和随机读取带来了困难。因此在很多操作系统的内存运算中，通常使用 utf-16 编码来代替。utf-16 的特点是所有码位的最小单位都是 2 字节，虽然存在冗余，但易于索引。由于码位都是两个字节，就会存在字节序的问题。因此 utf-16 编码的字符串，一开头会有几个字节的 BOM（Byte order markd）来标记字节序，比如 <code>0xFF 2</code>(FE0x55,254) 表示 Intel CPU 的小字节序，如果不加 BOM 则默认表示大字节序。需要注意的是，某些应用会给 utf-8 编码的字节也加上 BOM。</p>
+<p>虽然看起来问题变得复杂了，为了存储/传输一个字符，竟然需要两次编码，但别忘了，Unicode 编码是通用的，因此可以内置于操作系统内部。所以我们平时所谓的对字符串进行 utf-8 编码，其实说的是对字符串的 Unicode 码位进行 utf-8 编码。</p>
+<p>这一点在 python3 中得到了充分的体现，字符串由字符组成，每一个字符都是一个 Unicode 码位。</p>
+<h2 id="编解码错误处理"><a href="#编解码错误处理" class="headerlink" title="编解码错误处理"></a>编解码错误处理</h2><p>如果把编解码理解成利用密码表进行加解密，那么就容易理解，为什么编码和解码过程都是易错的。</p>
+<p>如果被编码的 Unicode 字符，在某种编码中根本没有列出编码方式，这个字符就无法被编码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">city = <span class="string">'São Paulo'</span></div><div class="line">b_city = city.encode(<span class="string">'cp437'</span>)</div><div class="line"><span class="comment"># UnicodeEncodeError: 'charmap' codec can't encode character '\xe3' in position 1: character maps to &lt;undefined&gt;</span></div><div class="line"></div><div class="line">b_city = city.encode(<span class="string">'cp437'</span>, errors=<span class="string">'ignore'</span>) </div><div class="line"><span class="comment"># b'So Paulo'</span></div><div class="line"></div><div class="line">b_city = city.encode(<span class="string">'cp437'</span>, errors=<span class="string">'replace'</span>)</div><div class="line"><span class="comment"># b'S?o Paulo'</span></div></pre></td></tr></table></figure>
+<p>同理，如果被解码的码位，在编码表中找不到与之对应的字符，这个码位就无法被解码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">octets = <span class="string">b'Montr\xe9al'</span></div><div class="line">s_octest1 = octets.decode(<span class="string">'utf8'</span>)</div><div class="line"><span class="comment"># UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe9 in position 5: invalid continuation byte</span></div><div class="line"></div><div class="line">s_octest1 = octets.decode(<span class="string">'cp1252'</span>)</div><div class="line"><span class="comment"># Montréal</span></div><div class="line"></div><div class="line">s_octest1 = octets.decode(<span class="string">'iso8859_7'</span>)</div><div class="line"><span class="comment"># Montrιal</span></div><div class="line"></div><div class="line">s_octest1 = octets.decode(<span class="string">'utf8'</span>, errors=<span class="string">'replace'</span>)</div><div class="line"><span class="comment"># Montr�al</span></div></pre></td></tr></table></figure>
+<p>python 的解决方案是，<code>encode</code> 和 <code>decode</code> 函数都有一个参数 <code>errors</code> 可以控制如何处理无法被编、解码的内容。它的值可以是 <code>ignore</code>(忽略这个错误并继续执行)，也可以是 <code>replace</code>(用系统的占位符填充)。</p>
+<p>一般来说，无法从码位推断出编码方式，就像你不可能从密文推断出加密方式一样。但是某些编码方式会留下非常显著的特征，一旦这些特征频繁出现，基本就可以断定编码方式。Python 提供了一个名为 <code>Chardet</code> 的包，可以帮助开发者推断出编码方式，并且会给出相应的置信度。置信度越高，说明是这种编码方式的可能性越大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">octets = <span class="string">b'Montr\xe9al'</span></div><div class="line">chardet.detect(octets)</div><div class="line"><span class="comment"># &#123;'encoding': 'ISO-8859-1', 'confidence': 0.73, 'language': ''&#125;</span></div><div class="line"></div><div class="line">octets.decode(<span class="string">'ISO-8859-1'</span>)</div><div class="line"><span class="comment"># Montréal</span></div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>编码是为了把人类人类可读的字符转换成计算机容易存储和传输的二进制，解码反之，编码后得到的结果称之为码位。</li>
+<li>Unicode 是一种通用字符集，从字符到 Unicode 字符集中码位的转换也可以叫做 Unicode 编码</li>
+<li>Unicode 编码对英文字符不友好，因此出现了针对 Unicode 码位的再次编码，比如 utf-8，希望在节省空间的同时保留强大的表达能力</li>
+<li>各个编码之间的关系如下图所示:</li>
+</ol>
+<p><img src="http://images.bestswifter.com/encode-relationship.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;对于单纯做前端或者后端的同学来说，一般很难接触到编码问题，因为在同一个平台上，一般都是使用同一种编码方式，自然问题不大。但对于写爬虫的同学来
+    
+    </summary>
+    
+    
+      <category term="计算机基础知识" scheme="http://fullstack.blog/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+  </entry>
+  
+  <entry>
     <title>大前端开发者需要了解的基础编译原理和语言知识</title>
     <link href="http://fullstack.blog/2017/06/24/%E5%A4%A7%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%80%85%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E5%9F%BA%E7%A1%80%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%AF%AD%E8%A8%80%E7%9F%A5%E8%AF%86/"/>
     <id>http://fullstack.blog/2017/06/24/大前端开发者需要了解的基础编译原理和语言知识/</id>
     <published>2017-06-24T14:03:39.000Z</published>
-    <updated>2017-06-25T15:36:47.000Z</updated>
+    <updated>2017-06-25T15:36:46.000Z</updated>
     
     <content type="html"><![CDATA[<p>在我刚刚进入大学，从零开始学习 C 语言的时候，我就不断的从学长的口中听到一个又一个语言，比如 C++、Java、Python、JavaScript 这些大众的，也有 Lisp、Perl、Ruby 这些相对小众的。一般来说，当程序员讨论一门语言的时候，默认的上下文经常是:“用 xxx 语言来完成 xxx 任务”。所以一直困扰着的我的一个问题就是，为什么完成某个任务，一定要选择特定的语言，比如安卓开发是 Java，前端要用 JavaScript，iOS 开发使用 Objective-C 或者 Swift。这些问题的答案非常复杂，有的是技术原因，有的是历史原因，有的会考虑成本，很难得出统一的结论，只能 case-by-case 的分析。这篇文章并非专门解答上述问题，而是希望通过介绍一些通用的概念，帮助读者掌握分析问题的能力，如果这个概念在实际编程中用得到，我也会举一些具体的例子。</p>
 <p>在阅读本文前，不妨思考一下这几个问题，如果没有头绪，建议看完文章以后再思考一遍。如果觉得答案显而易见，恭喜你，这篇文章并非为你准备的:</p>
@@ -362,7 +682,7 @@
     <link href="http://fullstack.blog/2017/04/19/%E6%88%91%E7%9C%BC%E4%B8%AD%E7%9A%84%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
     <id>http://fullstack.blog/2017/04/19/我眼中的工厂模式/</id>
     <published>2017-04-19T07:12:54.000Z</published>
-    <updated>2017-04-19T07:16:39.000Z</updated>
+    <updated>2017-04-19T07:16:38.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>仅是一家之言，欢迎交流讨论、指正错误。</p>
@@ -588,7 +908,7 @@
     <link href="http://fullstack.blog/2017/03/12/%E4%B9%9D%E4%B8%AA%E9%97%AE%E9%A2%98%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%86%9F%E6%82%89HTTPS/"/>
     <id>http://fullstack.blog/2017/03/12/九个问题从入门到熟悉HTTPS/</id>
     <published>2017-03-12T10:23:56.000Z</published>
-    <updated>2017-03-12T11:01:05.000Z</updated>
+    <updated>2017-03-12T11:01:04.000Z</updated>
     
     <content type="html"><![CDATA[<p>女朋友也是软件工程专业，因为快要毕业了，最近一边做毕设一边学习编程。前两天她问我 HTTPS 的问题，本来想直接扔一篇网上的教程给她。后来想了一下，那些文章大多直接介绍概念， 对新手不太友好，于是我干脆亲自给她解释一下，顺便整理了一份问答录。</p>
 <h3 id="Q1-什么是-HTTPS？"><a href="#Q1-什么是-HTTPS？" class="headerlink" title="Q1: 什么是 HTTPS？"></a>Q1: 什么是 HTTPS？</h3><h3 id="BS-HTTPS-是安全的-HTTP"><a href="#BS-HTTPS-是安全的-HTTP" class="headerlink" title="BS: HTTPS 是安全的 HTTP"></a>BS: HTTPS 是安全的 HTTP</h3><p>HTTP 协议中的内容都是明文传输，HTTPS 的目的是将这些内容加密，确保信息传输安全。最后一个字母 S 指的是 SSL/TLS 协议，它位于 HTTP 协议与 TCP/IP 协议中间。</p>
@@ -746,7 +1066,7 @@
     <link href="http://fullstack.blog/2017/02/26/%E5%BC%82%E6%AD%A5%E4%B8%8E%E5%9B%9E%E8%B0%83%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6/"/>
     <id>http://fullstack.blog/2017/02/26/异步与回调的设计哲学/</id>
     <published>2017-02-26T14:23:20.000Z</published>
-    <updated>2017-02-26T14:25:43.000Z</updated>
+    <updated>2017-02-26T14:25:42.000Z</updated>
     
     <content type="html"><![CDATA[<p>本文的例子用 JavaScript 语法给出，希望读者至少有使用过 Promise 的经验，如果用过 async/await 则更好，对于客户端的开发者，我相信语法不是阅读的瓶颈，思维才是，因此也可以了解一下异步编程模型的演变过程。</p>
 <h1 id="异步编程入门"><a href="#异步编程入门" class="headerlink" title="异步编程入门"></a>异步编程入门</h1><h2 id="CPS"><a href="#CPS" class="headerlink" title="CPS"></a>CPS</h2><p>CPS 的全称是 (Continuation-Passing Style)，这个名词听上去比较高大上(背后涉及到很多数学方面的东西)，实际上如果只是想了解什么是 CPS 的话，并不是太难。</p>
@@ -889,7 +1209,7 @@
     <link href="http://fullstack.blog/2017/02/17/%E5%A4%8D%E7%9B%98%E5%BE%AE%E5%8D%9A%E7%9F%AD%E9%93%BE%E6%8E%A5%E7%9B%97%E7%AA%83%E9%97%A8/"/>
     <id>http://fullstack.blog/2017/02/17/复盘微博短链接盗窃门/</id>
     <published>2017-02-17T14:06:10.000Z</published>
-    <updated>2017-02-17T14:07:55.000Z</updated>
+    <updated>2017-02-17T14:07:54.000Z</updated>
     
     <content type="html"><![CDATA[<p><strong>这不是意外，不是 bug，是蓄谋已久的阴谋! 不知道阅读完以后，你会不会和我一样心里发寒</strong></p>
 <h1 id="事件背景"><a href="#事件背景" class="headerlink" title="事件背景"></a>事件背景</h1><p>前两天传出了新浪微博利用短链接恶意盗取用户收益的事件，可能很多吃瓜群众还不是特别明白是咋回事。这里我简单复盘一下，顺便聊聊个人的见解。</p>
@@ -1043,7 +1363,7 @@
     <link href="http://fullstack.blog/2016/12/31/%E6%88%91%E7%9A%84-2016-%E5%B9%B4%E6%80%BB%E7%BB%93/"/>
     <id>http://fullstack.blog/2016/12/31/我的-2016-年总结/</id>
     <published>2016-12-31T15:47:39.000Z</published>
-    <updated>2016-12-31T12:38:51.000Z</updated>
+    <updated>2016-12-31T12:38:50.000Z</updated>
     
     <content type="html"><![CDATA[<p>时光飞逝，一转眼已经是一年过去了， 去年的今天我写下了第一篇年度总结：<a href="http://www.jianshu.com/p/fe529a7e83a0" target="_blank" rel="external">一个普通iOS开发者的2015大总结</a>。在写作那篇文章之前，我觉得一年前的自己完全是一个傻逼；今天重读一遍以后，我感觉一年前的自己也非常傻逼。在写下这一年总结的同时，我也希望明年的自己在回顾这篇文章的时候，可以发出不屑的鄙视。</p>
 <p>实际上我认为:</p>
@@ -1136,7 +1456,7 @@
     <link href="http://fullstack.blog/2016/12/30/HTTP-%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E4%B9%8B%E6%97%85/"/>
     <id>http://fullstack.blog/2016/12/30/HTTP-代理服务器技术选型之旅/</id>
     <published>2016-12-30T11:10:14.000Z</published>
-    <updated>2016-12-30T11:10:47.000Z</updated>
+    <updated>2016-12-30T11:10:46.000Z</updated>
     
     <content type="html"><![CDATA[<p>好久不写博客了，在元旦到来前水一篇文章，聊聊我在实现代理服务器的过程中遇到的一些坑，同时祝各位读者新年快乐。</p>
 <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>长期以来，贴吧开发人员多，业务耦合大，需求变化频繁，因此容易产生 bug。而我所负责的广告相关业务，和 UI 密切相关，一旦因为某种原因(甚至是被别人改了代码)产生了 bug，必然大幅度影响广告收入。</p>
@@ -1216,7 +1536,7 @@
     <link href="http://fullstack.blog/2016/12/08/Drawable-%E5%A4%8D%E7%94%A8/"/>
     <id>http://fullstack.blog/2016/12/08/Drawable-复用/</id>
     <published>2016-12-08T10:16:35.000Z</published>
-    <updated>2016-12-08T10:57:17.000Z</updated>
+    <updated>2016-12-08T10:57:16.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="复用-Drawable"><a href="#复用-Drawable" class="headerlink" title="复用 Drawable"></a>复用 Drawable</h1><p><strong>Drawable</strong> 表示了一类通用的，可被绘制的资源。与View 的主要区别就在于，Drawable 并不会响应事件。</p>
 <h2 id="Drawable-的复用机制"><a href="#Drawable-的复用机制" class="headerlink" title="Drawable 的复用机制"></a>Drawable 的复用机制</h2><p>Drawable 的使用非常方便，系统框架内部有 700 多种默认的 Drawable。当我们新建一个 button 时，实际上它的背景就是一个默认的 Drawable。</p>
@@ -1254,7 +1574,7 @@
     <link href="http://fullstack.blog/2016/11/18/%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B/"/>
     <id>http://fullstack.blog/2016/11/18/新的开始/</id>
     <published>2016-11-18T10:53:53.000Z</published>
-    <updated>2016-12-08T12:55:39.000Z</updated>
+    <updated>2016-12-08T12:55:38.000Z</updated>
     
     <content type="html"><![CDATA[<p>在学习了两年 iOS 以后，我决定开始横向拓展，也就是所谓的全栈工程师（不是全干工程师！），或者说，叫 T 型人才听上去更高端。作出这样的改变主要是由内在原因和外在原因共同导致的。</p>
 <h1 id="内因"><a href="#内因" class="headerlink" title="内因"></a>内因</h1><p>首先，经过了两年的学习，不管是基础的 UI 控件，还是 <code>UITableView</code> 的各种调优，基本上都达到了掌握的程度。在准备面试和后来与同行交流的过程中，也对 ARC、Block、Rumtime、Runloop、GCD、Thread 等底层概念和源码有了一定的理解。</p>

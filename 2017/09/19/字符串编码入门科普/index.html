@@ -1,0 +1,431 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <script>
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('http://images.bestswifter.com/sw.js')
+  }
+  </script>
+  
+    <title>字符串编码入门科普 | 全栈养成计划</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Fullstack">
+    
+    <meta name="description" content="背景对于单纯做前端或者后端的同学来说，一般很难接触到编码问题，因为在同一个平台上，一般都是使用同一种编码方式，自然问题不大。但对于写爬虫的同学来说，编码很可能是遇到的第一个坑。这是因为字符串无法直接通过网络被传输(也不能直接被存储)，需要先转换成二进制格式，再被还原。因此凡是涉及到通过网络传输字符的">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="全栈养成计划" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+(function() {
+ var hm = document.createElement("script");
+ hm.src = "https://hm.baidu.com/hm.js?8b8cc550e083bb800d2b0d350318e611";
+ var s = document.getElementsByTagName("script")[0]; 
+ s.parentNode.insertBefore(hm, s);
+
+ })();
+</script>
+
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="全栈养成计划" title="全栈养成计划"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
+				<h2 class="blog-motto">每天学点新知识~</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/categories">categories</a></li>
+					
+						<li><a href="/tags">tags</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:fullstack.blog">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/09/19/字符串编码入门科普/" title="字符串编码入门科普" itemprop="url">字符串编码入门科普</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://fullstack.blog" title="Fullstack">Fullstack</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2017-09-19T00:39:40.000Z" itemprop="datePublished">2017-09-19</time>
+    Updated:<time datetime="2018-01-19T11:32:14.000Z" itemprop="dateModified">2018-01-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概念定义"><span class="toc-number">2.</span> <span class="toc-text">概念定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编码方式"><span class="toc-number">3.</span> <span class="toc-text">编码方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unicode"><span class="toc-number">4.</span> <span class="toc-text">Unicode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unicode-编码怎么样"><span class="toc-number">5.</span> <span class="toc-text">Unicode 编码怎么样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编解码错误处理"><span class="toc-number">6.</span> <span class="toc-text">编解码错误处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
+		</div>
+		
+		<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对于单纯做前端或者后端的同学来说，一般很难接触到编码问题，因为在同一个平台上，一般都是使用同一种编码方式，自然问题不大。但对于写爬虫的同学来说，编码很可能是遇到的第一个坑。这是因为字符串无法直接通过网络被传输(也不能直接被存储)，需要先转换成二进制格式，再被还原。因此凡是涉及到通过网络传输字符的地方，通常都容易遇到编码问题。</p>
+<h2 id="概念定义"><a href="#概念定义" class="headerlink" title="概念定义"></a>概念定义</h2><p>为了方便解释，我们首先来定义一些概念。每个开发者都知道字符串，它是一些字符的集合， 比如  <code>hello world</code> 就是一个最常见的字符串。相对来说，<strong>字符</strong> 比较难定义一些。从语义上来讲，它是组成字符串的最基本单位，比如这里的字母、空格，以及标点、特定语言(中文、日文)、emoji 符号等等。</p>
+<p>字符是语言中的概念，但是计算机只认识 0 和 1 这两个数字。因此要想让计算机存储、处理字符串，就必须把字符串用二进制表示出来。在 ASCII 码中，每个英文字母都有自己对应的数字。我们通常把 ASCII 码称为<strong>字符集</strong>，也就是字符的集合。了解 ASCII 码的同学应该都知道小写字母 a 可以用 97 来表示，97 也被称为字符 <code>a</code> 在 ASCII 字符集中的<strong>码位</strong>。</p>
+<p>如果要设计一种密码，最简单的方式就是把字母转换成它在 ASCII 码中的码位再发送，接受者则查找 ASCII 码表，还原字符。可见把字符转换成码位的过程类似于加密(encrypt)，我们称之为<strong>编码</strong>(encode)，反则则类似于解密，我们称之为<strong>解码</strong>(decode)</p>
+<p><img src="http://images.bestswifter.com/ascii-encode.png" alt="图片"></p>
+<h2 id="编码方式"><a href="#编码方式" class="headerlink" title="编码方式"></a>编码方式</h2><p>字符转换成码位的过程是<strong>编码</strong>，这个过程有无数种实现方式。比如 <code>a -&gt; 97</code>、<code>b -&gt; 98</code> 这种就是 ASCII 编码，因为 255 = 2 ^ 8，所以所有 ASCII 编码下的码位恰好都可以由一个字节表示。</p>
+<p>ASCII 比较诞生得比较早，随着越来越多的国家开始使用计算机，0-255 这么点码位肯定不够用了。比如中国人为了展示汉字，发明了 GB2312 编码。GB2312编码完全向下兼容 ASCII 编码，也就是说 <strong>所有 ASCII 字符集中的字符，它在 GB2312 编码下的码位与 ASCII 编码下的码位完全一致</strong>，而中文则由两个字节表示，这也就是为什么早期我们一般认为一个中文等于两个英文的原因。</p>
+<h2 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h2><p>除了中国人自己的编码方式，各个地区的人也都根据自己的语言拓展了相应的编码方式。那么问题就来了， 给你一个码位 <code>0xEE 0xDD</code>，它到底表示什么字符，取决于它是用哪种编码方式编码的。这就好比你拿到了密文，但没有密码表一样。因此，要想正确显示一种语言，就必须携带这个语言的编码规范，要想正确显示世界上所有的语言，看起来就比较困难了。</p>
+<p>因此 Unicode 实际上是一种统一的字符集规范，每一个 Unicode 字符由 6 个十六进制数字表示，因此理论上可以表示出 <code>16 ^ 6 = 16777216</code> 个字符，显然是绰绰有余了。</p>
+<h2 id="Unicode-编码怎么样"><a href="#Unicode-编码怎么样" class="headerlink" title="Unicode 编码怎么样"></a>Unicode 编码怎么样</h2><p>看起来 Unicode 就是一种很棒的编码方式。诚然，Unicode 可以表示所有的字符，但过于全面带来的缺点就是过于庞大。对于字符 <code>a</code> 来说，如果使用 ASCII 编码，可以表示为 0x61，只要一个字节就能存下，但它的 Unicode 码位是 0x000061，需要三个字节。因此采用 Unicode 编码的英文内容，会比 ASCII 编码大三倍。这大大增加了文件本地存储时占用的空间以及传输时的体积。</p>
+<p>因此，我们有了对 Unicode 字符再次编码的编码方式，常见的有 utf-8，utf-16 等。UTF 表示 Unicode Transfer Format，因此是针对 Unicode 字符集的一系列编码方式。utf-8 是一种变长编码，也就是说不同的 Unicode 字符在 utf-8 编码下的码位长度可能不同，如下表所示:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Unicode 编码(16进制)</th>
+<th style="text-align:left">utf-8 码位(二进制)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">000000-00007F</td>
+<td style="text-align:left">0xxxxxxx</td>
+</tr>
+<tr>
+<td style="text-align:center">000080-0007FF</td>
+<td style="text-align:left">110xxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td style="text-align:center">000800-00FFFF</td>
+<td style="text-align:left">1110xxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td style="text-align:center">010000-1FFFFF</td>
+<td style="text-align:left">11110xxx10xxxxxx10xxxxxx10xxxxxx</td>
+</tr>
+</tbody>
+</table>
+<p>这个表有两点值得注意。一个是 ASCII 字符集中的所有字符，它们的 utf-8 码位依然占用一个字节，因此 utf-8 编码下的英文字符不会向 Unicode 一样增加大小。另一个则是所有中文的 utf-8 码位都占用 3 个字节，大于 GBK 编码的 2 字节。因此如果存在明确的业务需要，是可以用 GBK 编码取代 utf-8 编码的。</p>
+<p><img src="http://images.bestswifter.com/Unicode.png" alt="图片"></p>
+<p>尽管 utf-8 非常常用，但它可变长度的特点不仅会导致某些场景下内容过大，也为索引和随机读取带来了困难。因此在很多操作系统的内存运算中，通常使用 utf-16 编码来代替。utf-16 的特点是所有码位的最小单位都是 2 字节，虽然存在冗余，但易于索引。由于码位都是两个字节，就会存在字节序的问题。因此 utf-16 编码的字符串，一开头会有几个字节的 BOM（Byte order markd）来标记字节序，比如 <code>0xFF 2</code>(FE0x55,254) 表示 Intel CPU 的小字节序，如果不加 BOM 则默认表示大字节序。需要注意的是，某些应用会给 utf-8 编码的字节也加上 BOM。</p>
+<p>虽然看起来问题变得复杂了，为了存储/传输一个字符，竟然需要两次编码，但别忘了，Unicode 编码是通用的，因此可以内置于操作系统内部。所以我们平时所谓的对字符串进行 utf-8 编码，其实说的是对字符串的 Unicode 码位进行 utf-8 编码。</p>
+<p>这一点在 python3 中得到了充分的体现，字符串由字符组成，每一个字符都是一个 Unicode 码位。</p>
+<h2 id="编解码错误处理"><a href="#编解码错误处理" class="headerlink" title="编解码错误处理"></a>编解码错误处理</h2><p>如果把编解码理解成利用密码表进行加解密，那么就容易理解，为什么编码和解码过程都是易错的。</p>
+<p>如果被编码的 Unicode 字符，在某种编码中根本没有列出编码方式，这个字符就无法被编码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">city = <span class="string">'São Paulo'</span></div><div class="line">b_city = city.encode(<span class="string">'cp437'</span>)</div><div class="line"><span class="comment"># UnicodeEncodeError: 'charmap' codec can't encode character '\xe3' in position 1: character maps to &lt;undefined&gt;</span></div><div class="line"></div><div class="line">b_city = city.encode(<span class="string">'cp437'</span>, errors=<span class="string">'ignore'</span>) </div><div class="line"><span class="comment"># b'So Paulo'</span></div><div class="line"></div><div class="line">b_city = city.encode(<span class="string">'cp437'</span>, errors=<span class="string">'replace'</span>)</div><div class="line"><span class="comment"># b'S?o Paulo'</span></div></pre></td></tr></table></figure>
+<p>同理，如果被解码的码位，在编码表中找不到与之对应的字符，这个码位就无法被解码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">octets = <span class="string">b'Montr\xe9al'</span></div><div class="line">s_octest1 = octets.decode(<span class="string">'utf8'</span>)</div><div class="line"><span class="comment"># UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe9 in position 5: invalid continuation byte</span></div><div class="line"></div><div class="line">s_octest1 = octets.decode(<span class="string">'cp1252'</span>)</div><div class="line"><span class="comment"># Montréal</span></div><div class="line"></div><div class="line">s_octest1 = octets.decode(<span class="string">'iso8859_7'</span>)</div><div class="line"><span class="comment"># Montrιal</span></div><div class="line"></div><div class="line">s_octest1 = octets.decode(<span class="string">'utf8'</span>, errors=<span class="string">'replace'</span>)</div><div class="line"><span class="comment"># Montr�al</span></div></pre></td></tr></table></figure>
+<p>python 的解决方案是，<code>encode</code> 和 <code>decode</code> 函数都有一个参数 <code>errors</code> 可以控制如何处理无法被编、解码的内容。它的值可以是 <code>ignore</code>(忽略这个错误并继续执行)，也可以是 <code>replace</code>(用系统的占位符填充)。</p>
+<p>一般来说，无法从码位推断出编码方式，就像你不可能从密文推断出加密方式一样。但是某些编码方式会留下非常显著的特征，一旦这些特征频繁出现，基本就可以断定编码方式。Python 提供了一个名为 <code>Chardet</code> 的包，可以帮助开发者推断出编码方式，并且会给出相应的置信度。置信度越高，说明是这种编码方式的可能性越大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">octets = <span class="string">b'Montr\xe9al'</span></div><div class="line">chardet.detect(octets)</div><div class="line"><span class="comment"># &#123;'encoding': 'ISO-8859-1', 'confidence': 0.73, 'language': ''&#125;</span></div><div class="line"></div><div class="line">octets.decode(<span class="string">'ISO-8859-1'</span>)</div><div class="line"><span class="comment"># Montréal</span></div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>编码是为了把人类人类可读的字符转换成计算机容易存储和传输的二进制，解码反之，编码后得到的结果称之为码位。</li>
+<li>Unicode 是一种通用字符集，从字符到 Unicode 字符集中码位的转换也可以叫做 Unicode 编码</li>
+<li>Unicode 编码对英文字符不友好，因此出现了针对 Unicode 码位的再次编码，比如 utf-8，希望在节省空间的同时保留强大的表达能力</li>
+<li>各个编码之间的关系如下图所示:</li>
+</ol>
+<p><img src="http://images.bestswifter.com/encode-relationship.png" alt=""></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/计算机基础知识/">计算机基础知识</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://fullstack.blog/2017/09/19/字符串编码入门科普/" data-title="字符串编码入门科普 | 全栈养成计划" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/09/26/全自动科学上网方案分享/" title="全自动科学上网方案分享">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  全自动科学上网方案分享</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/06/24/大前端开发者需要了解的基础编译原理和语言知识/"  title="大前端开发者需要了解的基础编译原理和语言知识">
+ <strong>NEXT:</strong><br/> 
+ <span>大前端开发者需要了解的基础编译原理和语言知识
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概念定义"><span class="toc-number">2.</span> <span class="toc-text">概念定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编码方式"><span class="toc-number">3.</span> <span class="toc-text">编码方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unicode"><span class="toc-number">4.</span> <span class="toc-text">Unicode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unicode-编码怎么样"><span class="toc-number">5.</span> <span class="toc-text">Unicode 编码怎么样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编解码错误处理"><span class="toc-number">6.</span> <span class="toc-text">编解码错误处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">扫码关注我的公众号，从大前端的角度聊聊 iOS，安卓和前端开发</h3>
+  <div class="widget">
+    <img src="/img/weixin_qr.jpg" style="width: 100%">
+  </div>
+</div>
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Android/" title="Android">Android<sup>3</sup></a></li>
+		
+			<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Promise/" title="Promise">Promise<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+		
+			<li><a href="/tags/zen/" title="zen">zen<sup>1</sup></a></li>
+		
+			<li><a href="/tags/前端/" title="前端">前端<sup>3</sup></a></li>
+		
+			<li><a href="/tags/总结分享/" title="总结分享">总结分享<sup>1</sup></a></li>
+		
+			<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		
+			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+		
+			<li><a href="/tags/计算机基础知识/" title="计算机基础知识">计算机基础知识<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="https://bestswifter.com" target="_blank" title="Bestswifter">Bestswifter 的博客</a></li>
+    </ul>
+</div>
+
+
+  <div class="linkslist">
+   <p class="asidetitle">微博关注</p>
+     <ul>
+       <li><iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5678670890&verifier=53247bfc&dpc=1"></iframe></li>
+     </ul>
+ </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2018 
+		
+		<a href="http://fullstack.blog" target="_blank" title="Fullstack">Fullstack</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
+
+<a href="https://github.com/bestswifter"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>

@@ -1,0 +1,526 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <script>
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('http://images.bestswifter.com/sw.js')
+  }
+  </script>
+  
+    <title>全自动科学上网方案分享 | 全栈养成计划</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Fullstack">
+    
+    <meta name="description" content="在开始方案介绍之前，请确保自己有一个国外的服务器，比较常用的有以下几个：
+
+Digital Ocean：最低价格是 $5/月，每月 1000G 流量。现在注册有 $10 优惠券，GitHub 学生认证以后可以免费领取 $50 优惠券
+Vultr：最低每月 $2.5，500G 流量也足够用，目前没有优">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="全栈养成计划" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+(function() {
+ var hm = document.createElement("script");
+ hm.src = "https://hm.baidu.com/hm.js?8b8cc550e083bb800d2b0d350318e611";
+ var s = document.getElementsByTagName("script")[0]; 
+ s.parentNode.insertBefore(hm, s);
+
+ })();
+</script>
+
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="全栈养成计划" title="全栈养成计划"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="全栈养成计划">全栈养成计划</a></h1>
+				<h2 class="blog-motto">每天学点新知识~</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/categories">categories</a></li>
+					
+						<li><a href="/tags">tags</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:fullstack.blog">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/09/26/全自动科学上网方案分享/" title="全自动科学上网方案分享" itemprop="url">全自动科学上网方案分享</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://fullstack.blog" title="Fullstack">Fullstack</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2017-09-26T07:45:13.000Z" itemprop="datePublished">2017-09-26</time>
+    Updated:<time datetime="2018-01-19T11:32:14.000Z" itemprop="dateModified">2018-01-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见痛点-amp-需求："><span class="toc-number">1.</span> <span class="toc-text">常见痛点 & 需求：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mac"><span class="toc-number">1.1.</span> <span class="toc-text">Mac</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mobile"><span class="toc-number">1.2.</span> <span class="toc-text">Mobile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Common"><span class="toc-number">1.3.</span> <span class="toc-text">Common</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本质"><span class="toc-number">2.</span> <span class="toc-text">本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目标与解决思路"><span class="toc-number">3.</span> <span class="toc-text">目标与解决思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac-配置"><span class="toc-number">4.</span> <span class="toc-text">Mac 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GoAgentX"><span class="toc-number">4.1.</span> <span class="toc-text">GoAgentX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Proxifier"><span class="toc-number">4.2.</span> <span class="toc-text">Proxifier</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐藏图标"><span class="toc-number">4.3.</span> <span class="toc-text">隐藏图标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#终端科学上网"><span class="toc-number">4.4.</span> <span class="toc-text">终端科学上网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Charles"><span class="toc-number">4.5.</span> <span class="toc-text">Charles</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速切换系统代理"><span class="toc-number">4.6.</span> <span class="toc-text">快速切换系统代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SwitchyOmega"><span class="toc-number">4.7.</span> <span class="toc-text">SwitchyOmega</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mac-配置小结"><span class="toc-number">4.8.</span> <span class="toc-text">Mac 配置小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iOS-配置"><span class="toc-number">5.</span> <span class="toc-text">iOS 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自动选择代理"><span class="toc-number">5.1.</span> <span class="toc-text">自动选择代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义配置"><span class="toc-number">5.2.</span> <span class="toc-text">自定义配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#场景模式-与-Widget"><span class="toc-number">5.3.</span> <span class="toc-text">场景模式 与 Widget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iOS-配置总结"><span class="toc-number">5.4.</span> <span class="toc-text">iOS 配置总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VPS-配置"><span class="toc-number">7.</span> <span class="toc-text">VPS 配置</span></a></li></ol>
+		</div>
+		
+		<p>在开始方案介绍之前，请确保自己有一个国外的服务器，比较常用的有以下几个：</p>
+<ol>
+<li><a href="https://m.do.co/c/0b258b3eea48" target="_blank" rel="external">Digital Ocean</a>：最低价格是 $5/月，每月 1000G 流量。现在注册有 $10 优惠券，GitHub 学生认证以后可以免费领取 $50 优惠券</li>
+<li><a href="https://www.vultr.com/?ref=7220709" target="_blank" rel="external">Vultr</a>：最低每月 $2.5，500G 流量也足够用，目前没有优惠</li>
+<li><a href="https://bandwagonhost.com/aff.php?aff=19860" target="_blank" rel="external">搬瓦工</a>：年付 $19，500G 流量，硬盘只有 10G，基本上只能用来科学上网，网上有各种优惠码，大约可以优惠 5% 左右。</li>
+</ol>
+<p>如果读者还没有自己的 VPS，可以根据自己的消费能力和使用场景（单纯科学上网还是部署服务）来选购，从上面的链接购买，我也会有奖励。</p>
+<p>Shadowsocks 的配置非常简单，参考<a href="https://github.com/nkwsqyyzx/.sys.config/blob/master/init.scripts/install-centos" target="_blank" rel="external">这个脚本</a>，只要一行命令，指定端口和密码即可。</p>
+<h2 id="常见痛点-amp-需求："><a href="#常见痛点-amp-需求：" class="headerlink" title="常见痛点 &amp; 需求："></a>常见痛点 &amp; 需求：</h2><p>最优秀的配置就是在使用时感觉不到配置的存在，然而复杂的应用场景决定了我们需要多种代理配置。虽然最终的目的是摆脱繁琐的配置切换，但在此之前，我们有必要梳理一下日常使用中常见的痛点。</p>
+<h3 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h3><ol>
+<li>模拟器需要连代理，因此电脑必须设置 HTTP/HTTPS 代理</li>
+<li>终端无法使用 SS 代理，即使设置了全局代理也不行</li>
+<li>某些应用，比如 Telegram，需要科学上网</li>
+</ol>
+<h3 id="Mobile"><a href="#Mobile" class="headerlink" title="Mobile"></a>Mobile</h3><ol>
+<li>在公司联调时需要手动输入 Mac 的  IP 地址，过程繁琐</li>
+<li>如果想科学上网，需要连接 VPN，这与 HTTP 代理冲突</li>
+<li>某些网站或应用会对客户端证书做校验， 比如 iTunes、微信支付、公司内网服务等对安全要求较高的场景，导致挂着代理无法访问</li>
+</ol>
+<h3 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h3><ol>
+<li>访问墙外网站需要连 VPS，墙内网站不需要连接，代理会让国内网站访问速度降低</li>
+</ol>
+<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><p>复杂的需求导致了代理场景的多样化，一般来说有三种：</p>
+<ol>
+<li>Charles 的 HTTP(s) 代理</li>
+<li>VPS 的 socks5 代理或 PAC</li>
+<li>直接连接</li>
+</ol>
+<p>上述问题的本质都来源于这三种代理是互斥的，而且切换起来比较麻烦。在 Mac 上有脚本可以切换，但有时依然无法人工区分改用哪种代理，在 iOS 上，就连设置代理都会非常耗时。</p>
+<h2 id="目标与解决思路"><a href="#目标与解决思路" class="headerlink" title="目标与解决思路"></a>目标与解决思路</h2><p>明确了问题与问题背后的复杂度以后，我们需要确定一个目标，以目标为导向，来指导自己的行动。</p>
+<p>目标其实非常简单：</p>
+<blockquote>
+<p><strong>经过有限次的配置，彻底避免切换代理</strong></p>
+</blockquote>
+<p>换句话说，就是希望代理的切换时自动进行的，全程不再需要人工干预。</p>
+<p>这似乎有悖于目前的工作模式，不过没关系，既然系统代理不方便，我们就需要一个全局代理，起到 <strong>路由</strong> 作用，根据一定的规则把请求转发到合适的代理上去。这样就把代理的切换简化成了规则的配置，切换永远存在，但配置只要不断维护完善就行。</p>
+<h2 id="Mac-配置"><a href="#Mac-配置" class="headerlink" title="Mac 配置"></a>Mac 配置</h2><p>Mac 上用到四个工具：</p>
+<ol>
+<li>Proxifier： 全局控制工具，负责应用层面的请求转发</li>
+<li>Charles：一种代理，负责处理那些需要被抓包的请求</li>
+<li>GoAgentX：一种代理，负责处理那些需要走 Shadowsocks 协议的请求</li>
+<li>SwitchyOmega：Chrome 拓展工具，负责对 Chrome 中的网页进行智能代理选择</li>
+</ol>
+<h3 id="GoAgentX"><a href="#GoAgentX" class="headerlink" title="GoAgentX"></a>GoAgentX</h3><p>这个软件的作用是帮助我们在本地的某个端口（比如 1234）上运行 Shadowsocks 服务，如果某个应用需要科学上网，只要把流量用 socks5 协议代理到 1234 这个端口上即可。</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/1efa16cd2a1701771179f22af014b7e2e07b836b" alt="图片"></p>
+<p>有三个比较常用的模式：</p>
+<ol>
+<li>全局代理模式：会把系统的 SOCKS 代理设置为 127.0.0.1：1234，这样系统的所有流量都会走 socks 代理</li>
+<li>自动代理配置模式（PAC）：这种模式会自动分析 URL，根据 URL 的特点来决定走哪种代理，也就是达到了按需翻墙的目的</li>
+<li>独立模式：这种模式下仅仅会在本地的 1234 端口上运行 Shadowsocks 服务，不会更改系统的代理方式，也就是说单独使用无法进行翻墙，需要配合其它的软件来使用，这里我们选择第三种模式。</li>
+</ol>
+<h3 id="Proxifier"><a href="#Proxifier" class="headerlink" title="Proxifier"></a>Proxifier</h3><p><a href="https://www.proxifier.com/" target="_blank" rel="external">Proxifer</a> 是一个控制 app 代理方式的软件，有了它，我们就可以控制某个 app，比如 Telegram 使用哪种代理。</p>
+<p>首先在 Proxifier 中建立一个 Shadowsocks 代理：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/ba5025c6036eaa102b2995b867aed89a945eb005" alt="图片"></p>
+<p>依次选择 Proxies、Add 并填写本机的端口。</p>
+<p>接下来就可以把某些特定应用的流量转到代理上了：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/8dd329807fce048f888a618874cf743d7d55ec71" alt="图片"></p>
+<p>依次选择 Rules、Add、➕，然后选择需要修改的软件以及使用哪种代理。比如这里可以选择强制 Telegram 使用 Shadowsocs 代理，就可以翻墙了。</p>
+<h3 id="隐藏图标"><a href="#隐藏图标" class="headerlink" title="隐藏图标"></a>隐藏图标</h3><p>对于 Proxifier 这类应用来说，他们具有以下特点：</p>
+<ol>
+<li>需要开机启动</li>
+<li>开机后不会关闭，可以后台运行，并且基本上不再需要人工干预</li>
+</ol>
+<p>一般在应用设置（Command + 逗号）中可以设置开机启动，以及隐藏 Menu Bar 中的图标，如果无法设置开机启动，我们可以手动添加：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/6686f99b8ea4d6a250d1db282da1b11420e437b2" alt="图片"></p>
+<p>除了隐藏 Menu Bar 中的图标外，我们还希望把它在 Dock 中的图标也隐藏掉，这需要设置 <code>Application is agent</code> 项，以 Proxifier 为例，需要修改 <code>/Applications/Proxifier.app/Contents</code> 和该路径下 <code>/Applications/Proxifier.app/Contents/Info.plist</code> 这个文件的权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chmod 777 /Applications/Proxifier.app/Contents</div><div class="line">chmod 777 /Applications/Proxifier.app/Contents/Info.plist</div></pre></td></tr></table></figure>
+<p>然后编辑 plist 文件，新增一个布尔类型的选项 <strong>Application is agent (UIElement)</strong>，值为 YES：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/7a068ff6d96be20ac0681d86b6fc5c1213d6dda1" alt="图片"></p>
+<p>这样 Proxifier 就不会在 Dock 中显示，基本上做到了全局无感知。</p>
+<h3 id="终端科学上网"><a href="#终端科学上网" class="headerlink" title="终端科学上网"></a>终端科学上网</h3><p>有些时候，安装一些软件包会非常慢，这是因为数据源存在国外的服务器上，但终端默认不会走代理，即使设置了全局代理也无效。</p>
+<p><a href="http://droidyue.com/blog/2016/04/04/set-shadowsocks-proxy-for-terminal/" target="_blank" rel="external">为终端设置Shadowsocks代理</a> 这篇文章介绍了一个工具来解决上述问题：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">brew install polipo</div><div class="line">ln -sfv /usr/<span class="built_in">local</span>/opt/polipo/*.plist ~/Library/LaunchAgents</div><div class="line">vim /usr/<span class="built_in">local</span>/opt/polipo/homebrew.mxcl.polipo.plist</div></pre></td></tr></table></figure>
+<p>添加一行 <strong><string>socksParentProxy=localhost:1234</string></strong>，记得把  1234 改成自己的 Shadowsocks 端口号：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/polipo/bin/polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>socksParentProxy=localhost:1234<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- Set `ulimit -n 20480`. The default OS X limit is 256, that's</span></div><div class="line">         not enough for Polipo (displays 'too many files open' errors).</div><div class="line">         It seems like you have no reason to lower this limit</div><div class="line">         (and unlikely will want to raise it). --&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>SoftResourceLimits<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">key</span>&gt;</span>NumberOfFiles<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">integer</span>&gt;</span>20480<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>接下来向 .zshrc 中加入一个函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">pt</span></span>() &#123;</div><div class="line">    launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist</div><div class="line">    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist</div><div class="line">    <span class="built_in">export</span> http_proxy=http://localhost:8123</div><div class="line">    <span class="built_in">export</span> https_proxy=http://localhost:8123</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>至此，所有的配置就结束了。如果某个终端窗口需要科学上网，只要先执行 <code>pt</code> 函数就行。如果你希望自己的终端永远使用 Shadowsocks 代理，只要将 <code>pt</code> 函数中的内容提出来，直接写进 <code>.zshrc</code> 文件中即可。</p>
+<p>为了测试是否成功的使用了代理，我们可以尝试访问下 Google 或者检测自己的 IP 地址：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/4b43710762224a8e5345eae45dcf35a148fe0187" alt="图片"></p>
+<h3 id="Charles"><a href="#Charles" class="headerlink" title="Charles"></a>Charles</h3><p>Charles 作为一个大名鼎鼎的抓包工具，具体使用方法就不用我细说了，可以参考巧哥的这篇文章：<a href="http://blog.devtang.com/2013/12/11/network-tool-charles-intr/" target="_blank" rel="external">iOS开发工具-网络封包分析工具Charles</a>。</p>
+<p>虽然 Charles 的抓包功能足够强大，但美中不足的是，它的数据处理能力极为孱弱。虽然有 Map Local/Remote 和 Rewrite 功能，但终究不是图灵完备的语言， 灵活性和可拓展性还不够强大，比如如果数据是使用 protobuf 的形式传输，Charles 就无能为力了。</p>
+<p>通常情况下，为了搭建一个多端统一、长期可维护的测试环境，我们需要一个中间人服务器，经过一段时间的尝试和技术选型，最终我们选择了 MITM，详细内容可以参考我的这篇博客：<a href="http://www.jianshu.com/p/23f77b603748" target="_blank" rel="external">HTTP 代理服务器技术选型之旅</a>。</p>
+<p>有了 MITM 工具以后，iOS 模拟器的调试问题就迎刃而解了。注意，此时不要直接修改系统的代理，因为来回切换代理比较麻烦，Charles 提供了一个非常好用的功能，叫 External Proxy。顾名思义，Charles 可以把自己视为一个中转站，把经过自己的数据发送到下一个代理服务器上去。</p>
+<p>因此，日常工作中，我采用的方案是系统代理长期设置为 Charles，且 Charles 长期将外部代理设置为 MITM，两者要么同时生效，要么同时失效，经过 Charles 数据一定会经过 MITM 。</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/ba67ad53ef4a996c029fcdea86f9cdbaec0faa38" alt="图片"><br><img src="http://bos.nj.bpc.baidu.com/v1/agroup/8885cd21d760c8a8f6a3373613338e9512c35446" alt="图片"></p>
+<h3 id="快速切换系统代理"><a href="#快速切换系统代理" class="headerlink" title="快速切换系统代理"></a>快速切换系统代理</h3><p>上述配置虽然大部分时候都能 work，但万一出现 Proxifier 不能指定代理，而且这个网络流量又不能走代理服务器时，我们还需要一个终极方案——快速把系统代理还原为默认。虽然我至今只在某次更新 App Store 时遇到过上述问题，但做好技术储备还是没有坏处的。</p>
+<p>使用 <code>networksetup</code> 配合各种参数即可实现上述需求，我写了一个可以自动切换 Charles 和 GoAgentX 代理的脚本，在<a href="https://github.com/bestswifter/macbootstrap/blob/master/zsh-config/platform.mac.sh#L8-#L74" target="_blank" rel="external">这里</a> 可以下载并根据自己的需求自行修改。</p>
+<p>效果如图所示：</p>
+<p><img src="https://o8ouygf5v.qnssl.com/1506333678.png" alt=""></p>
+<h3 id="SwitchyOmega"><a href="#SwitchyOmega" class="headerlink" title="SwitchyOmega"></a>SwitchyOmega</h3><p>最后一个要用到的工具是 Chrome 的一个插件：<a href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif" target="_blank" rel="external">SwitchyOmega</a>，它可以给不同的 URL 配置不同的访问策略。</p>
+<p>首先我们新建一个情景，用来处理需要科学上网的网站。</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/0477acb8a3718187b023c7931c1eced70435b380" alt="图片"></p>
+<p>如果是前端开发，那些需要抓包调试的网站可以代理到 Charles 上，过程类似就不赘述了。</p>
+<p>然后需要配置下 <strong>auto switch</strong> 场景，在绝大多数时候，我们都将使用这个场景：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/e880e213a3f727d1c3f055387be1dc118f53b37a" alt="图片"></p>
+<p>第一个区域内是一些自己制定的规则，如果自动配置中某些网站的访问方式不符合我们的要求，可以单独列在这里。第二个区域表示如果命中规则列表，则使用 socks 代理，否则就直接连接。第三个区域则使用了一个开源的网址列表，列出了那些需要科学上网的网站。</p>
+<p>有了这样的配置，我们就可以实现 百度、淘宝、京东等网站直接连接，YouTube、Google、草榴等网站科学上网了。</p>
+<h3 id="Mac-配置小结"><a href="#Mac-配置小结" class="headerlink" title="Mac 配置小结"></a>Mac 配置小结</h3><p>Mac 上需要用到的软件较多，但每个软件的使用都不太复杂，回忆一下之前的几个痛点：</p>
+<ol>
+<li>模拟器需要连代理，因此电脑必须设置 HTTP/HTTPS 代理。这一点我们确实是通过长期设置代理为 Charles -&gt; MITM 实现的，并且利用脚本来快速切换代理。</li>
+<li>终端无法使用 SS 代理，即使是全局代理也不行。这个问题通过 <code>polipo</code> 工具解决，并且编写了脚本。</li>
+<li>某些应用，比如 Telegram，需要科学上网。这个问题通过 Proxifier 来设置某个 app 使用的代理方式。</li>
+<li>按需代理，只有需要科学上网的网站才用代理。这个需求通过 Chrome 的插件 SwitchyOmega 完成。</li>
+</ol>
+<h2 id="iOS-配置"><a href="#iOS-配置" class="headerlink" title="iOS 配置"></a>iOS 配置</h2><p>对于预算并不充裕的同学来说，小火箭 Shadowrocket 无疑是最佳工具了。这类应用已经在国内的 App Store 下架，需要使用美国账号购买，如果团队内的其它小伙伴也需要，可以把 ipa 用开发者证书或者企业证书重签名下，来实现团队内部分享的目的。</p>
+<p>打开 shadowrocket 以后，在首页点击右上角的加号，可以新建一个节点，也就是我们的代理服务器：</p>
+<p> <img src="http://bos.nj.bpc.baidu.com/v1/agroup/e39526b4e13e4dd99ced278a4799e841f0354538" alt="图片"></p>
+<p>这里强烈建议给节点添加备注，原因稍后会讲。</p>
+<h3 id="自动选择代理"><a href="#自动选择代理" class="headerlink" title="自动选择代理"></a>自动选择代理</h3><p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/dc956533d21907d2dd7dc7bbb4eafd3c1d76b3fb" alt="图片"></p>
+<p>接下来，我们需要选择路由模式，一共有四种。直连的意思很好理解，就是不走任何代理，相当于没用上 shadowrocket，可以理解为一种回滚方案。全局则表示 app 所有网络流量都走代理服务器，相当于使用了系统的 VPN。这两者功能都太单一，基本上不会使用。 </p>
+<p>配置模式和上文说过的 <strong>auto switch</strong> 差不多，都是实现了黑名单 + 广告屏蔽的功能：</p>
+<ol>
+<li>广告屏蔽：对于某些特定的、专门用于投放广告的域名，直接屏蔽掉网络请求，从而起到去除广告的效果。</li>
+<li>黑名单：列出需要科学上网的网址，走代理服务器。</li>
+<li>其它：默认是直接连接。</li>
+</ol>
+<p>我使用的是这份配置：<a href="https://raw.githubusercontent.com/lhie1/Surge/master/Shadowrocket.conf" target="_blank" rel="external">https://raw.githubusercontent.com/lhie1/Surge/master/Shadowrocket.conf</a></p>
+<p>它的主体结构可以分为三部分：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 屏蔽广告</span></div><div class="line"></div><div class="line"><span class="comment">// 爱奇艺</span></div><div class="line">DOMAIN-SUFFIX,ad.m.iqiyi.com,REJECT</div><div class="line">DOMAIN-SUFFIX,afp.iqiyi.com,REJECT</div><div class="line">DOMAIN-SUFFIX,api.cupid.iqiyi.com,REJECT</div><div class="line">.......</div><div class="line"></div><div class="line"><span class="comment">// 优酷</span></div><div class="line">......</div><div class="line"></div><div class="line"><span class="comment">// 科学上网</span></div><div class="line"></div><div class="line"><span class="comment">// 以 gmail.com 结尾的网址要求走代理，并且要求代理服务器做 DNS 解析</span></div><div class="line">DOMAIN-SUFFIX,gmail.com,PROXY,force-remote-dns</div><div class="line"></div><div class="line"><span class="comment">// 直连</span></div><div class="line"></div><div class="line"><span class="comment">// BAT 等首页直连</span></div><div class="line">DOMAIN-SUFFIX,baidu.com,DIRECT</div><div class="line">DOMAIN-SUFFIX,qq.com,DIRECT</div><div class="line">DOMAIN-SUFFIX,alipay.com,DIRECT</div></pre></td></tr></table></figure>
+<p>这套配置绝大多数情况下足够使用了，奈何客户端开发者经常需要对 APP 抓包，以前是通过修改系统代理实现的，现在直接修改配置文件就行了。</p>
+<h3 id="自定义配置"><a href="#自定义配置" class="headerlink" title="自定义配置"></a>自定义配置</h3><p>现在我们的需求变成了：</p>
+<ol>
+<li>检查是否是广告，如果是广告则拒绝连接</li>
+<li>检查是否需要科学上网，如果需要的话，走代理服务器</li>
+<li>检查是否需要抓包，如果需要的话，走 Mac 的  Charles 代理代理代理</li>
+<li>剩下的请求默认直连</li>
+</ol>
+<p>其中第三四步的逻辑可以颠倒，也就是说可以默认走抓包模式，只有那些不能抓包的连接才直连。然而这种模式问题比较多，因为很多对安全性比较高的 app 或者网页，比如支付模块等等，都会检查客户端证书， 这种情况下通过 Charles 代理就无法访问了。访问了。</p>
+<p>这种需求是无法使用默认的配置模式实现的， 因为它只能选择代理 or 直连，而我们的需求实际上是有两种代理，即 Shadowsocks 代理和 Charles 代理，这需要我们对配置文件做一些手动编辑。</p>
+<p>注意到之前的每一条配置都是三段式：</p>
+<blockquote>
+<p>规则类型》 &gt; 规则类型》 &gt; 规则类型》 &gt; 规则类型,规则特征,连接方式</p>
+</blockquote>
+<p>其中连接方式可以是 DIRECT（直连）、PROXY（代理）和    REJECT（拒绝），实际上这里还可以填写前文所说的节点标签。比如我把 VPS 的标签设置为 DigitalOcean，这里就可以改成 DigitalOcean，效果，效果，效果，效果和 PROXY 一致。</p>
+<p>有了这个大前提，我们可以新建一个 HTTP 代理，，，，标记为 Mac，然后把需要抓包的连接的代理方式设置为 Mac 即可：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/92e2056e5d6fd321fa051e1a30fdc5bd5b9bf2d8" alt="图片"></p>
+<p>配置文件更新为：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 需要抓包的地址走 Charles 代理</span></div><div class="line">DOMAIN-SUFFIX,api<span class="selector-class">.example</span><span class="selector-class">.com</span>,MAC PRO</div><div class="line"></div><div class="line"><span class="comment">// 屏蔽广告</span></div><div class="line">DOMAIN-SUFFIX,ad<span class="selector-class">.m</span><span class="selector-class">.iqiyi</span><span class="selector-class">.com</span>,REJECT</div><div class="line"></div><div class="line"><span class="comment">// 以 gmail.com 结尾的网址要求走代理，并且要求代理服务器做 DNS 解析</span></div><div class="line">DOMAIN-SUFFIX,gmail<span class="selector-class">.com</span>,PROXY,force-remote-dns</div><div class="line"></div><div class="line"><span class="comment">// BAT 等首页直连</span></div><div class="line">DOMAIN-SUFFIX,baidu<span class="selector-class">.com</span>,DIRECT</div></pre></td></tr></table></figure>
+<h3 id="场景模式-与-Widget"><a href="#场景模式-与-Widget" class="headerlink" title="场景模式 与 Widget"></a>场景模式 与 Widget</h3><p>真正让我下定决心使用 shadowrocket 而不是其它应用的原因是它的场景模式。有时候，在 WiFi 模式和 4G 模式，甚至是不同的 WiFi 下，我们使用的配置文件并不相同。比如我在家的 WiFi 和外出 4G 模式下，并不需要抓包。一个场景就是一种数据接入方式和配置文件的集合，最神奇的是，场景可以自动切换。</p>
+<p>比如我创建了三个场景，分别表示 4G、家庭 WiFi 和公司 WiFi，每个场景有自己的配置文件，通过 WiFi 名称来区分：</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/a49681daab457fcec22dded470c79a6cb7687b51" alt="图片"></p>
+<p>这样当我回家以后，shadowrocket 切换场景，自然也就会切换配置文件，从而避免了手动切换。</p>
+<h3 id="iOS-配置总结"><a href="#iOS-配置总结" class="headerlink" title="iOS 配置总结"></a>iOS 配置总结</h3><p>在 iOS 平台上，我们也遵循了不用系统代理，利用全局代理软件来控制代理的原则，通过 shadowrocket 提供的配置文件和规则实现了需求。同时 Widget、场景模式、iCloud 备份与二维码导出提高了软件的使用效率。另一个好用的工具就是 Widget，除了全局开关以外，可以快速在场景、代理、直连、配置四种路由方式中快速选择，这个相当于之前我们编写的切换系统代理的脚本。虽然用到的场景不多，但作为一种备用方案，还是不可或缺的。</p>
+<p><img src="http://bos.nj.bpc.baidu.com/v1/agroup/b2b48b033800ba57c5ca8a01d5204baa2041c3ac" alt="图片"></p>
+<p>除此以外，shadowrocket 导入导出配置也很容易，默认使用 iCloud 同步数据，自己的节点和配置还可以用二维码的方式分享给别人，别人在使用时只要扫码即可导入。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在 iOS 平台上，我们也遵循了不用系统代理，利用全局代理软件来控制代理的原则，通过 shadowrocket 提供的配置文件和规则实现了需求。同时 Widget、场景模式、iCloud 备份与二维码导出提高了软件的使用效率。</p>
+<p>有了这些配置以后，各个软件的存在感反而不强了，因为几乎都会保持打开状态，交给配置文件去决定代理方式，大大提升了工作效率。</p>
+<p>由于我没有使用安卓手机，所以暂时没有安卓平台的教程，读者可以自行搜索类似的代理软件并进行配置。</p>
+<h2 id="VPS-配置"><a href="#VPS-配置" class="headerlink" title="VPS 配置"></a>VPS 配置</h2><p>可以利用<a href="https://github.com/nkwsqyyzx/.sys.config/blob/master/init.scripts/install-centos" target="_blank" rel="external">这个脚本</a>快速配置 VPS 环境</p>
+<p>给 VPS 开启 BBR 加速后，可以显著加快网络连接速度，我测试的效果是提高了 6 倍</p>
+<p>如果使用 Digital Ocean，请参考<a href="http://w3cboy.com/post/2017/08/digital-ocean-bbr/" target="_blank" rel="external">这个教程</a>，其它厂商也类似</p>
+<p>BBR 是谷歌研发的新的 TCP 拥塞控制算法，能够在有一定丢包率的网络链路上充分利用带宽，感兴趣的同学可以学习这篇文章：</p>
+<p><a href="https://www.zhihu.com/question/53559433" target="_blank" rel="external">Linux Kernel 4.9 中的 BBR 算法与之前的 TCP 拥塞控制相比有什么优势？</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://fullstack.blog/2017/09/26/全自动科学上网方案分享/" data-title="全自动科学上网方案分享 | 全栈养成计划" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/03/27/路由器爱国上网、屏蔽广告与宽带提速/" title="路由器爱国上网、屏蔽广告与宽带提速">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  路由器爱国上网、屏蔽广告与宽带提速</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/09/19/字符串编码入门科普/"  title="字符串编码入门科普">
+ <strong>NEXT:</strong><br/> 
+ <span>字符串编码入门科普
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见痛点-amp-需求："><span class="toc-number">1.</span> <span class="toc-text">常见痛点 & 需求：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mac"><span class="toc-number">1.1.</span> <span class="toc-text">Mac</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mobile"><span class="toc-number">1.2.</span> <span class="toc-text">Mobile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Common"><span class="toc-number">1.3.</span> <span class="toc-text">Common</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本质"><span class="toc-number">2.</span> <span class="toc-text">本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目标与解决思路"><span class="toc-number">3.</span> <span class="toc-text">目标与解决思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac-配置"><span class="toc-number">4.</span> <span class="toc-text">Mac 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GoAgentX"><span class="toc-number">4.1.</span> <span class="toc-text">GoAgentX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Proxifier"><span class="toc-number">4.2.</span> <span class="toc-text">Proxifier</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐藏图标"><span class="toc-number">4.3.</span> <span class="toc-text">隐藏图标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#终端科学上网"><span class="toc-number">4.4.</span> <span class="toc-text">终端科学上网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Charles"><span class="toc-number">4.5.</span> <span class="toc-text">Charles</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速切换系统代理"><span class="toc-number">4.6.</span> <span class="toc-text">快速切换系统代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SwitchyOmega"><span class="toc-number">4.7.</span> <span class="toc-text">SwitchyOmega</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mac-配置小结"><span class="toc-number">4.8.</span> <span class="toc-text">Mac 配置小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iOS-配置"><span class="toc-number">5.</span> <span class="toc-text">iOS 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自动选择代理"><span class="toc-number">5.1.</span> <span class="toc-text">自动选择代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义配置"><span class="toc-number">5.2.</span> <span class="toc-text">自定义配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#场景模式-与-Widget"><span class="toc-number">5.3.</span> <span class="toc-text">场景模式 与 Widget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iOS-配置总结"><span class="toc-number">5.4.</span> <span class="toc-text">iOS 配置总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VPS-配置"><span class="toc-number">7.</span> <span class="toc-text">VPS 配置</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">扫码关注我的公众号，从大前端的角度聊聊 iOS，安卓和前端开发</h3>
+  <div class="widget">
+    <img src="/img/weixin_qr.jpg" style="width: 100%">
+  </div>
+</div>
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Android/" title="Android">Android<sup>3</sup></a></li>
+		
+			<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Promise/" title="Promise">Promise<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+		
+			<li><a href="/tags/zen/" title="zen">zen<sup>1</sup></a></li>
+		
+			<li><a href="/tags/前端/" title="前端">前端<sup>3</sup></a></li>
+		
+			<li><a href="/tags/总结分享/" title="总结分享">总结分享<sup>1</sup></a></li>
+		
+			<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		
+			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+		
+			<li><a href="/tags/计算机基础知识/" title="计算机基础知识">计算机基础知识<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="https://bestswifter.com" target="_blank" title="Bestswifter">Bestswifter 的博客</a></li>
+    </ul>
+</div>
+
+
+  <div class="linkslist">
+   <p class="asidetitle">微博关注</p>
+     <ul>
+       <li><iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5678670890&verifier=53247bfc&dpc=1"></iframe></li>
+     </ul>
+ </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2018 
+		
+		<a href="http://fullstack.blog" target="_blank" title="Fullstack">Fullstack</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
+
+
+<a href="https://github.com/bestswifter"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
