@@ -1,0 +1,959 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>终端神器 iTerm2 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ssh-de-pei-zhi-yu-guan-li.html" />
+    
+    
+    <link rel="prev" href="you-jian-gui-ze.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    EffectiveMac
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../xu-yan/">
+            
+                <a href="../xu-yan/">
+            
+                    
+                    序言
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../xu-yan/wei-shi-mo-yao-xie-zhe-ben-shu.html">
+            
+                <a href="../xu-yan/wei-shi-mo-yao-xie-zhe-ben-shu.html">
+            
+                    
+                    为什么要写这本书
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../xu-yan/wei-shi-mo-qiang-tiao-xiao-shuai.html">
+            
+                <a href="../xu-yan/wei-shi-mo-qiang-tiao-xiao-shuai.html">
+            
+                    
+                    为什么强调效率
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../xu-yan/jian-pan-liu-de-wu-qu.html">
+            
+                <a href="../xu-yan/jian-pan-liu-de-wu-qu.html">
+            
+                    
+                    键盘流的误区
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../xu-yan/zhun-bei-gong-zuo.html">
+            
+                <a href="../xu-yan/zhun-bei-gong-zuo.html">
+            
+                    
+                    准备工作
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../xi-tong-pei-zhi/">
+            
+                <a href="../xi-tong-pei-zhi/">
+            
+                    
+                    系统配置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../xi-tong-pei-zhi/wan-quan-jian-pan-kong-zhi.html">
+            
+                <a href="../xi-tong-pei-zhi/wan-quan-jian-pan-kong-zhi.html">
+            
+                    
+                    完全键盘控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../xi-tong-pei-zhi/tian-jia-kai-ji-ren-wu.html">
+            
+                <a href="../xi-tong-pei-zhi/tian-jia-kai-ji-ren-wu.html">
+            
+                    
+                    添加开机任务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../xi-tong-pei-zhi/da-xiao-xie-jian-he-ctrl-jian-jiao-huan.html">
+            
+                <a href="../xi-tong-pei-zhi/da-xiao-xie-jian-he-ctrl-jian-jiao-huan.html">
+            
+                    
+                    大小写键和 Ctrl 键交换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../xi-tong-pei-zhi/xi-tong-kuai-jie-jian-jin-jie.html">
+            
+                <a href="../xi-tong-pei-zhi/xi-tong-kuai-jie-jian-jin-jie.html">
+            
+                    
+                    系统快捷键进阶
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../xi-tong-pei-zhi/tuo-zhan-yu-lan-cheng-xu.html">
+            
+                <a href="../xi-tong-pei-zhi/tuo-zhan-yu-lan-cheng-xu.html">
+            
+                    
+                    拓展预览程序
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../xi-tong-pei-zhi/xi-tong-pei-zhi-you-hua.html">
+            
+                <a href="../xi-tong-pei-zhi/xi-tong-pei-zhi-you-hua.html">
+            
+                    
+                    系统配置优化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../xi-tong-pei-zhi/dock-lan-you-hua.html">
+            
+                <a href="../xi-tong-pei-zhi/dock-lan-you-hua.html">
+            
+                    
+                    Dock 栏优化
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Mac 工作流
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="you-jian-gui-ze.html">
+            
+                <a href="you-jian-gui-ze.html">
+            
+                    
+                    邮件规则
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.2" data-path="zhong-duan-shen-qi-iterm2.html">
+            
+                <a href="zhong-duan-shen-qi-iterm2.html">
+            
+                    
+                    终端神器 iTerm2
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="ssh-de-pei-zhi-yu-guan-li.html">
+            
+                <a href="ssh-de-pei-zhi-yu-guan-li.html">
+            
+                    
+                    SSH 的配置与管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="vpn-yu-shadowsocks-sao-mang-ke-pu.html">
+            
+                <a href="vpn-yu-shadowsocks-sao-mang-ke-pu.html">
+            
+                    
+                    VPN 与 Shadowsocks 扫盲科普
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="mac-duan-ai-guo-shang-wang-zui-jia-shi-jian.html">
+            
+                <a href="mac-duan-ai-guo-shang-wang-zui-jia-shi-jian.html">
+            
+                    
+                    Mac端爱国上网最佳实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="yi-dong-duan-ai-guo-shang-wang-de-zui-jia-shi-jian.html">
+            
+                <a href="yi-dong-duan-ai-guo-shang-wang-de-zui-jia-shi-jian.html">
+            
+                    
+                    移动端爱国上网的最佳实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="alfred-jian-jie.html">
+            
+                <a href="alfred-jian-jie.html">
+            
+                    
+                    Alfred 简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.8" data-path="you-xiu-workflow-tui-jian.html">
+            
+                <a href="you-xiu-workflow-tui-jian.html">
+            
+                    
+                    优秀 workflow 推荐
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.9" data-path="chrome-cha-jian.html">
+            
+                <a href="chrome-cha-jian.html">
+            
+                    
+                    Chrome 插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../bian-ji-qi-zhi-shen-vim/">
+            
+                <a href="../bian-ji-qi-zhi-shen-vim/">
+            
+                    
+                    编辑器之神：Vim
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../bian-ji-qi-zhi-shen-vim/chu-shi-vim.html">
+            
+                <a href="../bian-ji-qi-zhi-shen-vim/chu-shi-vim.html">
+            
+                    
+                    初识 Vim
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../bian-ji-qi-zhi-shen-vim/vim-ji-ben-cao-zuo.html">
+            
+                <a href="../bian-ji-qi-zhi-shen-vim/vim-ji-ben-cao-zuo.html">
+            
+                    
+                    Vim 基本操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../bian-ji-qi-zhi-shen-vim/vim-guang-biao-yi-dong.html">
+            
+                <a href="../bian-ji-qi-zhi-shen-vim/vim-guang-biao-yi-dong.html">
+            
+                    
+                    Vim 光标移动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../bian-ji-qi-zhi-shen-vim/wen-ben-bian-ji.html">
+            
+                <a href="../bian-ji-qi-zhi-shen-vim/wen-ben-bian-ji.html">
+            
+                    
+                    文本编辑
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../bian-ji-qi-zhi-shen-vim/vim-cha-jian.html">
+            
+                <a href="../bian-ji-qi-zhi-shen-vim/vim-cha-jian.html">
+            
+                    
+                    Vim 插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../bian-ji-qi-zhi-shen-vim/vscode-jie-shao.html">
+            
+                <a href="../bian-ji-qi-zhi-shen-vim/vscode-jie-shao.html">
+            
+                    
+                    VSCode 介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../git-cong-ru-men-dao-jin-jie/">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/">
+            
+                    
+                    Git 从入门到进阶
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../git-cong-ru-men-dao-jin-jie/git-ru-men-pei-zhi.html">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/git-ru-men-pei-zhi.html">
+            
+                    
+                    Git 入门配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../git-cong-ru-men-dao-jin-jie/git-he-xin-yuan-li.html">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/git-he-xin-yuan-li.html">
+            
+                    
+                    Git 核心原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../git-cong-ru-men-dao-jin-jie/cha-kan-ti-jiao-ji-lu.html">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/cha-kan-ti-jiao-ji-lu.html">
+            
+                    
+                    查看提交记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../git-cong-ru-men-dao-jin-jie/fen-zhi-yu-tag.html">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/fen-zhi-yu-tag.html">
+            
+                    
+                    分支与 tag
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.5" data-path="../git-cong-ru-men-dao-jin-jie/dai-ma-xiu-gai.html">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/dai-ma-xiu-gai.html">
+            
+                    
+                    代码修改
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.6" data-path="../git-cong-ru-men-dao-jin-jie/dai-ma-tong-bu.html">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/dai-ma-tong-bu.html">
+            
+                    
+                    代码同步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.7" data-path="../git-cong-ru-men-dao-jin-jie/ji-lu-cha-xun.html">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/ji-lu-cha-xun.html">
+            
+                    
+                    记录查询
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.8" data-path="../git-cong-ru-men-dao-jin-jie/jin-jie-pei-zhi.html">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/jin-jie-pei-zhi.html">
+            
+                    
+                    进阶配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.9" data-path="../git-cong-ru-men-dao-jin-jie/chong-tu-yu-jie-jue.html">
+            
+                <a href="../git-cong-ru-men-dao-jin-jie/chong-tu-yu-jie-jue.html">
+            
+                    
+                    冲突与解决
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../zhong-ji-wu-qi-zsh/">
+            
+                <a href="../zhong-ji-wu-qi-zsh/">
+            
+                    
+                    终极武器：Zsh
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../zhong-ji-wu-qi-zsh/zhi-hang-shell-jiao-ben.html">
+            
+                <a href="../zhong-ji-wu-qi-zsh/zhi-hang-shell-jiao-ben.html">
+            
+                    
+                    执行 Shell 脚本
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../zhong-ji-wu-qi-zsh/bian-liang.html">
+            
+                <a href="../zhong-ji-wu-qi-zsh/bian-liang.html">
+            
+                    
+                    变量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="../zhong-ji-wu-qi-zsh/ji-chu-yu-fa.html">
+            
+                <a href="../zhong-ji-wu-qi-zsh/ji-chu-yu-fa.html">
+            
+                    
+                    基础语法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="../zhong-ji-wu-qi-zsh/ming-ling-chuan-lian.html">
+            
+                <a href="../zhong-ji-wu-qi-zsh/ming-ling-chuan-lian.html">
+            
+                    
+                    命令串联
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="../zhong-ji-wu-qi-zsh/cuo-wu-chu-li.html">
+            
+                <a href="../zhong-ji-wu-qi-zsh/cuo-wu-chu-li.html">
+            
+                    
+                    错误处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6" data-path="../zhong-ji-wu-qi-zsh/bie-ming-alias.html">
+            
+                <a href="../zhong-ji-wu-qi-zsh/bie-ming-alias.html">
+            
+                    
+                    别名 alias
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7" data-path="../zhong-ji-wu-qi-zsh/bi-hui-xi-tong-ming-ling.html">
+            
+                <a href="../zhong-ji-wu-qi-zsh/bi-hui-xi-tong-ming-ling.html">
+            
+                    
+                    必会系统命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.8" data-path="../zhong-ji-wu-qi-zsh/zhong-duan-gao-xiao-shi-yong-zhi-nan.html">
+            
+                <a href="../zhong-ji-wu-qi-zsh/zhong-duan-gao-xiao-shi-yong-zhi-nan.html">
+            
+                    
+                    终端高效使用指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.9" data-path="../zhong-ji-wu-qi-zsh/awk.html">
+            
+                <a href="../zhong-ji-wu-qi-zsh/awk.html">
+            
+                    
+                    常用命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >终端神器 iTerm2</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x7EC8;&#x7AEF;&#x795E;&#x5668;-iterm2">&#x7EC8;&#x7AEF;&#x795E;&#x5668; iTerm2</h1>
+<p>iTerm2 &#x662F;&#x4E00;&#x4E2A;&#x7528;&#x6765;&#x53D6;&#x4EE3;&#x7CFB;&#x7EDF;&#x7EC8;&#x7AEF;&#x7684;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;&#xFF0C;&#x529F;&#x80FD;&#x6BD4;&#x539F;&#x751F;&#x7684;&#x7EC8;&#x7AEF;&#x7A0B;&#x5E8F;&#x5F3A;&#x5927;&#x5F88;&#x591A;&#xFF0C;&#x53EF;&#x4EE5;&#x4E00;&#x884C;&#x547D;&#x4EE4;&#x5B89;&#x88C5;&#xFF1A;</p>
+<pre><code class="lang-bash">brew cask install iterm2
+</code></pre>
+<h3 id="&#x5149;&#x6807;&#x79FB;&#x52A8;">&#x5149;&#x6807;&#x79FB;&#x52A8;</h3>
+<p>&#x4E0A;&#x4E00;&#x7AE0; <a href="https://book.bestswifter.com/effectivemac/xi-tong-pei-zhi/xi-tong-kuai-jie-jian-jin-jie" target="_blank">&#x7CFB;&#x7EDF;&#x5FEB;&#x6377;&#x952E;&#x8FDB;&#x9636;</a> &#x4E00;&#x8282;&#x4E2D;&#x66FE;&#x7ECF;&#x4ECB;&#x7ECD;&#x8FC7;&#x5149;&#x6807;&#x79FB;&#x52A8;&#x7684;&#x5FEB;&#x6377;&#x952E;&#xFF0C;&#x5176;&#x4E2D;&#x4EE5; <code>Ctrl &#x952E;&#x5F00;&#x5934;&#x7684;&#x5FEB;&#x6377;&#x952E;&#x4F9D;&#x7136;&#x53EF;&#x7528;&#xFF0C;&#x6BD4;&#x5982;&#x79FB;&#x52A8;&#x5230;&#x884C;&#x9996;&#x3001;&#x884C;&#x5C3E;&#xFF0C;&#x5411;&#x5DE6;/&#x53F3;&#x79FB;&#x52A8;&#x6216;&#x5220;&#x9664;&#x5B57;&#x7B26;&#x7B49;&#x7B49;&#x3002;</code></p>
+<p>&#x4F46;&#x5728; iTerm2 &#x4E2D;&#x65E0;&#x6CD5;&#x4F7F;&#x7528; <code>Option &#x952E;</code>&#x8FDB;&#x884C;&#x5355;&#x8BCD;&#x8DF3;&#x8F6C;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x81EA;&#x884C;&#x914D;&#x7F6E;&#x5FEB;&#x6377;&#x952E;&#xFF0C;&#x6211;&#x9009;&#x62E9;&#x7528; <code>Command + &#x2190;</code> &#x6765;&#x8868;&#x793A;&#x5149;&#x6807;&#x5411;&#x5DE6;&#x79FB;&#x52A8;&#x4E00;&#x4E2A;&#x5355;&#x8BCD;&#x3002;&#x5BF9;&#x5E94;&#x7684;&#xFF0C;&#x5411;&#x53F3;&#x79FB;&#x52A8;&#x4E00;&#x4E2A;&#x5355;&#x8BCD;&#x5C31;&#x662F; <code>Command + &#x2192;</code>&#x3002;&#x6253;&#x5F00;&#x8BBE;&#x7F6E;&#xFF0C;&#x6DFB;&#x52A0;&#x8FD9;&#x4E24;&#x4E2A;&#x5FEB;&#x6377;&#x952E;&#xFF1A;</p>
+<p><img src="../.gitbook/assets/image%20%2873%29.png" alt=""></p>
+<h3 id="&#x9009;&#x62E9;&#x6587;&#x672C;">&#x9009;&#x62E9;&#x6587;&#x672C;</h3>
+<p>iTerm2 &#x4E2D;&#x9009;&#x62E9;&#x6587;&#x672C;&#x6709;&#x4E09;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;&#x5206;&#x522B;&#x662F;&#xFF1A;</p>
+<ol>
+<li>&#x53CC;&#x51FB;&#xFF1A;&#x9009;&#x4E2D;&#x5355;&#x8BCD;</li>
+<li>&#x4E09;&#x51FB;&#xFF1A;&#x9009;&#x4E2D;&#x6574;&#x884C;</li>
+<li>&#x56DB;&#x51FB;&#xFF1A;&#x667A;&#x80FD;&#x9009;&#x62E9;</li>
+</ol>
+<p>&#x667A;&#x80FD;&#x9009;&#x62E9;&#x662F;&#x4E00;&#x4E2A;&#x6BD4;&#x8F83;&#x6709;&#x610F;&#x601D;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5B8C;&#x6574;&#x7684;&#x4ECB;&#x7ECD;&#x53EF;&#x4EE5;&#x53C2;&#x8003;<a href="https://www.iterm2.com/documentation-smart-selection.html" target="_blank">&#x5B98;&#x65B9;&#x6587;&#x6863;</a>&#x3002;&#x5BF9;&#x4E8E;&#x6211;&#x6765;&#x8BF4;&#xFF0C;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x7528;&#x667A;&#x80FD;&#x9009;&#x62E9;&#x662F;&#x975E;&#x5E38;&#x68D2;&#x7684;&#xFF1A;</p>
+<ol>
+<li>&#x4EE3;&#x7801;&#x7247;&#x6BB5;&#xFF0C;&#x6BD4;&#x5982;&#x667A;&#x80FD;&#x9009;&#x62E9;&#x4F1A;&#x81EA;&#x52A8;&#x9009;&#x4E2D; <code>namespace::identifier</code>&#x4EE5;&#x53CA; <code>foo.bar.baz</code> &#x8FD9;&#x79CD;&#x8BED;&#x6CD5;</li>
+<li>&#x53CC;&#x5F15;&#x53F7;&#x5185;&#x7684;&#x5B57;&#x7B26;&#xFF0C;&#x6BD4;&#x5982; <code>&quot;this is a quoted string&quot;</code></li>
+<li>&#x7535;&#x5B50;&#x90AE;&#x4EF6;&#xFF0C;&#x667A;&#x80FD;&#x9009;&#x62E9;&#x4F1A;&#x9009;&#x4E2D;&#x6574;&#x4E2A;&#x90AE;&#x4EF6;&#x5730;&#x5740;</li>
+<li>&#x5B8C;&#x6574;&#x7684; URL&#xFF0C;&#x667A;&#x80FD;&#x9009;&#x62E9;&#x4F1A;&#x9009;&#x4E2D; scheme</li>
+</ol>
+<p>&#x53E6;&#x5916;&#xFF0C;iTerm2 &#x9ED8;&#x8BA4;&#x9009;&#x4E2D;&#x5373;&#x590D;&#x5236;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x7528;&#x989D;&#x5916;&#x7684; <code>Command + C</code> &#x8FD9;&#x4E00;&#x6B65;&#x4E86;&#x3002;</p>
+<h3 id="command-&#x952E;">Command &#x952E;</h3>
+<p>Command &#x4E3B;&#x8981;&#x7528;&#x6765;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#x6216;&#x8005; URL&#x3002;&#x5BF9;&#x4E8E;&#x8F93;&#x51FA;&#x5230;&#x7EC8;&#x7AEF;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x6216;&#x8005; URL&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6309;&#x4F4F; Command &#x952E;&#x70B9;&#x51FB;&#x5B83;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x6253;&#x5F00;&#x4E86;&#x3002;</p>
+<p>&#x6B64;&#x5916;&#xFF0C;&#x6309;&#x4E0B; <code>Command + Option</code> &#x8FD8;&#x53EF;&#x4EE5;&#x9009;&#x4E2D;&#x77E9;&#x5F62;&#x8303;&#x56F4;&#x5185;&#x7684;&#x6587;&#x672C;&#x3002;</p>
+<h3 id="tab-&#x548C;-pane">Tab &#x548C; Pane</h3>
+<p>&#x6309;&#x4E0B; <code>Command + T</code> &#x53EF;&#x4EE5;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A; Tab&#xFF0C;&#x6BCF;&#x4E2A;&#x6807;&#x7B7E;&#x9875;&#x7684;&#x540E;&#x9762;&#x90FD;&#x4F1A;&#x6807;&#x8BB0;&#x4E00;&#x4E2A;&#x5E8F;&#x53F7;&#xFF0C;&#x901A;&#x8FC7; <code>Command + &#x5E8F;&#x53F7;</code> &#x5C31;&#x53EF;&#x4EE5;&#x5728;&#x591A;&#x4E2A;&#x9875;&#x9762;&#x4E4B;&#x95F4;&#x5207;&#x6362;&#x4E86;&#xFF0C;&#x6216;&#x8005;&#x7528; <code>Command + [ &#x548C; Command + ] &#x6765;&#x5207;&#x6362;&#x5230;&#x5DE6;&#x4FA7;&#x6216;&#x8005;&#x53F3;&#x4FA7;&#x7684;&#x6807;&#x7B7E;&#x9875;&#x3002;</code></p>
+<p>&#x540C;&#x4E00;&#x4E2A; Tab &#x5185;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x5207;&#x5206;&#x51FA;&#x591A;&#x4E2A; Pane&#xFF0C;&#x6709;&#x4E24;&#x79CD;&#x5207;&#x5206;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<ol>
+<li>Command +  D&#xFF1A;&#x6C34;&#x5E73;&#x5207;&#x5206;&#xFF0C;&#x5207;&#x5206;&#x51FA;&#x4E00;&#x5DE6;&#x4E00;&#x53F3;&#x4E24;&#x4E2A; Pane</li>
+<li>Command + Shift + D&#xFF1A;&#x5782;&#x76F4;&#x5207;&#x5206;&#xFF0C;&#x5207;&#x5206;&#x51FA;&#x4E00;&#x4E0A;&#x4E00;&#x4E0B;&#x4E24;&#x4E2A; Pane</li>
+</ol>
+<p>&#x901A;&#x8FC7; <code>Command + Ctrl + &#x65B9;&#x5411;&#x952E;</code> &#x53EF;&#x4EE5;&#x8C03;&#x6574;&#x6BCF;&#x4E2A; Pane &#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x901A;&#x8FC7; <code>Command + Option + &#x65B9;&#x5411;&#x952E;</code> &#x53EF;&#x4EE5;&#x5207;&#x6362; Pane&#x3002;</p>
+<h3 id="&#x5FEB;&#x901F;&#x7F16;&#x8F91;">&#x5FEB;&#x901F;&#x7F16;&#x8F91;</h3>
+<p>&#x6709;&#x65F6;&#x5019;&#xFF0C;&#x5982;&#x679C;&#x4E0A;&#x4E00;&#x6761;&#x547D;&#x4EE4;&#x51FA;&#x73B0;&#x4E86;&#x67D0;&#x4E2A;&#x5C0F;&#x9519;&#x8BEF;&#xFF0C;&#x5176;&#x5B9E;&#x4E0D;&#x5FC5;&#x91CD;&#x65B0;&#x6253;&#x4E00;&#x904D;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>^old^new</code> &#x7684;&#x5199;&#x6CD5;&#x8FDB;&#x884C;&#x66FF;&#x6362;&#xFF1A;</p>
+<p><img src="../.gitbook/assets/iterm-edit.gif" alt=""></p>
+<p>&#x5BF9;&#x4E8E;&#x7279;&#x522B;&#x957F;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; zsh &#x63D0;&#x4F9B;&#x7684;&#x5FEB;&#x6377;&#x952E; <code>Ctrl-x + Ctrl-e</code> &#x8FDB;&#x5165; vim &#x7F16;&#x8F91;&#xFF1A;</p>
+<p><img src="../.gitbook/assets/iterm-vim.gif" alt=""></p>
+<h3 id="&#x80CC;&#x666F;&#x56FE;">&#x80CC;&#x666F;&#x56FE;</h3>
+<p>&#x6253;&#x5F00;&#x8BBE;&#x7F6E;&#xFF0C;&#x9009;&#x62E9;&#x80CC;&#x666F;&#x56FE;&#x6848;&#x5E76;&#x8BBE;&#x7F6E;&#x597D;&#x900F;&#x660E;&#x5EA6;&#xFF1A;</p>
+<p><img src="../.gitbook/assets/image%20%2860%29.png" alt=""></p>
+<p>&#x6700;&#x7EC8;&#x6548;&#x679C;&#x56FE;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="../.gitbook/assets/image%20%2833%29.png" alt=""></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="you-jian-gui-ze.html" class="navigation navigation-prev " aria-label="Previous page: 邮件规则">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ssh-de-pei-zhi-yu-guan-li.html" class="navigation navigation-next " aria-label="Next page: SSH 的配置与管理">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"终端神器 iTerm2","level":"1.4.2","depth":2,"next":{"title":"SSH 的配置与管理","level":"1.4.3","depth":2,"path":"mac-gong-zuo-liu/ssh-de-pei-zhi-yu-guan-li.md","ref":"mac-gong-zuo-liu/ssh-de-pei-zhi-yu-guan-li.md","articles":[]},"previous":{"title":"邮件规则","level":"1.4.1","depth":2,"path":"mac-gong-zuo-liu/you-jian-gui-ze.md","ref":"mac-gong-zuo-liu/you-jian-gui-ze.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"mac-gong-zuo-liu/zhong-duan-shen-qi-iterm2.md","mtime":"2018-08-25T01:28:00.535Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-25T01:41:48.500Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
